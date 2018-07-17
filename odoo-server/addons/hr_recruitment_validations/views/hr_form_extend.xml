@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <record model="ir.ui.view" id="crm_case_form_view_job_cybro_extend">
+        <field name="name">Jobs - Recruitment Form</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.crm_case_form_view_job"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='stage_id']" position="replace">
+                <field name="stage_id" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}"
+                       attrs="{'invisible': [('stage_check', '=', True)]}" />
+            </xpath>
+            <xpath expr="//button[@name='archive_applicant']" position="replace">
+                <button string="Rechazar" name="archive_applicant" type="object"
+                        attrs="{'invisible': ['|', ('stage_check', '=', True), ('active', '=', False)]}"/>
+            </xpath>
+            <xpath expr="//button[@name='create_employee_from_applicant']" position="replace">
+                <button string="Inscribir tema" name="create_employee_from_applicant" type="object"
+                        class="oe_highlight" attrs="{'invisible': [('active', '=', False)]}"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="stage_check"/>
+            </xpath>
+            <!--
+            <xpath expr="//field[@name='description']" position="after">
+                
+            </xpath>
+            -->
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="form_applicant_topic_extend">
+        <field name="name">Form applicant topic</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.crm_case_form_view_job"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='archive_applicant']" position="replace">
+                <button string="Rechazar" name="archive_applicant" type="object"
+                        attrs="{'invisible': ['|', ('stage_check', '=', True), ('active', '=', False)]}" groups="base.group_private_addresses"/>
+            </xpath>
+            <xpath expr="//button[@name='create_employee_from_applicant']" position="replace">
+                <button string="Inscribir tema" name="create_employee_from_applicant" type="object"
+                        class="oe_highlight" attrs="{'invisible': ['|',('stage_check', '=', True),('active', '=', False)]}" groups="base.group_private_addresses"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="stage_check"/>
+            </xpath>
+            <xpath expr="//form/sheet" position="after">
+            <sheet>
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_makeMeeting" class="oe_stat_button" icon="fa-calendar" type="object"
+                         help="Schedule interview with this applicant">
+                        <div class="o_form_field o_stat_info">
+                            <span class="o_stat_text">Reuniones</span>
+                         </div>
+                    </button>
+                    <button name="action_get_attachment_tree_view"
+                        class="oe_stat_button"
+                        icon="fa-book"
+                        type="object">
+                        <field name="attachment_number" widget="statinfo" string="Documentos"/>
+                    </button>
+                    <button name="action_get_created_employee"
+                        class="oe_stat_button"
+                        icon="fa-user"
+                        type="object"
+                        attrs="{'invisible': [('emp_id', '=', False)]}">
+                        <field name="employee_name" widget="statinfo" string="Employee"/>
+                    </button>
+                    <button name="toggle_active" type="object"
+                            class="oe_stat_button" icon="fa-archive"
+                            attrs="{'invisible': [('active', '=', True)]}">
+                        <field name="active" widget="boolean_button"
+                            options='{"terminology": "archive"}'/>
+                    </button>
+                </div>
+                <group>
+                    <group string="Generalidades">
+                        <field name="create_date" string="Fecha de solicitud" />
+                        <field name="availability" string="Estimación de finalización" />
+                        <field name="teacher_director" domain="[('is_company','=',True),('is_invisible','=',False),('active', '=', True)]" string="Docente Director" options='{"no_open": True, "no_create_edit": True}'  />
+                        <field name="general_coordinator" string="Coordinador" invisible="True"/>
+                        <field name="direct_meeting" string="Junta directiva"  invisible="True"/>
+                        <field name="addressee_number_email" string="st_number" invisible="True" />
+                        <field name="addressee_name_email" string="st_name"  invisible="True"/>
+                    </group>
+                    <group string="Autoridades">
+                        <field name="department_id" options='{"no_open": True, "no_create_edit": True}' readonly="1" />
+                        <field name="department_head" string="Jefe departamento" options='{"no_open": True, "no_create_edit": True}' readonly="1" />
+                        <field name="job_id" string="Carrera" options='{"no_open": True, "no_create_edit": True}' readonly="1" />
+                        <field name="user_id" string="Coordinador de carrera" options='{"no_open": True, "no_create_edit": True}' readonly="1" />
+                    </group>
+                </group>
+                <notebook>
+                        <page string="Paso 1">
+                            <separator string="Tema de grado"/>
+                            <h2>
+                                <field name="description" placeholder="Escriba su tema de grado tal cual sera inscrito."/>
+                            </h2>
+                        </page>
+                        <page string="Paso 2">
+                            <separator string="Integrantes"/>
+                            <field name="student_ids" domain="[('available','=',True),('is_company','=',False)]"   widget="many2many_kanban">
+                                <kanban>
+                                                <field name="color"/>
+                                                <field name="name"/>
+                                                <field name="title"/>
+                                                <field name="type"/>
+                                                <field name="email"/>
+                                                <field name="parent_id"/>
+                                                <field name="is_company"/>
+                                                <field name="function"/>
+                                                <field name="phone"/>
+                                                <field name="street"/>
+                                                <field name="street2"/>
+                                                <field name="zip"/>
+                                                <field name="city"/>
+                                                <field name="country_id"/>
+                                                <field name="mobile"/>
+                                                <field name="fax"/>
+                                                <field name="state_id"/>
+                                                <field name="image"/>
+                                                <field name="lang"/>
+                                                <!-- fields in form x2many view to diminish requests -->
+                                                <field name="comment"/>
+                                                <field name="customer"/>
+                                                <field name="display_name"/>
+                                                <field name="supplier"/>
+                                                <templates>
+                                                    <t t-name="kanban-box">
+                                                        <t t-set="color" t-value="kanban_color(record.color.raw_value)"/>
+                                                        <div t-att-class="color + (record.title.raw_value == 1 ? ' oe_kanban_color_alert' : '') + ' oe_kanban_global_click'">
+                                                            <a t-if="!read_only_mode" type="delete" class="fa fa-times pull-right"/>
+                                                            <div class="o_kanban_image">
+                                                                <img t-if="record.image.raw_value" t-att-src="'data:image/png;base64,'+record.image.raw_value"/>
+                                                                <t t-if="!record.image.raw_value">
+                                                                    <img t-if="record.type.raw_value === 'delivery'" t-att-src='_s + "/base/static/src/img/truck.png"'/>
+                                                                    <img t-if="record.type.raw_value === 'invoice'" t-att-src='_s + "/base/static/src/img/money.png"'/>
+                                                                    <t t-if="record.type.raw_value !== 'invoice' &amp;&amp; record.type.raw_value !== 'delivery'">
+                                                                        <img t-if="record.is_company.raw_value === true" t-att-src='_s + "/base/static/src/img/company_image.png"'/>
+                                                                        <img t-if="record.is_company.raw_value === false" t-att-src='_s + "/base/static/src/img/avatar.png"'/>
+                                                                    </t>
+                                                                </t>
+                                                            </div>
+                                                            <div class="oe_kanban_details">
+                                                                <div t-if="record.student_card.raw_value">Carnet: <field name="student_card"/></div>
+                                                                <field name="name"/>
+                                                                <div t-if="record.email.raw_value"><field name="email"/></div>
+                                                                <div t-if="record.mobile.raw_value">Telefono: <field name="mobile"/></div>
+                                                            </div>
+                                                        </div>
+                                                    </t>
+                                                </templates>
+                                </kanban>
+                            </field>                        
+                        </page>
+                        <page string="Paso 3">
+                            <separator string="Adjuntar perfil del tema de grado"/>
+                             <h5>Utilizando el menu inferior crear un mensaje donde adjunte el perfil del tema de grado</h5>
+                        </page>
+                </notebook>
+            </sheet>
+            </xpath>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="crm_case_form_view_job_cybro_extend">
+        <field name="name">Responsable department</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.view_department_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='manager_id']" position="after">
+                <field name="manager_partner_id" options='{"no_open": True, "no_create_edit": True}' domain="[('is_invisible','=',False)]"  />
+            </xpath>
+        </field>
+    </record>
+
+        
+
+    <template id="jquery_validator_assets_frontend" inherit_id="website.assets_frontend" name="jquery_validator">
+      <xpath expr="." position="inside">
+         <link rel='stylesheet' href='/hr_recruitment_validations/static/src/css/validator.css'/>
+         <script type="text/javascript" src="/hr_recruitment_validations/static/src/js/dist/jquery.validate.js"></script>
+         <script type="text/javascript" src="/hr_recruitment_validations/static/src/js/dist/additional-methods.js"></script>
+      </xpath>
+    </template>
+
+    </data>
+</odoo>

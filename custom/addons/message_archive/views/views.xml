@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  
+        <template id="assets_ext" inherit_id="web.assets_backend">
+          <xpath expr="." position="inside">
+           <script type="text/javascript" src="/message_archive/static/src/js/web_ext.js"></script>
+          </xpath>
+        </template>
+  
+        <menuitem name="Message Archive" sequence="1" id="menu_root" web_icon="message_archive,static/description/icon.png"/>
+  
+        <record model="ir.ui.view" id="view_message_incoming_tree">
+            <field name="name">mail.message.incoming.tree</field>
+            <field name="model">mail.message</field>
+            <field name="priority">1000</field>
+            <field name="arch" type="xml">
+                <tree string="Messages" create="false" delete="false" edit="false">
+                    <field name="author_id" string="From"/>
+                    <field name="subject" string="Subject"/>
+                    <field name="origin_doc"/>
+                    <field name="date" string="Date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_message_incoming_form">
+            <field name="name">mail.message.incoming.form</field>
+            <field name="model">mail.message</field>
+            <field name="priority">1000</field>
+            <field name="arch" type="xml">
+                <form string="Message"  create="false" delete="false" edit="false">
+                    <sheet>
+                        <h1>
+                          <field name="subject"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="origin_doc"/>
+                                <field name="date"/>
+                                <field name="email_from" attrs="{'invisible':[('author_id','!=', False)]}" string="From"/>
+                                <field name="author_id" attrs="{'invisible':[('author_id','=', False)]}" string="From"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="body" nolabel="1"/>
+                        </group>
+                        <field name="attachment_ids" widget="many2many_kanban">
+                            <kanban>
+                            <field name="id"/>
+                            <field name="mimetype"/>
+                            <field name="type"/>
+                            <field name="datas_fname"/>
+                            <field name="name"/>
+                            <templates>
+                              <t t-name="kanban-box">
+                                <div class="oe_kanban_global_click">
+                                    <div class="oe_attachment">
+                                        <div class="oe_name text-center mb16">
+                                            <field name="name"/>
+                                        </div>
+                                        <div t-if="record.type.raw_value == 'binary'">
+                                            <a t-attf-href="/web/content/#{record.id.value}?download=1">
+                                                <t t-set="webimage" t-value="new RegExp('image.*(gif|jpeg|jpg|png)').test(record.mimetype.value)"/>
+                                                <div t-if="!webimage" class="o_image" t-att-data-mimetype="record.mimetype.value"/>
+                                                <!--<div t-if="webimage" class="o_kanban_attachment_image">-->
+                                                <div t-if="webimage" class="o_kanban_image" style="width:256px;">
+                                                    <img t-attf-src="/web/image/#{record.id.value}?download=1"/>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                  </div>
+                              </t>
+                            </templates>
+                          </kanban>
+                        </field> 
+                        <notebook attrs="{'invisible':[('tracking_value_ids','=', [])]}">
+                          <page string="Tracking">
+                                <field name="tracking_value_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>  
+  
+        <record model="ir.ui.view" id="view_message_outgouing_tree">
+            <field name="name">mail.message.outgouing.tree</field>
+            <field name="model">mail.message</field>
+            <field name="priority">1000</field>
+            <field name="arch" type="xml">
+                <tree string="Messages" create="false" delete="false" edit="false">
+                    <field name="archive_recepient" string="To" widget="many2many_tags"/>
+                    <field name="subject" string="Subject"/>
+                    <field name="origin_doc"/>
+                    <field name="date" string="Date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_message_outgouing_form">
+            <field name="name">mail.message.outgouing.form</field>
+            <field name="model">mail.message</field>
+            <field name="priority">1000</field>
+            <field name="arch" type="xml">
+                <form string="Message"  create="false" delete="false" edit="false">
+                    <sheet>
+                        <h1>
+                          <field name="subject"/>
+                        </h1>  
+                        <group>
+                            <group>
+                                <field name="origin_doc"/>
+                                <field name="date"/>
+                                <field name="archive_recepient" string="To" widget="many2many_tags"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="body" nolabel="1"/>
+                        </group>
+                        <field name="attachment_ids" widget="many2many_kanban">
+                            <kanban>
+                            <field name="id"/>
+                            <field name="mimetype"/>
+                            <field name="type"/>
+                            <field name="datas_fname"/>
+                            <field name="name"/>
+                            <templates>
+                              <t t-name="kanban-box">
+                                <div class="oe_kanban_global_click">
+                                    <div class="oe_attachment">
+                                        <div class="oe_name text-center mb16">
+                                            <field name="name"/>
+                                        </div>
+                                        <div t-if="record.type.raw_value == 'binary'">
+                                            <a t-attf-href="/web/content/#{record.id.value}?download=1">
+                                                <t t-set="webimage" t-value="new RegExp('image.*(gif|jpeg|jpg|png)').test(record.mimetype.value)"/>
+                                                <div t-if="!webimage" class="o_image" t-att-data-mimetype="record.mimetype.value"/>
+                                                <!--<div t-if="webimage" class="o_kanban_attachment_image">-->
+                                                <div t-if="webimage" class="o_kanban_image" style="width:256px;">
+                                                    <img t-attf-src="/web/image/#{record.id.value}?download=1"/>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                  </div>
+                              </t>
+                            </templates>
+                          </kanban>
+                        </field>
+                        <notebook attrs="{'invisible':[('tracking_value_ids','=', [])]}">
+                          <page string="Tracking">
+                                <field name="tracking_value_ids"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+  
+       <record model="ir.ui.view" id="archive_view_message_search">
+            <field name="name">mail.message_archive.search</field>
+            <field name="model">mail.message</field>
+            <field name="priority">1000</field>
+            <field name="arch" type="xml">
+                <search string="Messages Search">
+                    <field name="body" string="Content" filter_domain="['|', ('subject', 'ilike', self), ('body', 'ilike', self)]" />
+                    <field name="subject"/>
+                    <field name="message_type"/>
+                    <field name="author_id"/>
+                    <field name="archive_recepient"/>
+
+                    <filter string="Has attachments" name="attachments" domain="[('attachment_ids', '!=', False)]"/>
+                  
+                    <group expand="0" string="Group By" colspan="16">
+                        <filter string="Source Document" context="{'group_by':'model'}"/>
+                    </group>
+                  
+                </search>
+            </field>
+       </record>
+   
+       <record id="action_incoming" model="ir.actions.act_window">
+            <field name="name">Incoming</field>
+            <field name="res_model">mail.message</field>
+            <field name="view_ids" eval="[(5, 0, 0), 
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_message_incoming_tree')}), 
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_message_incoming_form')}),                           
+                ]"/>
+            <field name="search_view_id" ref="archive_view_message_search"/>
+            <field name="domain">[('archive_recepient.user_ids','in',uid),('author_id.user_ids','!=',uid)]</field>
+       </record>
+       <menuitem name="Incoming" action="action_incoming" id="menu_incoming" parent="menu_root"/>
+  
+       <record id="action_outgoing" model="ir.actions.act_window">
+            <field name="name">Outgoing</field>
+            <field name="res_model">mail.message</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_ids" eval="[(5, 0, 0), 
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('view_message_outgouing_tree')}), 
+                (0, 0, {'view_mode': 'form', 'view_id': ref('view_message_outgouing_form')}),                           
+                ]"/>
+            <field name="search_view_id" ref="archive_view_message_search"/>
+            <field name="domain">[('author_id.user_ids','=',uid),('archive_recepient','!=',False)]</field>
+       </record>
+       <menuitem name="Outgoing" action="action_outgoing" id="menu_outgoing" parent="menu_root"/>
+  
+  <record model="ir.actions.server" id="after_install_message_archive">
+    <field name="name">After Install Message Archive</field>
+    <field name="model_id" ref="model_mail_message"/>
+    <field name="code">env['mail.message'].after_install()</field>
+  </record>
+  
+  <record id="act_after_install_message_archive" model="ir.actions.todo">
+    <field name="action_id" ref="after_install_message_archive"/>
+    <field name="type">automatic</field>
+  </record>
+  
+</odoo>

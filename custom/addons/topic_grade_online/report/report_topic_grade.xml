@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+
+<odoo>
+  <template id="report_topic_grade">
+    <t t-call="report.html_container">
+      <t t-foreach="docs" t-as="result">
+        <t t-call="report.external_layout">
+          <div class="page">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-10">
+                  <div class="page-header">
+                      <center><h3>TRABAJOS DE GRADO</h3></center>
+                  </div>
+                </div>
+              </div>
+              <div class="form-horizontal">
+                <div class="row">
+                  <div class="col-xs-12">
+                    <label for="proyect-name">Tema:</label>
+                    <p t-field="result.name"/>
+                  </div>
+                </div> 
+              </div>
+            </div>
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+</odoo>

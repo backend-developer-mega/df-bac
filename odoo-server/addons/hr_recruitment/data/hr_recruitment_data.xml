@@ -1,0 +1,507 @@
+<?xml version="1.0"?>
+<odoo>
+<data noupdate="1">
+        <!-- notify all employees of module installation -->
+        <record model="mail.message" id="module_install_notification">
+            <field name="model">mail.channel</field>
+            <field name="res_id" ref="mail.channel_all_employees"/>
+            <field name="message_type">notification</field>
+            <field name="subtype_id" ref="mail.mt_comment"/>
+            <field name="subject">Recruitment Process application installed!</field>
+            <field name="body"><![CDATA[<p>Manage job positions and your company's recruitment process. This application may be integrated with the Survey application to help you define interviews for different jobs.</p>
+<p>Job applications sent by email will automatically be integrated in Odoo.</p>]]></field>
+        </record>
+
+    <!-- Meeting Types (for interview meetings) -->
+    <record model="calendar.event.type" id="categ_meet_interview">
+        <field name="name">Interview</field>
+    </record>
+
+    <!-- Templates for interest / refusing applicants -->
+    <record id="email_template_data_applicant_refuse" model="mail.template">
+        <field name="name">Applicant: Refuse</field>
+        <field name="subject">Application refused</field>
+        <field name="email_to">${object.email_from | safe}</field>
+        <field name="partner_to">${object.partner_id and object.partner_id.id or ''}</field>
+        <field name="lang">${object.partner_id and object.partner_id.lang or ''}</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="user_signature" eval="False"/>
+        <field name="body_html"><![CDATA[
+<p>Dear ${object.partner_name or 'applicant'},</p>
+<p>Thank you for your enquiry.<br />
+Unfortunately, your profile does not match with our needs</p>
+<p>If you have any questions, please let us know.</p>
+<p>Best regards,</p>]]></field>
+    </record>
+
+    <record id="email_template_data_applicant_interest" model="mail.template">
+        <field name="name">Applicant: Interest</field>
+        <field name="subject">Application approved</field>
+        <field name="email_to">${(object.direct_meeting.email if object.stage_id.email_data == '0' else object.general_coordinator.email if object.stage_id.email_data == '1' else object.department_head.email if object.stage_id.email_data == '2'  else object.user_id.login if object.stage_id.email_data == '3' else object.teacher_director.email if object.stage_id.email_data == '4')}</field>
+        <field name="partner_to">${object.department_head and object.department_head.id or ''}</field>
+        <field name="email_cc">${object.email_cc or ''}</field>
+        <field name="lang">${object.partner_id and object.partner_id.lang or ''}</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="user_signature" eval="False"/>
+        <field name="body_html"><![CDATA[
+<p>Dear ${object.partner_name or 'applicant'},</p>
+<p>Thank you for your enquiry.<br />
+Your resume got our interest. I will contact you as soon as possible to plan
+next steps of the recruitment process.</p>
+<p>If you have any questions, please let us know.</p>
+<p>Best regards,</p>]]></field>
+    </record>
+
+        <record id="email_template_info_progress" model="mail.template">
+        <field name="name">Comunicación constante</field>
+        <field name="subject">Informe de proceso</field>
+        <field name="email_to">${(object.direct_meeting.email if object.stage_id.email_data == '0' else object.general_coordinator.email if object.stage_id.email_data == '1' else object.department_head.email if object.stage_id.email_data == '2'  else object.user_id.login if object.stage_id.email_data == '3' else object.teacher_director.email if object.stage_id.email_data == '4')}</field>
+        <field name="partner_to">${object.department_head and object.department_head.id or ''}</field>
+        <field name="email_cc">${object.email_cc or ''}</field>
+        <field name="lang">${object.partner_id and object.partner_id.lang or ''}</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="user_signature" eval="False"/>
+        <field name="body_html"><![CDATA[
+
+
+<div style="background-color: rgb(9, 48, 87);">
+<!--[if gte mso 9]>
+<xml>
+<o:OfficeDocumentSettings>
+<o:AllowPNG></o:AllowPNG>
+<o:PixelsPerInch>96</o:PixelsPerInch>
+</o:OfficeDocumentSettings>
+</xml>
+<![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<title>   </title>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<style type="text/css">
+.ReadMsgBody{
+width:100%;
+background-color:#d9d9d9;
+}
+.ExternalClass{
+width:100%;
+background-color:#d9d9d9;
+}
+.ExternalClass,.ExternalClass p,.ExternalClass span,.ExternalClass font,.ExternalClass td,.ExternalClass div{
+line-height:100%;
+}
+#outlook a{
+padding:0;
+}
+html{
+width:100%;
+}
+body{
+-webkit-text-size-adjust:none;
+-ms-text-size-adjust:none;
+}
+html,body{
+background-color:#d9d9d9;
+margin:0;
+padding:0;
+}
+table{
+border-spacing:0;
+}
+table td{
+border-collapse:collapse;
+}
+br,strong br,b br,em br,i br{
+line-height:100%;
+}
+h1,h2,h3,h4,h5,h6{
+line-height:100% !important;
+-webkit-font-smoothing:antialiased;
+}
+img{
+height:auto !important;
+line-height:100%;
+outline:none;
+text-decoration:none;
+display:block !important;
+}
+span a{
+text-decoration:none !important;
+}
+a{
+text-decoration:none !important;
+}
+table p{
+margin:0;
+}
+.yshortcuts,.yshortcuts a,.yshortcuts a:link,.yshortcuts a:visited,.yshortcuts a:hover,.yshortcuts a span{
+text-decoration:none !important;
+border-bottom:none !important;
+}
+table{
+mso-table-lspace:0pt;
+mso-table-rspace:0pt;
+}
+img{
+-ms-interpolation-mode:bicubic;
+}
+body{
+-webkit-text-size-adjust:100%;
+}
+body{
+-ms-text-size-adjust:100%;
+}
+.default-edit-image{
+height:20px;
+}
+.nav-ul{
+margin-left:-23px !important;
+margin-top:0px !important;
+margin-bottom:0px !important;
+}
+img{
+height:auto !important;
+}
+ul {
+list-style: none;
+}
+ul li:before {
+content: "\25BA \0020";
+color: #EAAA00;
+}
+@media only screen and (max-width: 640px){
+body{
+width:auto!important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=container]{
+width:100%!important;
+padding-left:20px!important;
+padding-right:20px!important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=image-100-percent] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=full-width]{
+width:100% !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=center-width]{
+margin: 0 auto !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=indent-left]{
+margin: 0px 0px 0px 25px !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=remove]{
+display:none !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=remove]{
+display:none !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=fix-box]{
+padding-left:20px !important;
+padding-right:20px !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=fix-box]{
+padding-left:20px !important;
+padding-right:20px !important;
+}
+}   @media only screen and (max-width: 479px){
+body{
+font-size:18px !important;
+line-height:22px !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=container]{
+width:100%!important;
+padding-left:10px!important;
+padding-right:10px!important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=container2]{
+width:100%!important;
+float:none !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=full-width] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=image-100-percent] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=full-width]{
+width:100% !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 479px){
+div[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=fix-box]{
+padding-left:0px !important;
+padding-right:0px !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=fix-box]{
+padding-left:0px !important;
+padding-right:0px !important;
+}
+}   @media only screen and (max-width: 320px){
+img[class=image-100-percent]{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+} 
+.button5:hover {
+    border-color: rgb(146, 190, 45) !important;
+    background-color: rgb(146, 190, 45) !important;
+    border: 7px solid rgb(146, 190, 45) !important;
+    color: white !important;
+}
+</style>
+
+
+<div style="display:none;font-size:1px;color:#f5f6fa;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
+</div><table bgcolor="#093057" width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+<!--PREVIEW TEXT -->
+
+<!--END OF PREVIEW TEXT -->
+<!--start Main Logo Section-->
+<tbody><tr>
+<td bgcolor="#093057" align="center" valign="top">
+<table bgcolor="#FFFFFF" width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="container2" style="background-color: #ffffff; /*border: 1px solid #dedede;*/">
+<tbody><tr>
+<td bgcolor="#093057" height="1"><a href="http://link.edx.org/click/13644163.2557504/aHR0cDovL3d3dy5lZHgub3JnP3V0bV9zb3VyY2U9c2FpbHRocnUmdXRtX21lZGl1bT1lbWFpbCZ1dG1fY2FtcGFpZ249bmV3c2xldHRlcl9ndF9tYXN0ZXJzXzIwMTgwNjI4/59cb0f73cbcf48024f8b57fbB319375b3" data-original-title="" title=""><img src="http://link.edx.org/img/59cb0f73cbcf48024f8b57fb84fwj.1itds/db87d568.gif" alt="" border="0"></a></td>
+</tr>
+<tr>
+<td style="font-size: 16px; line-height: 18px; font-family:Arial,Tahoma, Helvetica, sans-serif; color:#666666; font-weight:normal; text-align:center;">
+<table bgcolor="#FFFFFF" width="100%" align="center" border="0" cellspacing="0" cellpadding="0" class="container2" style="background-color: #ffffff;">
+<tbody>
+<tr>
+  <td align="center" style="padding-top: 10px;">
+    <img src="https://www.ues.edu.sv/storage/app/media/minerva2.png" width="100">
+    <div style="font-family:'Open Sans', Arial, Helvetica, sans-serif;color:#414141;font-size: 20px;text-align:center;font-weight:400;padding-top: 15px;padding-bottom: 15px;">
+Universidad de El Salvador <br></br> Facultad Multidisciplinaria de Occidente
+    </div>
+  </td>
+</tr>
+<!-- End Main Logo Section-->
+<tr>
+<td bgcolor="#ffffff" align="center" valign="top">
+<table width="560" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width" bgcolor="#ffffff" style="background-color:#ffffff;">
+<tbody><tr>
+<td height="10"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="10"></td>
+</tr>
+<tr>
+<td valign="top" align="center" class="image-100-percent"><a href="https://www.ues.edu.sv"><img editable="" src="http://www.porsatech.ir/wp-content/uploads/2017/07/mon1-768x512.png" width="450" style="border-radius: 5px;display:block !important; max-width:460px;"></a></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td bgcolor="#ffffff" align="center" valign="top">
+<table width="560" class="full-width" border="0" cellspacing="0" cellpadding="0" align="center">
+<tbody><tr>
+<td height="20"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="20"></td>
+</tr>
+<tr>
+<td valign="top">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td height="15"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="15"></td>
+</tr>
+<tr>
+<td align="left" style="font-family: 'Open Sans',Arial, Helvetica, sans-serif; color:#3e3e40; font-size:16px; /*text-align:center;*/ line-height:20px; mso-line-height-rule: exactly; padding:5px; font-weight:normal;">
+<div style="text-align: justify;">
+Informarle que hay un proceso de inscripción de tema de grado en la plataforma online, con el siguiente tema: 
+<br><br>
+<center><strong>“${object.name}"</strong></center>
+<br><br>
+Actualmente el proceso se encuentra en la etapa:
+<br><br>
+<center><strong><span><img src="https://media.g2crowd.com/wp-content/uploads/2017/11/21150317/HappyFox-Help-Desk-Technician.png" width="40">${object.stage_id.name}</span></strong></center>
+<br><br>  
+El presente correo, esta especificado como destinatario/a: <strong>${object.addressee_name_email}</strong>, solicitamos de su apoyo ${object.addressee_name_email} para realizar las acciones correspondientes a la etapa en curso, de tal forma que el proceso de inscripción del presente tema avance de forma apropiada. 
+<br><br>              
+Saludos cordiales.
+<br><br>
+Atentamente, Plataforma de trabajos de grado online.  
+</div>
+<table border="0" cellpadding="0" cellspacing="0" style="padding: 10px; width: 100%;">
+<tbody>
+<tr>
+  <td align="left" style="text-align: left; font-family: 'Open Sans',Arial, Helvetica, sans-serif; color:#414141; font-size:10px; font-weight:400; mso-line-height-rule: exactly; padding:0px 5px;"><font face="'Open Sans',Arial, Helvetica, sans-serif;">NOTA: Todos los integrantes de la solicitud de inscripción de tema de grado estan copiados en el correo, con el objetivo de mantener la comunicación en tiempo real del avance del proceso.</font></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td height="20"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="20"></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<!--End Footer-->                                                         
+<tr>
+<td height="5"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="5"></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+
+
+
+<br>
+
+</div>
+
+ ]]></field>
+    </record>
+
+    <record id="email_template_data_applicant_employee" model="mail.template">
+        <field name="name">Applicant: Welcome new employee</field>
+        <field name="subject">Welcome ${object.name} </field>
+        <field name="model_id" ref="hr.model_hr_employee"/>
+        <field name="body_html"><![CDATA[
+<p>Dear all,</p>
+<p>I’m very pleased to announce that <strong> ${object.name} </strong> will be
+joining us as a ${object.job_id.name}
+%if object.department_id:
+    in ${object.department_id.name}.
+%endif
+.</p>
+<p>Please welcome him/her and help him/her finding his/her marks.</p>]]></field>
+    </record>
+
+        <!--    Resource(type_id)        -->
+
+    <record model="hr.recruitment.degree" id="degree_graduate">
+        <field name="name">Graduate</field>
+        <field name="sequence">1</field>
+    </record>
+    <record model="hr.recruitment.degree" id="degree_bachelor">
+        <field name="name">Bachelor Degree</field>
+        <field name="sequence">2</field>
+    </record>
+    <record model="hr.recruitment.degree" id="degree_licenced">
+        <field name="name">Master Degree</field>
+        <field name="sequence">3</field>
+    </record>
+    <record model="hr.recruitment.degree" id="degree_bac5">
+        <field name="name">Doctoral Degree</field>
+        <field name="sequence">4</field>
+    </record>
+
+    <record id="mail_alias_jobs" model="mail.alias">
+        <field name="alias_name">jobs</field>
+        <field name="alias_model_id" ref="model_hr_applicant"/>
+        <field name="alias_user_id" ref="base.user_root"/>
+        <field name="alias_parent_model_id" ref="model_hr_job"/>
+    </record>
+
+    <!-- Applicant-related subtypes for messaging / Chatter -->
+    <record id="mt_applicant_new" model="mail.message.subtype">
+        <field name="name">New Applicant</field>
+        <field name="res_model">hr.applicant</field>
+        <field name="default" eval="False"/>
+        <field name="hidden" eval="True"/>
+        <field name="description">Applicant created</field>
+    </record>
+    <record id="mt_applicant_stage_changed" model="mail.message.subtype">
+        <field name="name">Stage Changed</field>
+        <field name="res_model">hr.applicant</field>
+        <field name="default" eval="False"/>
+        <field name="description">Stage changed</field>
+    </record>
+    <record id="mt_applicant_hired" model="mail.message.subtype">
+        <field name="name">Applicant Hired</field>
+        <field name="res_model">hr.applicant</field>
+        <field name="default" eval="True"/>
+        <field name="description">Applicant hired</field>
+    </record>
+
+    <!-- Job-related subtypes for messaging / Chatter -->
+    <record id="mt_job_new" model="mail.message.subtype">
+        <field name="name">Job Position created</field>
+        <field name="res_model">hr.job</field>
+        <field name="default" eval="False"/>
+        <field name="hidden" eval="True"/>
+    </record>
+    <record id="mt_job_applicant_stage_changed" model="mail.message.subtype">
+        <field name="name">Applicant Stage Changed</field>
+        <field name="res_model">hr.job</field>
+        <field name="default" eval="False"/>
+        <field name="parent_id" eval="ref('mt_applicant_stage_changed')"/>
+        <field name="relation_field">job_id</field>
+    </record>
+    <record id="mt_job_applicant_hired" model="mail.message.subtype">
+        <field name="name">Applicant Hired</field>
+        <field name="res_model">hr.job</field>
+        <field name="default" eval="True"/>
+        <field name="parent_id" eval="ref('mt_applicant_hired')"/>
+        <field name="relation_field">job_id</field>
+    </record>
+
+    <!-- Department-related (parent) subtypes for messaging / Chatter -->
+    <record id="mt_department_new" model="mail.message.subtype">
+        <field name="name">Job Position Created</field>
+        <field name="res_model">hr.department</field>
+        <field name="sequence" eval="1"/>
+        <field name="parent_id" eval="ref('mt_job_new')"/>
+        <field name="relation_field">department_id</field>
+    </record>
+
+    <!-- Applicant Categories(Tag) -->
+    <record id="tag_applicant_reserve" model="hr.applicant.category">
+        <field name="name">Reserve</field>
+    </record>
+    <record id="tag_applicant_manager" model="hr.applicant.category">
+        <field name="name">Manager</field>
+    </record>
+    <record id="tag_applicant_it" model="hr.applicant.category">
+        <field name="name">IT</field>
+    </record>
+    <record id="tag_applicant_sales" model="hr.applicant.category">
+        <field name="name">Sales</field>
+    </record>
+    <record model="utm.campaign" id="utm_campaign_job">
+            <field name="name">Job Campaign</field>
+    </record>
+
+</data>
+</odoo>

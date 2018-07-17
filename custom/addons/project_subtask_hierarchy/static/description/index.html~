@@ -1,0 +1,100 @@
+<section class="oe_container">
+    <div class="oe_row oe_spaced">
+        <h2 class="oe_slogan">Two level discounts in Sales & Customer Invoice</h2>
+    </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row">
+        <h2 class="oe_slogan">Sale order line form View</h2>
+        <div class="oe_span6">
+            <p class='oe_mt32'>
+There is two discounts fields in which the first discount field discounts with the unit price. 
+Then the discounted unit price again discounts with the second discount field.
+            </p>
+            <p class='oe_mt32'>
+For example 8+2, this is not 10 but it is 8% discount then 2% discount after that. 
+Let's say unit price is 100, then after first discount with 8% will become 92. Then 2% of 92 = 1.84 again discounts from 92.
+So final unit price become 90.16 .
+            </p>
+        </div>
+        <div class="oe_span6">
+            <div class="oe_bg_img">
+                <img class="oe_picture oe_screenshot" src="sale_sc_01.png">
+            </div>
+        </div>
+   </div>
+</section>
+
+<section class="oe_container">
+    <h2 class="oe_slogan">sale order line tree view</h2>
+    <div class="oe_row">
+        <div class="oe_span6">
+            <div class="oe_bg_img">
+                <img class="oe_picture oe_screenshot" src="sale_sc_02.png">
+            </div>
+        </div>
+        <div class="oe_span6">
+            <p class='oe_mt32'>
+                Two discount fields Disc-I and Disc-II. Final unit price computed as mention above.
+            </p>
+            <p class='oe_mt32'>
+                To get this feature, You have to enable in sales settings.
+                Sale -> Settings -> Allow discounts on sale order line.
+            </p>
+        </div>
+   </div>
+</section>
+
+<section class="oe_container oe_dark">
+    <div class="oe_row">
+        <h2 class="oe_slogan">Customer invoice form view</h2>
+        <div class="oe_span6">
+            <p class='oe_mt32'>
+The same discounts from sale order line is mapped to customer invoice line.
+            </p>
+            <p class='oe_mt32'>
+Even customer can directly use invoice instead of generating from sales order.
+            </p>
+        </div>
+        <div class="oe_span6">
+            <div class="oe_bg_img">
+                <img class="oe_picture oe_screenshot" src="sale_sc_03.png">
+            </div>
+        </div>
+   </div>
+</section>
+
+<section class="oe_container">
+<hr>
+    <div class="oe_row">
+        <h2 class="oe_slogan">Help and Support</h2>
+        <h4 class="oe_slogan">For support, new features and customizations.</h4>
+        <div class="oe_slogan">
+            <img class="center-block" src="tis.png" width="250">
+            <p style="text-align: center; color: #0D3B58;">
+            <i class="fa fa-globe" aria-hidden="true"> <a href="http://www.technaureus.com/" target="_blank">http://www.technaureus.com/</a></i> | 
+            <i class="fa fa-envelope" aria-hidden="true"> <a href="mailto:support@technaureus.com" target="_top">support@technaureus.com</a></i> | 
+            <i class="fa fa-skype" aria-hidden="true"> <a href="skype:technaureus?call">technaureus</a></i>
+            </p>
+            <p style="text-align: center; color: #0D3B58;">
+            <a href="https://www.facebook.com/technaureus" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="https://twitter.com/technaureus" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a href="https://plus.google.com/106328824399610529659" target="_blank"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+            <a href="https://www.youtube.com/channel/UChusfuYvl4Xbf7-RLP5hHFg" target="_blank"><i class="fa fa-youtube" aria-hidden="true"></i></a>
+            <a href="https://www.pinterest.com/technaureus/" target="_blank"><i class="fa fa-pinterest" aria-hidden="true"></i></a>
+            <a href="https://www.linkedin.com/company/technaureus-info-solutions?trk=ppro_cprof" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+            <a href="https://technaureus.blogspot.in/" target="_blank"><i class="fa fa-rss" aria-hidden="true"></i></a>
+            <a href="https://www.instagram.com/technaureus/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+            </p>
+        </div>
+   </div>
+</section>
+
+<section class="oe_container oe_separator">
+<p style="text-align: center; color: #0D3B58;background-color:#000000">
+<b>
+<a href="http://www.odoo.com/apps/modules/browse?author=Technaureus%20Info%20Solutions" target="_blank">Click here for Technaureus Odoo Apps</a>
+</b>
+</p>
+</section>

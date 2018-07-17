@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+
+<odoo>
+	<report id="reports_evaluations_1_qweb" string="Hoja de evaluación"
+		model="topic.grade.online.evaluations" report_type="qweb-pdf" file="topic_grade_online.report_evaluations_1"
+		name="topic_grade_online.report_evaluations_1" />
+	<report id="reports_topic_grade_qweb" string="Trabajos de grado"
+		model="topic.grade.online.topic" report_type="qweb-pdf" file="topic_grade_online.report_topic_grade"
+		name="topic_grade_online.report_topic_grade" />
+</odoo>

@@ -1,0 +1,13 @@
+eclipse.preferences.version=1
+encoding//addons/hr/models/hr.py=utf-8
+encoding//addons/hr_recruitment/models/hr_recruitment.py=utf-8
+encoding//addons/hr_recruitment_validations/models/hr_form_validations.py=utf-8
+encoding//addons/utm/models/ir_http.py=utf-8
+encoding//addons/web_editor/models/ir_http.py=utf-8
+encoding//odoo/addons/base/ir/ir_http.py=utf-8
+encoding//odoo/api.py=utf-8
+encoding//odoo/http.py=utf-8
+encoding//odoo/service/wsgi_server.py=utf-8
+encoding//odoo/tools/config.py=utf-8
+encoding//odoo/tools/debugger.py=utf-8
+encoding/setup.py=utf-8

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    <data> -->
+        <template id="assets_backend2" name="topic grade online assets" inherit_id="report.assets_common">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" type="text/less" href="/topic_grade_online/static/src/css/job_grade.less"/>
+            </xpath>
+        </template>
+<!--    </data> -->
+</odoo>

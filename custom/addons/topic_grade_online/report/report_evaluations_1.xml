@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+
+<odoo>
+  <template id="report_evaluations_1">
+    <t t-call="report.html_container">
+      <t t-foreach="docs" t-as="result">
+        <t t-call="report.external_layout">
+          <div class="page">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-10">
+                  <div class="page-header">
+                    <t t-if="result.state == 'report1'">
+                      <center><h3>EVALUACIÓN DE PROCESO FORMATIVO 1</h3></center>
+                    </t>
+                    <t t-if="result.state == 'report2'">
+                      <center><h3>EVALUACIÓN DE PROYECTO</h3></center>
+                    </t>
+                    <t t-if="result.state == 'report3'">
+                      <center><h3>EVALUACIÓN DE PROCESO FORMATIVO 2</h3></center>
+                    </t>
+                    <t t-if="result.state == 'report4'">
+                      <center><h3>EVALUACIÓN DEL AVANCE CAPITULAR</h3></center>
+                    </t>
+                    <t t-if="result.state == 'report5'">
+                      <center><h3>EVALUACIÓN DE PRESENTACIÓN ORAL FINAL</h3></center>
+                    </t>
+                    <t t-if="result.state == 'report6'">
+                      <center><h3>CONSOLIDADO FINAL</h3></center>
+                    </t>
+                  </div>
+                </div>
+              </div>
+              <div class="form-horizontal">
+                <div class="row">
+                  <div class="col-xs-12">
+                    <label for="proyect-name">Trabajo de Graduación</label>
+                    <p t-field="result.topic_id.name"/>
+                  </div>
+                </div> 
+                <div class="row">
+                  <div class="col-xs-6">
+                    <label for="teacher-name">Docente Director</label>
+                    <p t-field="result.docente_director_id.name"/>
+                  </div>
+                  <div class="col-xs-6">
+                    <label for="proyect-date">Fecha</label>
+                    <p t-field="result.date_report"/>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-12">
+                    <label for="observations"> Observaciones</label>
+                    <p t-field="result.observations"/>
+                  </div>
+                </div> 
+                <!-- ESPESIFICO PARA CADA REPORTE -->
+                <t t-if="result.state == 'report1'">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p><b>ETAPA A EVALUAR:</b> PROCESO FORMATIVO 1 (CORRESPONDE AL 10 % DE LA CALIFICACION FINAL)</p>
+                      <table class="table table-bordered"> 
+                        <thead> 
+                          <tr> 
+                            <th>Nombre</th> 
+                            <th><center>Asistencia</center></th> 
+                            <th><center>Puntualidad</center></th> 
+                            <th><center>Responsabilidad</center></th> 
+                            <th><center>Iniciativa</center></th> 
+                            <th><center>Creatividad</center></th> 
+                            <th><center>Nota</center></th> 
+                          </tr> 
+                        </thead> 
+                        <tbody>
+                          <div t-if="len(result.report1_id) > 0">
+                            <tr t-foreach="result.report1_id" t-as="li">  
+                              <td><span t-field="li.name_egresado_id.name"/></td> 
+                              <td class="text-right"><span t-field="li.note_asistence"/></td> 
+                              <td class="text-right"><span t-field="li.note_puntuality"/></td> 
+                              <td class="text-right"><span t-field="li.note_responsability"/></td> 
+                              <td class="text-right"><span t-field="li.note_iniciativity"/></td> 
+                              <td class="text-right"><span t-field="li.note_creativity"/></td> 
+                              <td class="text-right"><strong><span t-field="li.note_promedio_1"/></strong></td> 
+                            </tr>
+                          </div>
+                        </tbody> 
+                      </table>
+                    </div>
+                  </div>
+                </t>
+                <!-- FIN REPORTE 1 -->
+                <!-- INICIO REPORTE 2 -->
+                <t t-if="result.state == 'report2'">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p><b>ETAPA A EVALUAR:</b> ANTEPROYECTO (CORRESPONDIENTE AL 20% DE LA CALIFICACION FINAL)</p>
+                      <table class="table table-bordered"> 
+                        <thead> 
+                          <tr> 
+                            <th>Nombre</th> 
+                            <th><center>Asistencia</center></th> 
+                            <th><center>Puntualidad</center></th> 
+                            <th><center>Responsabilidad</center></th> 
+                            <th><center>Iniciativa</center></th> 
+                            <th><center>Creatividad</center></th> 
+                            <th><center>Nota</center></th> 
+                          </tr> 
+                        </thead> 
+                        <tbody>
+                          <div t-if="len(result.report2_id) > 0">
+                            <tr t-foreach="result.report2_id" t-as="li">  
+                              <td><span t-field="li.name_egresado_id.name"/></td> 
+                              <td class="text-right"><span t-field="li.note_asistence_2"/></td> 
+                              <td class="text-right"><span t-field="li.note_puntuality_2"/></td> 
+                              <td class="text-right"><span t-field="li.note_responsability_2"/></td> 
+                              <td class="text-right"><span t-field="li.note_iniciativity_2"/></td> 
+                              <td class="text-right"><span t-field="li.note_creativity_2"/></td> 
+                              <td class="text-right"><strong><span t-field="li.note_promedio_2"/></strong></td> 
+                            </tr>
+                          </div>
+                        </tbody> 
+                      </table>
+                    </div>
+                  </div>
+                </t>
+                <!-- FIN REPORTE 2 -->
+                <!-- INICIO REPORTE 3 -->
+                <t t-if="result.state == 'report3'">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p><b>ETAPA A EVALUAR:</b> PROCESO FORMATIVO 2 (CORRESPONDE AL 10% DE LA CALIFICACION FINAL)</p>
+                      <table class="table table-bordered"> 
+                        <thead> 
+                          <tr> 
+                            <th>Nombre</th> 
+                            <th><center>Asistencia</center></th> 
+                            <th><center>Puntualidad</center></th> 
+                            <th><center>Responsabilidad</center></th> 
+                            <th><center>Iniciativa</center></th> 
+                            <th><center>Creatividad</center></th> 
+                            <th><center>Nota</center></th> 
+                          </tr> 
+                        </thead> 
+                        <tbody>
+                          <div t-if="len(result.report3_id) > 0">
+                            <tr t-foreach="result.report3_id" t-as="li">  
+                              <td><span t-field="li.name_egresado_id.name"/></td> 
+                              <td class="text-right"><span t-field="li.note_asistence_3"/></td> 
+                              <td class="text-right"><span t-field="li.note_puntuality_3"/></td> 
+                              <td class="text-right"><span t-field="li.note_responsability_3"/></td> 
+                              <td class="text-right"><span t-field="li.note_iniciativity_3"/></td> 
+                              <td class="text-right"><span t-field="li.note_creativity_3"/></td> 
+                              <td class="text-right"><strong><span t-field="li.note_promedio_3"/></strong></td> 
+                            </tr>
+                          </div>
+                        </tbody> 
+                      </table>
+                    </div>
+                  </div>
+                </t>
+                <!-- FIN REPORTE 3 -->
+                <!-- INICIO REPORTE 4 -->
+                <t t-if="result.state == 'report4'">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p><b>ETAPA A EVALUAR:</b> AVANCE CAPITULAR (CORRESPONDIENTE AL 40% DE LA CALIFICACION FINAL)</p>
+                      <table class="table table-bordered"> 
+                        <thead> 
+                          <tr> 
+                            <th>Nombre</th> 
+                            <th><center>Presentación y Resumen Ejecutivo</center></th> 
+                            <th><center>Contenido Capitular</center></th> 
+                            <th><center>Análisis y Discusión de Resultados</center></th> 
+                            <th><center>Nota</center></th> 
+                          </tr> 
+                        </thead> 
+                        <tbody>
+                          <div t-if="len(result.report4_id) > 0">
+                            <tr t-foreach="result.report4_id" t-as="li">  
+                              <td><span t-field="li.name_egresado_id.name"/></td> 
+                              <td class="text-right"><span t-field="li.note_presentation_resumen"/></td> 
+                              <td class="text-right"><span t-field="li.note_conteni_charter"/></td> 
+                              <td class="text-right"><span t-field="li.note_analis_discute"/></td> 
+                              <td class="text-right"><strong><span t-field="li.note_promedio_4"/></strong></td> 
+                            </tr>
+                          </div>
+                        </tbody> 
+                      </table>
+                    </div>
+                  </div>
+                </t>
+                <!-- FIN REPORTE 4 -->
+                <!-- INICIO REPORTE 5 -->
+                <t t-if="result.state == 'report5'">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p><b>ETAPA A EVALUAR:</b> PRESENTACION ORAL FINAL (CORRESPONDIENTE AL 20% DE LA CALIFICACION FINAL)</p>
+                      <table class="table table-bordered"> 
+                        <thead> 
+                          <tr> 
+                            <th>Nombre</th> 
+                            <th><center>Presentación</center></th> 
+                            <th><center>Capacidad de Síntesis</center></th> 
+                            <th><center>Uso de Recursos Audiovisuales</center></th> 
+                            <th><center>Dominio del Tema</center></th> 
+                            <th><center>Nota Final</center></th> 
+                          </tr> 
+                        </thead> 
+                        <tbody>
+                          <div t-if="len(result.report3_id) > 0">
+                            <tr t-foreach="result.report3_id" t-as="li">  
+                              <td><span t-field="li.name_egresado_id.name"/></td> 
+                              <td class="text-right"><span t-field="li.note_presentation"/></td> 
+                              <td class="text-right"><span t-field="li.note_capacity_resume"/></td> 
+                              <td class="text-right"><span t-field="li.note_use_recurse_audiovisual"/></td> 
+                              <td class="text-right"><span t-field="li.note_dominio_topic"/></td> 
+                              <td class="text-right"><strong><span t-field="li.note_promedio_5"/></strong></td> 
+                            </tr>
+                          </div>
+                        </tbody> 
+                      </table>
+                    </div>
+                  </div>
+                </t>
+                <!-- FIN REPORTE 5 -->
+                <!-- INICIO REPORTE 6 -->
+                <t t-if="result.state == 'report6'">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p><b>ETAPA A EVALUAR:</b> CONSOLIDADO FINAL DE CALIFICACIONES DEL PROCESO DE GRADO</p>
+                      <table class="table table-bordered"> 
+                        <thead> 
+                          <tr> 
+                            <th>Nombre</th> 
+                            <th><center>Proceso formativo 1</center></th> 
+                            <th><center>Anteproyecto</center></th> 
+                            <th><center>Proceso formativo 2</center></th> 
+                            <th><center>Avance capitular</center></th> 
+                            <th><center>Presentación oral final</center></th> 
+                            <th><center>Nota Final</center></th> 
+                          </tr> 
+                        </thead> 
+                        <tbody>
+                          <div t-if="len(result.report6_id) > 0">
+                            <tr t-foreach="result.report6_id" t-as="li">  
+                              <td><span t-field="li.name_egresado_id.name"/></td> 
+                              <td class="text-right"><span t-field="li.note_promedio_1"/></td>
+                              <td class="text-right"><span t-field="li.note_promedio_2"/></td>
+                              <td class="text-right"><span t-field="li.note_promedio_3"/></td>
+                              <td class="text-right"><span t-field="li.note_promedio_4"/></td>
+                              <td class="text-right"><span t-field="li.note_promedio_5"/></td>
+                              <td class="text-right"><strong><span t-field="li.note_promedio_6"/></strong></td> 
+                            </tr>
+                          </div>
+                        </tbody> 
+                      </table>
+                    </div>
+                  </div>
+                </t>
+                <!-- FIN REPORTE 6 -->
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div id="postdata">
+                  <p>POR MEDIO DE LA PRESENTE SE HACE CONSTAR  LA NOTA PONDERADA  DE CADA ALUMNO AL FINAL DE LA COLUMNA RESPECTIVA</p>
+                  <p>* Evaluación Parcial sobre la base de los artículos Nos. 11 y 13 del REGLAMENTO GENERAL DE PROCESOS DE GRADUACION DE LA U.E.S.</p>
+                  <p>** NOTAS INDIVIDUALES: En este Proceso todas las notas registradas son individuales.</p>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+</odoo>

@@ -1,0 +1,88 @@
+<odoo>
+
+    <record model="ir.actions.act_window" id="action_topic_grade_online_topic_new_activity">
+        <field name="name">Nueva actividad</field>
+        <field name="res_model">topic.grade.online.activity</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="context">{'search_default_topic_id': [active_id], 'default_topic_id': active_id}</field>
+    </record>
+
+    <record id="view_topic_grade_online_topic_kanban" model="ir.ui.view">
+        <field name="name">topic.grade.online.topic.kanban</field>
+        <field name="model">topic.grade.online.topic</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_hr_recruitment_kanban" on_create="topic_grade_online.create_topic_simple">
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="carrera_id"/>
+                <field name="jefe_department_id"/>
+                <field name="coordinador_department_id"/>
+                <field name="docente_director_id"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div>
+                            <div class="o_kanban_card_header">
+                                <div class="o_kanban_card_header_title">
+                                    <div class="o_primary"><t t-esc="record.name.value"/></div>
+                                </div>
+                                <div class="o_kanban_manage_button_section">
+                                    <a class="o_kanban_manage_toggle_button" href="#">Mas <i class="fa fa-caret-down"/></a>
+                                </div>
+                            </div>
+                            <div class="container o_kanban_card_content o_visible">
+                                <t t-if="true">
+                                    <div class="row">
+                                        <div class="col-xs-12 o_kanban_primary_right">
+                                               <field name="description"/>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 o_kanban_primary_bottom">
+                                          <div class="col-xs-6 o_kanban_primary_left">
+                                            <button class="btn btn-primary" name="%(action_topic_grade_online_activity)d" type="action">Actividades</button>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </t>
+                        <!--        <t t-if="true">
+                                    <div class="row">
+                                        <div class="col-xs-12 o_kanban_primary_left">
+                                            <button class="btn btn-primary" name="set_process" type="object">Abrir inscripcion</button>
+                                        </div>
+                                    </div>
+                                </t> -->
+                            </div>
+                            <div class="container o_kanban_card_manage_pane o_invisible">
+                                <div class="row">
+                                    <div class="col-xs-6 o_kanban_card_manage_section o_kanban_manage_view">
+                                    <button  class="btn btn-primary oe_kanban_action oe_kanban_action_button" name="show_evaluations_topic" type="object" help="Ver las notas de las evaluaciones">
+                                        <div class="o_form_field o_stat_info">
+                                         <span class="o_stat_text">Evaluaciones</span>
+                                        </div>
+                                    </button>
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <a type="edit" help="Ver Información">
+                                                Información general
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div t-if="widget.editable" class="o_kanban_card_manage_settings row">
+                                    <div class="col-xs-8">
+                                    
+                                    </div>
+                                    <div class="col-xs-4 text-right">
+                                        <a type="edit">Configuración</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>

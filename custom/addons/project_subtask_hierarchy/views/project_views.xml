@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="tis_task_tree_view" model="ir.ui.view">
+        <field name="name">project.task.tis.tree</field>
+        <field name="model">project.task</field>
+        <field name="field_parent">subtask_ids</field>
+        <field name="arch" type="xml">
+            <tree string="Task List">
+                <field name="name"/>
+                <field name="parent_id" invisible="1"/>
+                <field name="sequence"/>
+                <field name="project_id"/>
+            </tree>
+        </field>
+    </record>
+	
+	<record id="action_project_subtask_hierarchy" model="ir.actions.act_window">
+		<field name="name">Task Hierarchy</field>
+		<field name="res_model">project.task</field>
+		<field name="view_type">tree</field>
+		<field name="view_id" ref="tis_task_tree_view"/>
+		<field name="context">{'default_parent_id': context.get('parent_id', False)}</field>
+		<field name="domain">[('parent_id','=',False)]</field>
+	</record>
+	
+	<!-- inherit task form -->
+	<record id="task_view_form_inherit_tis" model="ir.ui.view">
+		<field name="name">project.task.tis.form</field>
+		<field name="model">project.task</field>
+		<field name="inherit_id" ref="project.view_task_form2"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='project_id']" position="after">
+				<field name="parent_id" domain= "[('project_id', '=', project_id)]"/>
+			</xpath>
+			<xpath expr=".//button" position="before">
+				<button type="action" string="Tasks" class="oe_inline oe_stat_button" icon="fa-book"
+				name="%(project_subtask_hierarchy.action_project_subtask_hierarchy)d" context="{'parent_id': parent_id}">
+				</button>
+			</xpath>
+		</field>
+	</record>
+
+	<menuitem id="subtask_hierarchy" parent="project.menu_project_report" action="action_project_subtask_hierarchy"/>
+</odoo>

@@ -1,0 +1,592 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+    <record id="topic_grade_online_topic_simple_form" model="ir.ui.view">
+        <field name="name">topic.grade.online.topic.simple.form</field>
+        <field name="model">topic.grade.online.topic</field>
+        <field name="priority">200</field>
+        <field name="arch" type="xml">
+            <form string="Agregar tema de grado">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button  class="oe_stat_button" name="show_evaluations_topic" icon="fa-pencil-square-o" type="object"
+                             help="Ver las notas de las evaluaciones">
+                            <div class="o_form_field o_stat_info">
+                                <span class="o_stat_text">Evaluaciones</span>
+                             </div>
+                        </button>
+                    </div>
+                    <h2><field name="name" class="oe_inline" placeholder="Tema de grado" /></h2>
+                    <group>
+                        <group>
+                            <field name="eraise_topic_ids" />
+                            <field name="department_id" string="Departamento" options="{'no_create_edit': True, 'no_open': True}"/>
+                            <field name="carrera_id" string="Carrera" options="{'no_create_edit': True, 'no_open': True}"/>
+                        </group>
+                        <group>
+                            <field name="jefe_department_id" class="oe_inline" options="{'no_create_edit': True, 'no_open': True}"/>
+                            <field name="coordinador_department_id" class="oe_inline" options="{'no_create_edit': True, 'no_open': True}"/>
+                            <field name="docente_director_id" class="oe_inline" options="{'no_create_edit': True, 'no_open': True}"/>
+                            <field name="project_topic_id" invisible="1" />
+                        </group>
+                    </group>
+                    <separator string="Descripcion del tema"/>
+                    <field name="description" />
+                    <notebook>
+                        <page string="Evaluaciones">
+                            <field name="evaluations_ids">
+                                <tree>
+                                    <field name="name" />
+                                    <field name="description" />
+                                </tree>
+                            </field>
+                            <group>
+                                <group>
+                                </group>
+                                <group>
+                                    <group>
+                                    </group>
+                                    <group><!--
+                                        <field name="total" string="Promedio" /> -->
+                                    </group>    
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Integrantes">
+                            <field name="student_ids" domain="[('department_id','=',department_id)]">
+                                <tree editable="bottom" string="Taxes">
+                                    <field name="student_card" string="Carnet" />
+                                    <field name="name" string="Nombre" />
+                                    <field name="work_email" string="Email" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+    
+            <!--    <footer>
+                        <button string="Nuevo" name="close_dialog" type="object" class="btn-primary"/>
+                        <button string="Cerrar" class="btn-default" special="cancel"/>
+                    </footer> -->
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="topic_grade_online_evaluations_form" model="ir.ui.view">
+        <field name="name">topic.grade.online.evaluations.form</field>
+        <field name="model">topic.grade.online.evaluations</field>
+        <field name="priority">200</field>
+        <field name="arch" type="xml">
+            <form string="Agregar tema de grado">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" class="oe_inline" />
+                            <field name="description" />
+                            <field name="date_report" />
+                        </group>
+                        <group>
+                            <field name="topic_id" class="oe_inline" options="{'no_create_edit': True, 'no_open': True}" /> 
+                            <field name="note_procentaje_1" attrs="{'invisible': [('state', 'not in', ('report1'))]}"/>
+                            <field name="note_procentaje_2" attrs="{'invisible': [('state', 'not in', ('report2'))]}"/>
+                            <field name="note_procentaje_3" attrs="{'invisible': [('state', 'not in', ('report3'))]}"/>
+                            <field name="note_procentaje_4" attrs="{'invisible': [('state', 'not in', ('report4'))]}"/>
+                            <field name="note_procentaje_5" attrs="{'invisible': [('state', 'not in', ('report5'))]}"/>
+                            <field name="state" invisible="1" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Actividades">
+                            <field name="activity_ids" readonly="1">
+                                <tree>
+                                    <field name="name" />
+                                    <field name="stage_id" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Calificaciones" attrs="{'invisible': [('state', 'not in', ('report1'))]}">
+                            <field name="report1_id">
+                                <tree editable="bottom" create="0" delete="0">
+                                    <field name="name_egresado_id" domain="[('department_id','=',carrera_id)]" readonly="1" />
+                                    <field name="note_asistence" />
+                                    <field name="note_puntuality" />
+                                    <field name="note_responsability" />
+                                    <field name="note_iniciativity" />
+                                    <field name="note_creativity" />
+                                    <field name="note_promedio_1" readonly="1" />
+                                    <field name="carrera_id" invisible="1" />
+                                    <field name="name" string="ID" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Calificaciones" attrs="{'invisible': [('state', 'not in', ('report2'))]}">
+                            <field name="report2_id">
+                                <tree editable="bottom" create="0" delete="0">
+                                    <field name="name_egresado_id" domain="[('department_id','=',carrera_id)]" readonly="1" />
+                                    <field name="note_asistence_2" />
+                                    <field name="note_puntuality_2" />
+                                    <field name="note_responsability_2" />
+                                    <field name="note_iniciativity_2" />
+                                    <field name="note_creativity_2" />
+                                    <field name="note_promedio_2" readonly="1" />
+                                    <field name="carrera_id" invisible="1" />
+                                    <field name="name" string="ID" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Calificaciones" attrs="{'invisible': [('state', 'not in', ('report3'))]}">
+                            <field name="report3_id">
+                                <tree editable="bottom" create="0" delete="0">
+                                    <field name="name_egresado_id" domain="[('department_id','=',carrera_id)]" readonly="1" />
+                                    <field name="note_asistence_3" />
+                                    <field name="note_puntuality_3" />
+                                    <field name="note_responsability_3" />
+                                    <field name="note_iniciativity_3" />
+                                    <field name="note_creativity_3" />
+                                    <field name="note_promedio_3" readonly="1" />
+                                    <field name="carrera_id" invisible="1" />
+                                    <field name="name" string="ID" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Calificaciones" attrs="{'invisible': [('state', 'not in', ('report4'))]}">
+                            <field
+                             name="report4_id">
+                                <tree editable="bottom" create="0" delete="0">
+                                    <field name="name_egresado_id" domain="[('department_id','=',carrera_id)]" readonly="1" />
+                                    <field name="note_presentation_resumen" />
+                                    <field name="note_conteni_charter" />
+                                    <field name="note_analis_discute" />
+                                    <field name="note_promedio_4" readonly="1" />
+                                    <field name="carrera_id" invisible="1" />
+                                    <field name="name" string="ID" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>                                                
+                        <page string="Calificaciones" attrs="{'invisible': [('state', 'not in', ('report5'))]}">
+                            <field name="report5_id">
+                                <tree editable="bottom" create="0" delete="0">
+                                    <field name="name_egresado_id" domain="[('department_id','=',carrera_id)]" readonly="1" />
+                                    <field name="note_presentation" />
+                                    <field name="note_capacity_resume" />
+                                    <field name="note_use_recurse_audiovisual" />
+                                    <field name="note_dominio_topic" />
+                                    <field name="note_promedio_5" readonly="1" />
+                                    <field name="carrera_id" invisible="1" />
+                                    <field name="name" string="ID" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Calificaciones" attrs="{'invisible': [('state', 'not in', ('report6'))]}">
+                            <field name="report6_id">
+                                <tree editable="bottom" create="0" delete="0">
+                                    <field name="name_egresado_id" domain="[('department_id','=',carrera_id)]" readonly="1" />
+                                    <field name="note_promedio_1" readonly="1"/>
+                                    <field name="note_promedio_2" readonly="1"/>
+                                    <field name="note_promedio_3" readonly="1"/>
+                                    <field name="note_promedio_4" readonly="1"/>
+                                    <field name="note_promedio_5" readonly="1"/>
+                                    <field name="note_promedio_6" readonly="1"/>
+                                    <field name="carrera_id" invisible="1" />
+                                    <field name="id" invisible="1" />
+                                    <field name="note_procentaje_1" invisible="1" />
+                                    <field name="note_procentaje_2" invisible="1" />
+                                    <field name="note_procentaje_3" invisible="1" />
+                                    <field name="note_procentaje_4" invisible="1" />
+                                    <field name="note_procentaje_5" invisible="1" />
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="create_topic_simple" model="ir.actions.act_window">
+        <field name="name">Tema de grado</field>
+        <field name="res_model">topic.grade.online.topic</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="topic_grade_online_topic_simple_form"/>
+        <field name="target">new</field>
+    </record>
+
+            <!-- hr related job position menu action -->
+         <record model="ir.actions.act_window" id="action_topic_grade_online_topic">
+            <field name="name">Temas de grado</field>
+            <field name="res_model">topic.grade.online.topic</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                  Click aqui para crear un nuevo tema de grado.
+              </p><p>
+                  Agrega aqui los temas de grado para los diferentes egresados.
+              </p>
+            </field>
+        </record>
+
+        <record id="action_topic_grade_online_topic_server" model="ir.actions.server">
+            <field name="name">Temas de grado</field>
+            <field name="model_id" ref="topic_grade_online.model_topic_grade_online_topic" />
+            <field name="code">
+                action = model.filter_kanban_topic()
+            </field>
+        </record>
+
+
+
+        <!-- hr related job position menu action -->
+        <record model="ir.actions.act_window" id="action_topic_grade_online_topic_config">
+            <field name="name">Temas de grado</field>
+            <field name="res_model">topic.grade.online.topic</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                  Click aqui.
+              </p>
+            </field>
+        </record> 
+
+    <record id="view_topic_grade_online_stage_tree" model="ir.ui.view">
+            <field name="name">topic.grade.online.stage.tree</field>
+            <field name="model">topic.grade.online.stage</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="sequence" widget="handle" />
+                    <field name="name"/>
+                </tree>
+            </field>
+    </record>
+
+    <record id="view_topic_grade_online_evaluations_tree" model="ir.ui.view">
+            <field name="name">topic.grade.online.evaluations.tree</field>
+            <field name="model">topic.grade.online.evaluations</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="state"/>
+                    <field name="topic_id"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+    </record>
+
+    <record id="view_topic_grade_online_topic_tree" model="ir.ui.view">
+            <field name="name">topic.grade.online.topic.tree</field>
+            <field name="model">topic.grade.online.topic</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+    </record>
+
+        <record id="topic_grade_online_stage_act" model="ir.actions.act_window">
+            <field name="name">Estados</field>
+            <field name="res_model">topic.grade.online.stage</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_topic_grade_online_stage_tree"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                  Click para agregar un estado.
+                </p>
+            </field>
+        </record>
+
+        <record id="topic_grade_online_evaluations_act" model="ir.actions.act_window">
+            <field name="name">Evaluaciones</field>
+            <field name="res_model">topic.grade.online.evaluations</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_topic_grade_online_topic_tree"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                  Click para agregar una evaluacion.
+                </p>
+            </field>
+        </record>
+
+
+        <record id="topic_grade_online_topic_act" model="ir.actions.act_window">
+            <field name="name">Temas de grado</field>
+            <field name="res_model">topic.grade.online.topic</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_topic_grade_online_topic_tree"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                  Click para agregar un tema.
+                </p>
+            </field>
+        </record>
+
+        <record id="open_view_topic_grade_online_list" model="ir.actions.act_window">
+            <field name="name">Evaluaciones</field>
+            <field name="res_model">topic.grade.online.evaluations</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False" />
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click aqui para agregar una evaluacion.
+                </p>
+            </field>
+        </record>
+<!--
+<record model="ir.ui.view" id="crm_case_form_view_topic">
+        <field name="name">Formulario Actividades</field>
+        <field name="model">topic.grade.online.activity</field>
+        <field name="arch" type="xml">
+          <form string="Detalle de actividades">
+            <header> 
+                <button string="Crear usuario" type="object" class="oe_highlight" />
+                <field name="stage_id" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}" attrs="{'invisible': [('active', '=', False)]}"/>
+            </header>
+            <sheet>
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_makeMeeting" class="oe_stat_button" icon="fa-calendar" type="object"
+                         help="Schedule interview with this applicant">
+                        <div class="o_form_field o_stat_info">
+                            <span class="o_stat_text">Reuniones</span>
+                         </div>
+                    </button> --> <!--
+                    <button name="action_get_attachment_tree_view"
+                        class="oe_stat_button"
+                        icon="fa-book"
+                        type="object">
+                        <field name="attachment_number" widget="statinfo" string="Documents"/>
+                    </button> -->
+                <!--    <button name="toggle_active" type="object"
+                            class="oe_stat_button" icon="fa-archive"
+                            attrs="{'invisible': [('active', '=', True)]}">
+                        <field name="active" widget="boolean_button"
+                            options='{"terminology": "archive"}'/>
+                    </button>
+                </div>
+                <div class="oe_title">
+                    <label for="name" class="oe_edit_only" invisible="1" />
+                    <h1><field name="name" /></h1>
+                </div>
+                <group>
+                    <group string="Departamento">
+                        <field name="department_id" string="Carrera" />
+                        <field name="user_id" string="Docente" />
+                    </group>
+                </group>
+                <separator string="Descripcion de la actividad"/>
+                <field name="description" placeholder="Descripcion detallada..."/>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
+          </form>
+        </field>
+    </record> -->
+
+
+
+    <record model="ir.ui.view" id="crm_case_form_view_topic">
+        <field name="name">Formulario Actividades</field>
+        <field name="model">topic.grade.online.activity</field>
+        <field name="arch" type="xml">
+          <form string="Detalle de actividades">
+            <header> <!--
+                <button string="Crear usuario" type="object" class="oe_highlight" /> -->
+                <field name="stage_id" widget="statusbar" clickable="True" options="{'fold_field': 'fold'}" />
+            </header>
+            <sheet>
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_makeMeeting" class="oe_stat_button" icon="fa-calendar" type="object"
+                         help="Schedule interview with this applicant">
+                        <div class="o_form_field o_stat_info">
+                            <span class="o_stat_text">Reuniones</span>
+                         </div>
+                    </button>
+                </div>
+                <div>
+                    <separator string="Actividad"/> 
+                    <h2><field name="name" string="Tema de actividad"/></h2>
+                    <separator string="Descripción de la actividad"/>
+                    <field name="description" placeholder="Descripcion detallada..."/>
+                    <group>
+                        <group>
+                            <field name="topic_id" string="Tema de grado" readonly="1" />
+                        </group>
+                        <group>
+                            <field name="evaluations_id" domain="[('topic_id', '=', topic_id)]" string="Pertenece a la evaluación"/>
+                        </group>
+                        <field name="user_id" invisible="1" />
+                    </group>
+                </div>
+            </sheet>
+            <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="message_ids" widget="mail_thread"/>
+            </div>
+          </form>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="hr_applicant_calendar_view">
+        <field name="name">Activity Calendar</field>
+        <field name="model">topic.grade.online.activity</field>
+        <field name="priority" eval="2"/>
+        <field name="arch" type="xml">
+            <calendar string="Actividades"
+                date_start="date_action" color="user_id">
+                <field name="name"/>
+                <field name="user_id"/>
+                <field name="title_action"/>
+            </calendar>
+        </field>
+    </record>
+        <!-- Activity Kanban View -->
+    <record model="ir.ui.view" id="hr_kanban_view_activity">
+        <field name="name">Activity kanban</field>
+        <field name="model">topic.grade.online.activity</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" class="o_kanban_applicant" readonly="1">
+                <field name="stage_id"/>
+                <field name="user_id"/>
+                <field name="topic_id"/>
+                <field name="department_id"/>
+                <field name="active"/>
+                <templates>
+                    <t t-name="kanban-tooltip">
+                        <ul class="oe_kanban_tooltip">
+                            <li t-if="record.user_id"><b>Evaluación: </b> <field name="evaluations_id"/></li>
+                        </ul>
+                    </t>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color)} oe_kanban_card oe_kanban_global_click oe_applicant_kanban oe_semantic_html_override">
+                            <div class="o_dropdown_kanban dropdown">
+
+                                <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                    <span class="fa fa-bars fa-lg"/>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <t t-if="widget.deletable"><li><a type="delete">Eliminar</a></li></t>
+                                </ul>
+                            </div>
+                            <div class="oe_kanban_content" tooltip="kanban-tooltip">
+                                    <strong><field name="topic_id"/></strong><br/>
+                                    <field name="name"/><br/>
+                                    <i><field name="description"/></i>
+                            <!--    <div class="oe_kanban_bottom_left oe_margin_top_4">
+                                    <t t-if="record.message_needaction_counter.raw_value">
+                                        <span class='oe_kanban_mail_new' title='Unread Messages'><i class='fa fa-comments'/><t t-raw="record.message_needaction_counter.raw_value"/></span>
+                                    </t>
+                                    <a t-if="record.attachment_number" name="action_get_attachment_tree_view" type="object"> <field name="attachment_number"/> Documentos</a>
+                                </div> -->
+                                <div class="oe_kanban_footer_left oe_margin_top_4">
+                                </div>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+        <record id="view_topic_filter" model="ir.ui.view">
+            <field name="name">topic.grade.online.activity.search</field>
+            <field name="model">topic.grade.online.activity</field>
+            <field name="arch" type="xml">
+                <search string="Tema">
+                    <field name="topic_id"/>
+                </search>
+            </field>
+        </record>
+
+    <record model="ir.actions.act_window" id="action_topic_grade_online_activity">
+        <field name="name">Actividades</field>
+        <field name="res_model">topic.grade.online.activity</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="search_view_id" ref="view_topic_filter"/>
+        <field name="help" type="html">
+              <p>
+                Lista de actividades
+              </p>
+         </field>
+    </record>    
+
+        <!-- Evaluations Action -->
+<!--    <record id="topic_grade_online_evaluations_act" model="ir.actions.act_window">
+        <field name="name">Evaluaciones</field>
+        <field name="res_model">topic.grade.online.evaluations</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="topic_grade_online_evaluations_tree"/> 
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click para agregar una evaluación.
+          </p><p>
+            Puede agregar todas las evaluaciones que se realizaran en un tema de trabajo de grado en espesifico.
+          </p>
+        </field>
+    </record> -->
+
+    <menuitem
+        name="Trabajo Grado"
+        id="menu_topic_grade_online_root"
+        web_icon="topic_grade_online,static/description/icon3.png"
+        sequence="100"/>
+
+    <menuitem id="menu_topic_grade_online_configuration" name="Configuración" parent="menu_topic_grade_online_root"
+        sequence="100"/>
+
+    <menuitem id="menu_topic_grade_online_report" name="Reportes" parent="menu_topic_grade_online_root"
+        sequence="101"/>
+
+    <menuitem
+        id="menu_topic_grade_online_reports_1" 
+        name="Trabajos de grado"
+        parent="menu_topic_grade_online_report"
+        action="topic_grade_online_topic_act"
+        sequence="1"/>
+
+<!--
+    <menuitem
+        id="menu_topic_grade_online_topic"
+        name="Temas de grado"
+        parent="menu_topic_grade_online_configuration"
+        action="topic_grade_online_topic_act"
+        sequence="1"/>
+-->
+    <menuitem
+        id="menu_topic_grade_online_stage"
+        name="Estados"
+        parent="menu_topic_grade_online_configuration"
+        action="topic_grade_online_stage_act"
+        sequence="2"/>
+<!--
+    <menuitem
+        id="menu_topic_grade_online_evaluations"
+        name="Evaluaciones"
+        parent="menu_topic_grade_online_configuration"
+        action="topic_grade_online_evaluations_act"
+        sequence="3"/>
+-->
+<!--     <menuitem
+        id="menu_topic_grade_online_evaluations"
+        name="Evaluaciones"
+        parent="menu_topic_grade_online_configuration"
+        action="topic_grade_online_evaluations_act"
+        sequence="1"/> -->
+
+    <menuitem parent="menu_topic_grade_online_root" id="menu_topic_grade_online_topic_position" action="action_topic_grade_online_topic_server" sequence="1"/>
+
+
+
+    </data>
+</odoo>

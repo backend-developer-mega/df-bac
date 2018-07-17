@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <!-- Evaluations -->
+        <record id="topic_evaluations_act" model="ir.actions.act_window">
+            <field name="name">Evaluaciones</field>
+            <field name="res_model">topic.grade.online.evaluations</field>
+            <field name="view_type">form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click para agregar una evaluacion a un tema de trabajo de grado.
+              </p><p>
+                Defina las distitas evaluaciones que tengra un trabajo de grado a lo largo de todo el proceso, ademas podra agrupar diferentes actividades a una sola evaluacion.
+              </p>
+            </field>
+        </record>
+
+    <!-- Evaluations Tree View -->
+<!--    <record model="ir.ui.view" id="topic_grade_online_evaluations_tree">
+        <field name="name">topic.grade.online.evaluations.tree</field>
+        <field name="model">topic.grade.online.evaluations</field>
+        <field name="arch" type="xml">
+            <tree string="Evaluaciones">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record> -->
+
+    <!-- Evaluations Form View -->
+ <!--   <record model="ir.ui.view" id="topic_grade_online_evaluations_form">
+        <field name="name">topic.grade.online.evaluations.form</field>
+        <field name="model">topic.grade.online.evaluations</field>
+        <field name="arch" type="xml">
+            <form string="Evaluaciones">
+                <group string="Definicion de las evaluaciones">
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence" groups="base.group_no_one"/>
+                        <field name="topic_id"/>
+                    </group>
+                    <group>
+                        <field name="template_id" domain= "[('model_id.model', '=', 'hr.applicant')]"/>
+                    </group>
+                </group>
+                <separator string="Descripción General"/>
+                <field name="description"/>
+            </form>
+        </field>
+    </record> -->
+
+    <!-- Evaluations Action 
+    <record id="topic_grade_online_evaluations_act" model="ir.actions.act_window">
+        <field name="name">Evaluaciones</field>
+        <field name="res_model">topic.grade.online.evaluations</field>
+        <field name="view_type">form</field>
+        <field name="view_id" ref="topic_grade_online_evaluations_tree"/>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click para agregar una evaluación.
+          </p><p>
+            Puede agregar todas las evaluaciones que se realizaran en un tema de trabajo de grado en espesifico.
+          </p>
+        </field>
+    </record> -->
+
+    <menuitem
+        name="Trabajo de grado en linea"
+        id="menu_topic_grade_online_root"
+        sequence="100"/>
+    <!--
+    <menuitem
+        name="Trabajo de grado en linea"
+        id="menu_topic_grade_online_root"
+        web_icon="hr_recruitment,static/description/icon.png"
+        groups="topic_grade_online.group_topic_grade_online_user" 
+        sequence="100"/> -->
+
+    <menuitem id="menu_topic_grade_online_configuration" name="Configuración" parent="menu_topic_grade_online_root"
+        sequence="100"/>
+
+    <menuitem id="menu_topic_grade_online_report" name="Reportes" parent="menu_topic_grade_online_root"
+        sequence="101"/>
+
+    <menuitem
+        id="menu_topic_grade_online_evaluations"
+        name="Evaluaciones"
+        parent="menu_topic_grade_online_configuration"
+        action="topic_grade_online_evaluations_act"
+        sequence="1"/>
+
+    <menuitem
+        id="menu_topic_grade_online_reports_1" kjhhj kjgjh
+        name="Trabajos de grado"
+        parent="menu_topic_grade_online_report"
+        action="topic_grade_online_evaluations_act"
+        sequence="1"/>
+
+    </data>
+</odoo>

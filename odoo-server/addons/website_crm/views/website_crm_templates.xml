@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <template id="contactus_form" name="Contact Form" inherit_id="website.contactus" customize_show="True">
+            <xpath expr="//div[@name='mail_button']" position="replace">
+                <div>
+                    <script>
+                        var InputMask = function ( opts ) {
+  if ( opts && opts.masked ) {
+    // Make it easy to wrap this plugin and pass elements instead of a selector
+    opts.masked = typeof opts.masked === string ? document.querySelectorAll( opts.masked ) : opts.masked;
+  }
+
+  if ( opts ) {
+    this.opts = {
+      masked: opts.masked || document.querySelectorAll( this.d.masked ),
+      mNum: opts.mNum || this.d.mNum,
+      mChar: opts.mChar || this.d.mChar,
+      error: opts.onError || this.d.onError
+    }
+  } else {
+    this.opts = this.d;
+    this.opts.masked = document.querySelectorAll( this.opts.masked );
+  }
+
+  this.refresh( true );
+};
+
+var inputMask = {
+
+  // Default Values
+  d: {
+    masked : '.masked',
+    mNum : 'XdDmMyY9',
+    mChar : '_',
+    onError: function(){}
+  },
+
+  refresh: function(init) {
+    var t, parentClass;
+
+    if ( !init ) {
+      this.opts.masked = document.querySelectorAll( this.opts.masked );
+    }
+
+    for(i = 0; i < this.opts.masked.length; i++) {
+      t = this.opts.masked[i]
+      parentClass = t.parentNode.getAttribute('class');
+
+      if ( !parentClass || ( parentClass && parentClass.indexOf('shell') === -1 ) ) {
+        this.createShell(t);
+        this.activateMasking(t);
+      }
+    }
+  },
+
+  // replaces each masked t with a shall containing the t and it's mask.
+  createShell : function (t) {
+    var wrap = document.createElement('span'),
+        mask = document.createElement('span'),
+        emphasis = document.createElement('i'),
+        tClass = t.getAttribute('class'),
+        pTxt = t.getAttribute('placeholder'),
+        placeholder = document.createTextNode(pTxt);
+
+    t.setAttribute('maxlength', placeholder.length);
+    t.setAttribute('data-placeholder', pTxt);
+    t.removeAttribute('placeholder');
+
+
+    if ( !tClass || ( tClass && tClass.indexOf('masked') === -1 ) ) {
+      t.setAttribute( 'class', tClass + ' masked');
+    }
+
+    mask.setAttribute('aria-hidden', 'true');
+    mask.setAttribute('id', t.getAttribute('id') + 'Mask');
+    mask.appendChild(emphasis);
+    mask.appendChild(placeholder);
+
+    wrap.setAttribute('class', 'shell');
+    wrap.appendChild(mask);
+    t.parentNode.insertBefore( wrap, t );
+    wrap.appendChild(t);
+  },
+
+  setValueOfMask : function (e) {
+    var value = e.target.value,
+        placeholder = e.target.getAttribute('data-placeholder');
+
+    return "<i>" + value + "</i>" + placeholder.substr(value.length);
+  },
+
+  // add event listeners
+  activateMasking : function (t) {
+    var that = this;
+    if (t.addEventListener) { // remove "if" after death of IE 8
+      t.addEventListener('keyup', function(e) {
+        that.handleValueChange.call(that,e);
+      }, false);
+    } else if (t.attachEvent) { // For IE 8
+        t.attachEvent('onkeyup', function(e) {
+        e.target = e.srcElement;
+        that.handleValueChange.call(that, e);
+      });
+    }
+  },
+
+  handleValueChange : function (e) {
+    var id = e.target.getAttribute('id');
+
+    if(e.target.value == document.querySelector('#' + id + 'Mask i').innerHTML) {
+      return; // Continue only if value hasn't changed
+    }
+
+    document.getElementById(id).value = this.handleCurrentValue(e);
+    document.getElementById(id + 'Mask').innerHTML = this.setValueOfMask(e);
+
+  },
+
+  handleCurrentValue : function (e) {
+    var isCharsetPresent = e.target.getAttribute('data-charset'),
+        placeholder = isCharsetPresent || e.target.getAttribute('data-placeholder'),
+        value = e.target.value, l = placeholder.length, newValue = '',
+        i, j, isInt, isLetter, strippedValue;
+
+    // strip special characters
+    strippedValue = isCharsetPresent ? value.replace(/\W/g, "") : value.replace(/\D/g, "");
+
+    for (i = 0, j = 0; i < l; i++) {
+        isInt = !isNaN(parseInt(strippedValue[j]));
+        isLetter = strippedValue[j] ? strippedValue[j].match(/[A-Z]/i) : false;
+        matchesNumber = this.opts.mNum.indexOf(placeholder[i]) >= 0;
+        matchesLetter = this.opts.mChar.indexOf(placeholder[i]) >= 0;
+        if ((matchesNumber && isInt) || (isCharsetPresent && matchesLetter && isLetter)) {
+                newValue += strippedValue[j++];
+          } else if ((!isCharsetPresent && !isInt && matchesNumber) || (isCharsetPresent && ((matchesLetter && !isLetter) || (matchesNumber && !isInt)))) {
+                //this.opts.onError( e ); // write your own error handling function
+                return newValue;
+        } else {
+            newValue += placeholder[i];
+        }
+        // break if no characters left and the pattern is non-special character
+        if (strippedValue[j] == undefined) {
+          break;
+        }
+    }
+    if (e.target.getAttribute('data-valid-example')) {
+      return this.validateProgress(e, newValue);
+    }
+    return newValue;
+  },
+
+  validateProgress : function (e, value) {
+    var validExample = e.target.getAttribute('data-valid-example'),
+        pattern = new RegExp(e.target.getAttribute('pattern')),
+        placeholder = e.target.getAttribute('data-placeholder'),
+        l = value.length, testValue = '';
+
+    //convert to months
+    if (l == 1 && placeholder.toUpperCase().substr(0,2) == 'MM') {
+      if(value > 1 && value < 10) {
+        value = '0' + value;
+      }
+      return value;
+    }
+    // test the value, removing the last character, until what you have is a submatch
+    for ( i = l; i >= 0; i--) {
+      testValue = value + validExample.substr(value.length);
+      if (pattern.test(testValue)) {
+        return value;
+      } else {
+        value = value.substr(0, value.length-1);
+      }
+    }
+
+    return value;
+  }
+};
+
+for ( var property in inputMask ) {
+  if (inputMask.hasOwnProperty(property)) {
+    InputMask.prototype[ property ] = inputMask[ property ];
+  }
+}
+
+//  Declaritive initalization
+(function(){
+  var scripts = document.getElementsByTagName('script'),
+      script = scripts[ scripts.length - 1 ];
+  if ( script.getAttribute('data-autoinit') ) {
+    new InputMask();
+  }
+})();
+                    </script>
+                    <form action="/website_form/" method="post" data-model_name="crm.lead" data-success_page="/page/website_crm.contactus_thanks" class="s_website_form form-horizontal container-fluid mt32" enctype="multipart/form-data">
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <label class="col-md-3 col-sm-4 control-label" for="contact_name">Your Name</label>
+                            <div class="col-md-7 col-sm-8">
+                                <input type="text" class="form-control o_website_form_input" name="contact_name" t-att-value="request.params.get('contact_name', '')" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group form-field">
+                            <label class="col-md-3 col-sm-4 control-label" for="phone">Phone Number</label>
+                            <div class="col-md-7 col-sm-8">
+                                <input type="text" name="phone" t-att-value="request.params.get('phone', '')" 
+                                 data-mask="999-99-999-9999-9" 
+                                 title="Numero de telefono"  />
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <label class="col-md-3 col-sm-4 control-label" for="email_from">Email</label>
+                            <div class="col-md-7 col-sm-8">
+                                <input type="text" class="form-control o_website_form_input" name="email_from" required="" t-att-value="request.params.get('email_from', '')" />
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <label class="col-md-3 col-sm-4 control-label" for="partner_name">Your Company</label>
+                            <div class="col-md-7 col-sm-8">
+                                <input type="text" class="form-control o_website_form_input" name="partner_name" required="" t-att-value="request.params.get('partner_name', '')" />
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required">
+                            <label class="col-md-3 col-sm-4 control-label" for="name">Subject</label>
+                            <div class="col-md-7 col-sm-8">
+                                <input type="text" class="form-control o_website_form_input" name="name" required="" t-att-value="request.params.get('name', '')" />
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <label class="col-md-3 col-sm-4 control-label" for="description">Your Question</label>
+                            <div class="col-md-7 col-sm-8">
+                                <textarea class="form-control o_website_form_input" name="description" required=""><t t-esc="request.params.get('description', '')"/></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-sm-offset-4 col-sm-8 col-md-7">
+                                <span class="btn btn-primary btn-lg o_website_form_send">Send</span>
+                                <span id="o_website_form_result"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+			</xpath>
+		</template>
+
+        <template id="contactus_thanks" name="Contact us">
+            <t t-call="website.layout">
+              <div id="wrap">
+                <div class="oe_structure"/>
+                <div class="container">
+                    <h1>Thanks!</h1>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="alert alert-success">
+                                Your message has been sent successfully.
+                                <button type="button" class="close" data-dismiss="alert">&amp;times;</button>
+                            </div>
+                            <p>
+                                We will get back to you shortly.
+                            </p><p class="mt64">
+                                If you have an emergency, do not hesitate to contact us by phone:
+                            </p>
+                            <ul class="list-unstyled">
+                                <li><i class="fa fa-phone"></i> : <span t-field="res_company.phone"/></li>
+                                <li><i class="fa fa-envelope"></i> : <span t-field="res_company.email"/></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4">
+                            <t t-call="website.company_description"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure"/>
+              </div>
+            </t>
+        </template>
+
+        <template id="website_crm_tests" name="Website CRM Tests" inherit_id="web.assets_common">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/website_crm/static/src/js/website_crm_tour.js"></script>
+            </xpath>
+        </template>
+
+        <template id="assets_backend" inherit_id="web.assets_backend">
+          <xpath expr="." position="inside">
+                <script type="text/javascript" src="/website_crm/static/src/js/website_crm_backend.js"></script>
+          </xpath>
+        </template>
+
+</odoo>

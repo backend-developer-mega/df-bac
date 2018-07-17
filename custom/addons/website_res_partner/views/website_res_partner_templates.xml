@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="career_public" model="ir.rule">
+            <field name="name">career</field>
+            <field name="model_id" ref="hr.model_hr_job"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('base.group_public'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        <record id="department_public" model="ir.rule">
+            <field name="name">department</field>
+            <field name="model_id" ref="hr.model_hr_department"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('base.group_public'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+        <record id="partner_public" model="ir.rule">
+            <field name="name">partner</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">[]</field>
+            <field name="groups" eval="[(4, ref('base.group_public'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="res_partner_form_inherit" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet" position="before">
+                    <header>
+                        <button name="create_user" string="Aprobar solicitud" type="object" class="oe_highlight" attrs="{'invisible':['|', ('customer','=',False),('supplier','=',False)]}" />
+                        <button name="refuse_user" string="Rechazar solicitud" type="object" class="oe_highlight" attrs="{'invisible':['|', ('customer','=',False),('supplier','=',False)]}"  />
+                    </header>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="res_partner_check_form_inherit" model="ir.ui.view">
+            <field name="name">res.partner.check.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="check_department_partner" invisible="1" />
+                    <field name="template_user" domain="[('is_template', '=', True)]" options='{"no_open": True, "no_create_edit": True}'/>
+                    <field name="available" invisible="1" />
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_res_partner_filter_inherit" model="ir.ui.view">
+            <field name="name">res.partner.filter.new</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='group_by']" position="inside">
+                    <filter name="group_career" string="Carrera" context="{'group_by': 'career_id'}"/>
+                    <filter name="group_department" string="Departamento" context="{'group_by': 'department_id'}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="open_res_partner_form" model="ir.actions.act_window">
+            <field name="name">Solicitudes</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('customer','=',1),('supplier','=',1)]</field>
+            <field name="context"> {'group_by': None}</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new project.<br/>
+                </p>
+            </field>
+        </record>
+
+        <record id="open_res_partner_server" model="ir.actions.server">
+            <field name="name">Solicitudes</field>
+            <field name="model_id" ref="website_res_partner.model_res_partner"/>
+            <field name="code">
+                   action = model.applicant_partner_filter()
+            </field>
+        </record>
+<!--
+        <record id="view_partner_tree_form_inherit" model="ir.ui.view">
+            <field name="name">res.partner.new.tree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree" /> 
+            <field name="arch" type="xml">
+            <xpath expr="//field[@name='display_name']" position="before"> 
+                        <field name="date"/>
+                        <field name="career_id"/>
+                        <field name="student_card"/>
+            </xpath>  
+            <xpath expr="//field[@name='email']" position="before"> 
+                        <field name="department_id" />
+            </xpath> 
+            </field>
+        </record>
+-->
+        <record id="view_partner_tree_form_inherit" model="ir.ui.view">
+            <field name="name">res.partner.new.tree</field>
+            <field name="model">res.partner</field>
+            <field eval="1" name="priority"/>
+            <field name="arch" type="xml">
+                <tree string="Solicitudes de usuario" delete="false" create="false">
+                    <field name="create_date" string="Fecha solicitud"/>
+                    <field name="career_id" />
+                    <field name="student_card"/>
+                    <field name="display_name" string="Nombre"/>
+                    <field name="function" invisible="1"/>
+                    <field name="mobile"/>
+                    <field name="email"/>
+                    <field name="department_id" />
+                    <field name="user_id" invisible="1"/>
+                    <field name="is_company" invisible="1"/>
+                    <field name="country_id" invisible="1"/>
+                    <field name="parent_id" invisible="1"/>
+                    <field name="active" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <menuitem name="Solicitudes"
+            id="menu_res_applicant"
+            parent="contacts.menu_contacts"
+            sequence="2" action="open_res_partner_server" 
+            groups="base.group_user,base.group_partner_manager"
+            />
+
+        <menuitem name="Solicitudes de usuario"
+            id="contacts.menu_contacts"
+            sequence="4"
+            action="open_res_partner_server"
+            web_icon="contacts,static/description/icon.png"
+            groups="base.group_user,base.group_partner_manager"/>
+
+
+<template id="apply">
+    <t t-call="website.layout">
+        <t t-set="additional_title">Inscripción</t>
+
+        <div id="wrap"  class="container">
+            <h1 class="text-center">
+                Solicitud de inscripción a la plataforma online
+            </h1>
+
+            <div class="row">
+                <section id="forms">
+                    <form action="/website_form/" method="post" class="s_website_form form-horizontal container-fluid mt32" enctype="multipart/form-data" data-model_name="res.partner" data-success_page="/page/website_res_partner.thankyou" id="partnerform">
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <label class="control-label" for="student_card">Carnet</label>
+                            </div>
+                            <div class="col-md-3 col-sm-8">
+                                <input type="text" class="form-control o_website_form_input" id="student_card" name="student_card" placeholder="Ej. ZP11002" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <label class="control-label" for="name">Apellidos</label>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <input type="text" class="form-control o_website_form_input" id="surnames" placeholder="Ej. López Pérez" name="name" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <label class="control-label" for="name">Nombres</label>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <input type="text" class="form-control o_website_form_input" placeholder="Ej. José Manuel" name="name" id="name" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <label class="control-label" for="email">Correo electrónico</label>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <input type="text" class="form-control o_website_form_input" placeholder="nombre@gmail.com" id="email" name="email" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <label class="control-label" for="year_entry">Año ingreso</label>
+                            </div>
+                            <div class="col-md-3 col-sm-8">
+                                <input type="text" class="form-control o_website_form_input" placeholder="2011" id="year_entry" name="year_entry" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <label class="control-label" for="year_egress">Año egreso</label>
+                            </div>
+                            <div class="col-md-3 col-sm-8">
+                                <input type="text" class="form-control o_website_form_input" placeholder="2015"  id="year_egress" name="year_egress" required=""/>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <label class="control-label" for="department_id">Departamento</label>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                    <select id="department_id" name="department_id" class="form-control" required="" onchange="giveSelection(this.value)">
+                                        <t t-foreach="departments" t-as="c">
+                                            <option t-att-value="c.id">
+                                                <t t-esc="c.name" />
+                                            </option>
+                                        </t>
+                                    </select>
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <label class="control-label" for="career_id">Carrera</label>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+
+                                <select id="career_id" name="career_id" class="form-control" required="">
+                                        <t t-foreach="careers" t-as="v">
+                                                <option t-att-data-option="v.department_id.id" t-att-value="v.id">
+                                                    <t t-esc="v.name" />
+                                                </option>
+                                        </t>
+                                </select>
+                            </div>
+                        </div>
+                        <script>
+                        var sel1 = document.querySelector('#department_id');
+                        var sel2 = document.querySelector('#career_id');
+                        var options2 = sel2.querySelectorAll('option');
+
+                        function giveSelection(selValue) {
+                          sel2.innerHTML = '';
+                          for(var i = 0; i &lt; options2.length; i++) {
+                            if(options2[i].dataset.option === selValue) {
+                              sel2.appendChild(options2[i]);
+                            }
+                          }
+                        }
+                        giveSelection(sel1.value);
+                        </script>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <label class="control-label" for="mobile">Telefono</label>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <input type="text" class="form-control o_website_form_input" id="mobile" placeholder="7431 4545"  name="mobile" required=""/>
+                            </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_required_custom">
+                            <div class="col-md-3 col-sm-4 text-right">
+                                <label class="control-label" for="street">Dirección</label>
+                            </div>
+                            <div class="col-md-7 col-sm-8">
+                                <input type="text" class="form-control o_website_form_input" placeholder="31 Calle Ote. Entre 10 y 12 Av..." name="street" required=""/>
+                            </div>
+                        </div>
+                        <h2 class="text-center">
+                            Adjuntos
+                        </h2>
+                        <style type="text/css">
+                            .thumb-image{
+                             float:left;width:150px;
+                             position:relative;
+                             padding:5px;
+                            }
+                        </style>
+                        <div class="form-group form-field o_website_form_custom">
+                          <div class="col-md-3 col-sm-4 text-right">
+                                <label for="image" class="control-label">Cargar foto</label>
+                          </div>
+                          <div class="col-md-7 col-sm-8">
+                                <input id="fileUpload" class="form-control o_website_form_input" required="" type="file" name="image"/> 
+                                <div id="image-holder"></div>
+                          </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_custom">
+                          <div class="col-md-3 col-sm-4 text-right">
+                            <label class="control-label" for="payment">Comprobantes de pago</label>
+                          </div>
+                          <div class="col-md-7 col-sm-8">
+                            <input type="file" required="" class="form-control o_website_form_input" name="payment"/>
+                          </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_custom">
+                          <div class="col-md-3 col-sm-4 text-right">
+                            <label class="control-label" for="letter">Carta de egresado</label>
+                          </div>
+                          <div class="col-md-7 col-sm-8">
+                            <input type="file" required="" class="form-control o_website_form_input" name="letter"/>
+                          </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_custom">
+                          <div class="col-md-3 col-sm-4 text-right">
+                            <label class="control-label" required="" for="social">Constancia de horas sociales</label>
+                          </div>
+                          <div class="col-md-7 col-sm-8">
+                            <input type="file" required="" class="form-control o_website_form_input" name="social"/>
+                          </div>
+                        </div>
+                        <div class="form-group form-field o_website_form_custom">
+                          <div class="col-md-3 col-sm-4 text-right">
+                            <label class="control-label" for="notes">Recod de notas</label>
+                          </div>
+                          <div class="col-md-7 col-sm-8">
+                            <input type="file" required="" class="form-control o_website_form_input" name="notes"/>
+                          </div>
+                        </div>
+                        <input type="hidden" name="customer" value="True"/>
+                        <input type="hidden" name="supplier" value="True"/>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-sm-offset-4 col-sm-8 col-md-7">
+                                <span class="btn btn-primary btn-lg o_website_form_send">Submit</span>
+                                <span id="o_website_form_result"></span>
+                            </div>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </t>
+</template>
+
+<template id="thankyou">
+    <t t-call="website.layout">
+        <div id="wrap">
+            <div class="oe_structure">
+                <div class="container">
+                    <h1>Thank you! este es de las res_partner</h1>
+                    <p>
+                        Your job application has been successfully registered,
+                        we will get back to you soon.
+                    </p>
+                </div>
+                <section class="oe_dark">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12 text-center mt16 mb16">
+                                <a href="/" class="btn btn-primary btn-lg">Continue To Our Website</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </t>
+</template>
+
+</odoo>

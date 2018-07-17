@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="menu_contrys" model="website.menu">
+            <field name="name">Contry</field>
+            <field name="url">/country</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">38</field>
+        </record>
+    </data>
+    <data>
+        <record id="base.model_res_country" model="ir.model">
+            <field name="website_form_access">True</field>
+            <field name="website_form_label">CRUD Country</field>
+        </record>
+        <function model="ir.model.fields" name="formbuilder_whitelist">
+            <value>res.country</value>
+            <value eval="[
+                'name',
+                'code',
+            ]"/>
+        </function>
+    </data>
+</odoo>

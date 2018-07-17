@@ -1,0 +1,1679 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="1">
+
+         <!-- Expense-related subtypes for messaging / Chatter -->
+        <record id="calendar.subtype_invitation" model="mail.message.subtype">
+            <field name="name">Invitation</field>
+            <field name="res_model">calendar.event</field>
+            <field name="description" eval="False"/>
+            <field name="default" eval="False"/>
+        </record>
+        <record id="alarm_notif_1" model="calendar.alarm">
+            <field name="name">15 Minute(s)</field>
+            <field name="duration" eval="15" />
+            <field name="interval">minutes</field>
+            <field name="type">notification</field>
+        </record>
+        <record id="alarm_notif_2" model="calendar.alarm">
+            <field name="name">30 Minute(s)</field>
+            <field name="duration" eval="30" />
+            <field name="interval">minutes</field>
+            <field name="type">notification</field>
+        </record>
+        <record id="alarm_notif_3" model="calendar.alarm">
+            <field name="name">1 Hour(s)</field>
+            <field name="duration" eval="1" />
+            <field name="interval">hours</field>
+            <field name="type">notification</field>
+        </record>
+        <record id="alarm_notif_4" model="calendar.alarm">
+            <field name="name">2 Hour(s)</field>
+            <field name="duration" eval="2" />
+            <field name="interval">hours</field>
+            <field name="type">notification</field>
+        </record>
+        <record id="alarm_notif_5" model="calendar.alarm">
+            <field name="name">1 Day(s)</field>
+            <field name="duration" eval="1" />
+            <field name="interval">days</field>
+            <field name="type">notification</field>
+        </record>
+        <record id="alarm_mail_1" model="calendar.alarm">
+            <field name="name">2~3 Hour(s) mail</field>
+            <field name="duration" eval="3" />
+            <field name="interval">hours</field>
+            <field name="type">email</field>
+        </record>
+        <record id="alarm_mail_2" model="calendar.alarm">
+            <field name="name">5~6 Hour(s) mail</field>
+            <field name="duration" eval="6" />
+            <field name="interval">hours</field>
+            <field name="type">email</field>
+        </record>
+
+        <record id="categ_meet1" model="calendar.event.type">
+            <field name="name">Customer Meeting</field>
+        </record>
+
+        <record id="categ_meet2" model="calendar.event.type">
+            <field name="name">Internal Meeting</field>
+        </record>
+
+        <record id="categ_meet3" model="calendar.event.type">
+            <field name="name">Off-site Meeting</field>
+        </record>
+
+        <record id="categ_meet4" model="calendar.event.type">
+            <field name="name">Open Discussion</field>
+        </record>
+
+        <record id="categ_meet5" model="calendar.event.type">
+            <field name="name">Feedback Meeting</field>
+        </record>
+
+        <record id="calendar_template_meeting_invitation" model="mail.template">
+            <field name="name">Calendar: Meeting Invitation</field>
+            <field name="email_from">${object.event_id.user_id.email or ''}</field>
+            <field name="subject">${object.event_id.name} invitation</field>
+            <field name="model_id" ref="calendar.model_calendar_attendee"/>
+            <field name="email_to" >${('' if object.partner_id and object.partner_id.email and object.partner_id.email==object.email else object.email|safe)}</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.email==object.email and object.partner_id.id or False }</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+
+
+<div style="background-color: rgb(9, 48, 87);">
+<!--[if gte mso 9]>
+<xml>
+<o:OfficeDocumentSettings>
+<o:AllowPNG></o:AllowPNG>
+<o:PixelsPerInch>96</o:PixelsPerInch>
+</o:OfficeDocumentSettings>
+</xml>
+<![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<title>   </title>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<style type="text/css">
+.ReadMsgBody{
+width:100%;
+background-color:#d9d9d9;
+}
+.ExternalClass{
+width:100%;
+background-color:#d9d9d9;
+}
+.ExternalClass,.ExternalClass p,.ExternalClass span,.ExternalClass font,.ExternalClass td,.ExternalClass div{
+line-height:100%;
+}
+#outlook a{
+padding:0;
+}
+html{
+width:100%;
+}
+body{
+-webkit-text-size-adjust:none;
+-ms-text-size-adjust:none;
+}
+html,body{
+background-color:#d9d9d9;
+margin:0;
+padding:0;
+}
+table{
+border-spacing:0;
+}
+table td{
+border-collapse:collapse;
+}
+br,strong br,b br,em br,i br{
+line-height:100%;
+}
+h1,h2,h3,h4,h5,h6{
+line-height:100% !important;
+-webkit-font-smoothing:antialiased;
+}
+img{
+height:auto !important;
+line-height:100%;
+outline:none;
+text-decoration:none;
+display:block !important;
+}
+span a{
+text-decoration:none !important;
+}
+a{
+text-decoration:none !important;
+}
+table p{
+margin:0;
+}
+.yshortcuts,.yshortcuts a,.yshortcuts a:link,.yshortcuts a:visited,.yshortcuts a:hover,.yshortcuts a span{
+text-decoration:none !important;
+border-bottom:none !important;
+}
+table{
+mso-table-lspace:0pt;
+mso-table-rspace:0pt;
+}
+img{
+-ms-interpolation-mode:bicubic;
+}
+body{
+-webkit-text-size-adjust:100%;
+}
+body{
+-ms-text-size-adjust:100%;
+}
+.default-edit-image{
+height:20px;
+}
+.nav-ul{
+margin-left:-23px !important;
+margin-top:0px !important;
+margin-bottom:0px !important;
+}
+img{
+height:auto !important;
+}
+ul {
+list-style: none;
+}
+ul li:before {
+content: "\25BA \0020";
+color: #EAAA00;
+}
+@media only screen and (max-width: 640px){
+body{
+width:auto!important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=container]{
+width:100%!important;
+padding-left:20px!important;
+padding-right:20px!important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=image-100-percent] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=full-width]{
+width:100% !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=center-width]{
+margin: 0 auto !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=indent-left]{
+margin: 0px 0px 0px 25px !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=remove]{
+display:none !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=remove]{
+display:none !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=fix-box]{
+padding-left:20px !important;
+padding-right:20px !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=fix-box]{
+padding-left:20px !important;
+padding-right:20px !important;
+}
+}   @media only screen and (max-width: 479px){
+body{
+font-size:18px !important;
+line-height:22px !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=container]{
+width:100%!important;
+padding-left:10px!important;
+padding-right:10px!important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=container2]{
+width:100%!important;
+float:none !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=full-width] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=image-100-percent] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=full-width]{
+width:100% !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 479px){
+div[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=fix-box]{
+padding-left:0px !important;
+padding-right:0px !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=fix-box]{
+padding-left:0px !important;
+padding-right:0px !important;
+}
+}   @media only screen and (max-width: 320px){
+img[class=image-100-percent]{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+} 
+.button5:hover {
+    border-color: rgb(146, 190, 45) !important;
+    background-color: rgb(146, 190, 45) !important;
+    border: 7px solid rgb(146, 190, 45) !important;
+    color: white !important;
+}
+</style>
+
+
+<div style="display:none;font-size:1px;color:#f5f6fa;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
+</div><table bgcolor="#093057" width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+<!--PREVIEW TEXT -->
+
+<!--END OF PREVIEW TEXT -->
+<!--start Main Logo Section-->
+<tbody><tr>
+<td bgcolor="#093057" align="center" valign="top">
+<table bgcolor="#FFFFFF" width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="container2" style="background-color: #ffffff; /*border: 1px solid #dedede;*/">
+<tbody><tr>
+<td bgcolor="#093057" height="1"><a href="http://link.edx.org/click/13644163.2557504/aHR0cDovL3d3dy5lZHgub3JnP3V0bV9zb3VyY2U9c2FpbHRocnUmdXRtX21lZGl1bT1lbWFpbCZ1dG1fY2FtcGFpZ249bmV3c2xldHRlcl9ndF9tYXN0ZXJzXzIwMTgwNjI4/59cb0f73cbcf48024f8b57fbB319375b3" data-original-title="" title=""><img src="http://link.edx.org/img/59cb0f73cbcf48024f8b57fb84fwj.1itds/db87d568.gif" alt="" border="0"></a></td>
+</tr>
+<tr>
+<td style="font-size: 16px; line-height: 18px; font-family:Arial,Tahoma, Helvetica, sans-serif; color:#666666; font-weight:normal; text-align:center;">
+<table bgcolor="#FFFFFF" width="100%" align="center" border="0" cellspacing="0" cellpadding="0" class="container2" style="background-color: #ffffff;">
+<tbody>
+<tr>
+  <td align="center" style="padding-top: 10px;">
+    <img src="https://www.ues.edu.sv/storage/app/media/minerva2.png" width="100">
+    <div style="font-family:'Open Sans', Arial, Helvetica, sans-serif;color:#414141;font-size: 20px;text-align:center;font-weight:400;padding-top: 15px;padding-bottom: 15px;">
+Universidad de El Salvador <br><br> Facultad Multidisciplinaria de Occidente
+    </div>
+  </td>
+</tr>
+<!-- End Main Logo Section-->
+<tr>
+<td bgcolor="#ffffff" align="center" valign="top">
+<div summary="o_mail_template" style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+% set colors = {'needsAction': 'grey', 'accepted': 'green', 'tentative': '#FFFF00',  'declined': 'red'}
+    </div><table width="560" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width" bgcolor="#ffffff" style="background-color:#ffffff;">
+<tbody><tr>
+<td height="10"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="10"></td>
+</tr>
+<tr>
+
+</tr></tbody></table><table cellspacing="0" cellpadding="0" style="width:600px;background:inherit;color:inherit;">
+        <tbody><tr>
+            <td valign="center" align="right" width="340" style="padding:10px 10px 10px 5px; font-size: 12px;">
+      <center>
+                <p>
+                    <a href="/calendar/meeting/accept?db=${'dbname' in ctx and ctx['dbname'] or ''}&amp;token=${object.access_token}&amp;action=${'action_id' in ctx and ctx['action_id'] or ''}&amp;id=${object.event_id.id}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:rgb(9, 48, 87); text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: rgb(9, 48, 87); border: 1px solid rgb(9, 48, 87); border-radius:3px">Aceptar</a>
+                    <a href="/calendar/meeting/decline?db=${'dbname' in ctx and ctx['dbname'] or '' }&amp;token=${object.access_token}&amp;action=${'action_id' in ctx and ctx['action_id'] or ''}&amp;id=${object.event_id.id}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:rgb(9, 48, 87); text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: rgb(9, 48, 87); border: 1px solid rgb(9, 48, 87);border-radius:3px">Rechazar</a>
+                    <a href="/calendar/meeting/view?db=${'dbname' in ctx and ctx['dbname'] or ''}&amp;token=${object.access_token}&amp;action=${'action_id' in ctx and ctx['action_id'] or ''}&amp;id=${object.event_id.id}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:rgb(9, 48, 87); text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: rgb(9, 48, 87); border: 1px solid rgb(9, 48, 87); border-radius:3px">Ver</a>
+                </p>
+      </center>
+            </td>
+        </tr></tbody>
+    </table>
+    <table cellspacing="0" cellpadding="0" style="width:600px;background:inherit;color:inherit">
+        <tbody><tr>
+            <td valign="top" style="width:600px; padding:10px 10px 10px 5px;">
+                <div>
+                    <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0;margin:15px auto;padding:0">
+                </div>
+            </td>
+        </tr></tbody>
+    </table>
+
+<div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+    <table cellspacing="0" cellpadding="0" style="width:600px;background:inherit;color:inherit;padding-left: 7px !important;">
+        <tbody><tr>
+            <td style="padding:10px 10px 10px 5px;font-size: 14px;">
+                <p style="font-size: 20px; text-align: center;">Invitación para <strong>${object.event_id.name}</strong></p>
+                <br><br>
+                <p>
+                    <strong>Estimado/a ${object.common_name}</strong>,<br>
+                    Esta invitado/a a la reunión titulada ${object.event_id.name}, dicho evento es gestionado por medio de la plataforma de trabajos de grado.</p><br>
+                    <p>Es importante que confirme si podra o no prodra asistir a dicho evento, para ello puede dar click en el boton correspondiente, ubicados en la parte superior de este correo.</p><br>
+                    <p>Saludos cordiales</p>
+                <table style="margin-top: 20px;"><tbody><tr>
+                    <td>
+                        <div style="border-top-left-radius:3px;border-top-right-radius:3px;font-size:12px;border-collapse:separate;text-align:center;font-weight:bold;color:#ffffff;min-height: 18px;background:rgb(9, 48, 87);padding-top: 4px;">
+                            ${object.event_id.get_interval('dayname', tz=object.partner_id.tz if not object.event_id.allday else None)}
+                        </div>
+                        <div style="font-size:48px;min-height:auto;font-weight:bold;text-align:center;color: #5F5F5F;background-color: #F8F8F8;width: 130px;border:1px solid rgb(9, 48, 87);padding-top: 21px;    padding-bottom: 21px;">
+                            ${object.event_id.get_interval('day', tz=object.partner_id.tz if not object.event_id.allday else None)}
+                        </div>
+                        <div style="font-size:12px;text-align:center;font-weight:bold;color:#ffffff;background-color:rgb(9, 48, 87)">${object.event_id.get_interval('month', tz=object.partner_id.tz if not object.event_id.allday else None)}</div>
+                        <div style="border-collapse:separate;color: #5F5F5F;text-align:center;width: 130px;font-size:12px;border-bottom-right-radius:3px;font-weight:bold;border:1px solid rgb(9, 48, 87);border-bottom-left-radius:3px;">${not object.event_id.allday and object.event_id.get_interval('time', tz=object.partner_id.tz) or ''}</div>
+                    </td>
+                    <td width="20px;"></td>
+                    <td>
+                        <p>Detalles del evento</p>
+                        <ul>
+                        % if object.event_id.location:
+                            <li>Localización: ${object.event_id.location}
+                            (<a href="http://maps.google.com/maps?oi=map&amp;q=${object.event_id.location}">Ver Mapa</a>)
+                            </li>
+                        % endif
+                        % if object.event_id.description :
+                            <li>Descripción: ${object.event_id.description}</li>
+                        % endif
+                        % if not object.event_id.allday and object.event_id.duration
+                            <li>Duración: ${('%dH%02d' % (object.event_id.duration,(object.event_id.duration*60)%60))}</li>
+                        % endif
+                        <li>Asistentes
+                        <ul>
+                        % for attendee in object.event_id.attendee_ids:
+                            <li>
+                                <div style="display:inline-block; border-radius: 50%; width:10px; height:10px;background:${colors[attendee.state] or 'white'};"></div>
+                                % if attendee.common_name != object.common_name:
+                                <span style="margin-left:5px">${attendee.common_name}</span>
+                                % else:
+                                <span style="margin-left:5px">Usted</span>
+                                % endif
+                            </li>
+                        % endfor
+                        </ul></li>
+                        </ul>
+                    </td>
+                </tr></tbody></table>
+            </td>
+        </tr></tbody>
+    </table>
+</div>
+
+</td></tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td bgcolor="#ffffff" align="center" valign="top">
+<table width="560" class="full-width" border="0" cellspacing="0" cellpadding="0" align="center">
+<tbody><tr>
+<td height="20"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="20"></td>
+</tr>
+<tr>
+<td valign="top">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td height="15"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="15"></td>
+</tr>
+<tr>
+<td align="center" style="font-family: 'Open Sans',Arial, Helvetica, sans-serif; color:#3e3e40; font-size:10px; /*text-align:center;*/ line-height:20px; mso-line-height-rule: exactly; padding:5px; font-weight:normal;">
+<div style="text-align: center;">
+  Ave Fray Felipe De Jesus Moraga Sur, Santa Ana
+</div>
+<table border="0" cellpadding="0" cellspacing="0" style="padding: 10px; width: 100%;">
+<tbody>
+<tr>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td height="20"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="20"></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<!--End Footer-->                                                         
+<tr>
+<td height="5"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="5"></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+
+<br>
+
+</div>
+
+                ]]></field>
+        </record>
+
+        <record id="calendar_template_meeting_changedate" model="mail.template">
+            <field name="name">Calendar: Date updated</field>
+            <field name="email_from">${object.event_id.user_id.email or ''}</field>
+            <field name="subject">${object.event_id.name}: Date updated</field>
+            <field name="model_id" ref="calendar.model_calendar_attendee"/>
+            <field name="email_to" >${('' if object.partner_id and object.partner_id.email and object.partner_id.email==object.email else object.email|safe)}</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.email==object.email and object.partner_id.id or False }</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+
+
+
+<div style="background-color: rgb(9, 48, 87);">
+<!--[if gte mso 9]>
+<xml>
+<o:OfficeDocumentSettings>
+<o:AllowPNG></o:AllowPNG>
+<o:PixelsPerInch>96</o:PixelsPerInch>
+</o:OfficeDocumentSettings>
+</xml>
+<![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<title>   </title>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<style type="text/css">
+.ReadMsgBody{
+width:100%;
+background-color:#d9d9d9;
+}
+.ExternalClass{
+width:100%;
+background-color:#d9d9d9;
+}
+.ExternalClass,.ExternalClass p,.ExternalClass span,.ExternalClass font,.ExternalClass td,.ExternalClass div{
+line-height:100%;
+}
+#outlook a{
+padding:0;
+}
+html{
+width:100%;
+}
+body{
+-webkit-text-size-adjust:none;
+-ms-text-size-adjust:none;
+}
+html,body{
+background-color:#d9d9d9;
+margin:0;
+padding:0;
+}
+table{
+border-spacing:0;
+}
+table td{
+border-collapse:collapse;
+}
+br,strong br,b br,em br,i br{
+line-height:100%;
+}
+h1,h2,h3,h4,h5,h6{
+line-height:100% !important;
+-webkit-font-smoothing:antialiased;
+}
+img{
+height:auto !important;
+line-height:100%;
+outline:none;
+text-decoration:none;
+display:block !important;
+}
+span a{
+text-decoration:none !important;
+}
+a{
+text-decoration:none !important;
+}
+table p{
+margin:0;
+}
+.yshortcuts,.yshortcuts a,.yshortcuts a:link,.yshortcuts a:visited,.yshortcuts a:hover,.yshortcuts a span{
+text-decoration:none !important;
+border-bottom:none !important;
+}
+table{
+mso-table-lspace:0pt;
+mso-table-rspace:0pt;
+}
+img{
+-ms-interpolation-mode:bicubic;
+}
+body{
+-webkit-text-size-adjust:100%;
+}
+body{
+-ms-text-size-adjust:100%;
+}
+.default-edit-image{
+height:20px;
+}
+.nav-ul{
+margin-left:-23px !important;
+margin-top:0px !important;
+margin-bottom:0px !important;
+}
+img{
+height:auto !important;
+}
+ul {
+list-style: none;
+}
+ul li:before {
+content: "\25BA \0020";
+color: #EAAA00;
+}
+@media only screen and (max-width: 640px){
+body{
+width:auto!important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=container]{
+width:100%!important;
+padding-left:20px!important;
+padding-right:20px!important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=image-100-percent] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=full-width]{
+width:100% !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=center-width]{
+margin: 0 auto !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=indent-left]{
+margin: 0px 0px 0px 25px !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=remove]{
+display:none !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=remove]{
+display:none !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=fix-box]{
+padding-left:20px !important;
+padding-right:20px !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=fix-box]{
+padding-left:20px !important;
+padding-right:20px !important;
+}
+}   @media only screen and (max-width: 479px){
+body{
+font-size:18px !important;
+line-height:22px !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=container]{
+width:100%!important;
+padding-left:10px!important;
+padding-right:10px!important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=container2]{
+width:100%!important;
+float:none !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=full-width] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=image-100-percent] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=full-width]{
+width:100% !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 479px){
+div[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=fix-box]{
+padding-left:0px !important;
+padding-right:0px !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=fix-box]{
+padding-left:0px !important;
+padding-right:0px !important;
+}
+}   @media only screen and (max-width: 320px){
+img[class=image-100-percent]{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+} 
+.button5:hover {
+    border-color: rgb(146, 190, 45) !important;
+    background-color: rgb(146, 190, 45) !important;
+    border: 7px solid rgb(146, 190, 45) !important;
+    color: white !important;
+}
+</style>
+
+
+<div style="display:none;font-size:1px;color:#f5f6fa;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
+</div><table bgcolor="#093057" width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+<!--PREVIEW TEXT -->
+
+<!--END OF PREVIEW TEXT -->
+<!--start Main Logo Section-->
+<tbody><tr>
+<td bgcolor="#093057" align="center" valign="top">
+<table bgcolor="#FFFFFF" width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="container2" style="background-color: #ffffff; /*border: 1px solid #dedede;*/">
+<tbody><tr>
+<td bgcolor="#093057" height="1"><a href="http://link.edx.org/click/13644163.2557504/aHR0cDovL3d3dy5lZHgub3JnP3V0bV9zb3VyY2U9c2FpbHRocnUmdXRtX21lZGl1bT1lbWFpbCZ1dG1fY2FtcGFpZ249bmV3c2xldHRlcl9ndF9tYXN0ZXJzXzIwMTgwNjI4/59cb0f73cbcf48024f8b57fbB319375b3" data-original-title="" title=""><img src="http://link.edx.org/img/59cb0f73cbcf48024f8b57fb84fwj.1itds/db87d568.gif" alt="" border="0"></a></td>
+</tr>
+<tr>
+<td style="font-size: 16px; line-height: 18px; font-family:Arial,Tahoma, Helvetica, sans-serif; color:#666666; font-weight:normal; text-align:center;">
+<table bgcolor="#FFFFFF" width="100%" align="center" border="0" cellspacing="0" cellpadding="0" class="container2" style="background-color: #ffffff;">
+<tbody>
+<tr>
+  <td align="center" style="padding-top: 10px;">
+    <img src="https://www.ues.edu.sv/storage/app/media/minerva2.png" width="100">
+    <div style="font-family:'Open Sans', Arial, Helvetica, sans-serif;color:#414141;font-size: 20px;text-align:center;font-weight:400;padding-top: 15px;padding-bottom: 15px;">
+Universidad de El Salvador <br><br> Facultad Multidisciplinaria de Occidente
+    </div>
+  </td>
+</tr>
+<!-- End Main Logo Section-->
+<tr>
+<td bgcolor="#ffffff" align="center" valign="top">
+<div summary="o_mail_template" style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+% set colors = {'needsAction': 'grey', 'accepted': 'green', 'tentative': '#FFFF00',  'declined': 'red'}
+    </div><table width="560" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width" bgcolor="#ffffff" style="background-color:#ffffff;">
+<tbody><tr>
+<td height="10"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="10"></td>
+</tr>
+<tr>
+
+
+
+
+
+</tr></tbody></table><table cellspacing="0" cellpadding="0" style="width:600px;background:inherit;color:inherit">
+        <tbody><tr>
+            <td valign="center" align="right" width="340" style="padding:10px 10px 10px 15px; font-size: 12px;">
+    <center>
+                <p>
+                    <a href="/calendar/meeting/accept?db=${'dbname' in ctx and ctx['dbname'] or ''}&amp;token=${object.access_token}&amp;action=${'action_id' in ctx and ctx['action_id'] or ''}&amp;id=${object.event_id.id}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:rgb(9,48,87); text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: rgb(9,48,87); border: 1px solid rgb(9,48,87); border-radius:3px">Aceptar</a>
+                    <a href="/calendar/meeting/decline?db=${'dbname' in ctx and ctx['dbname'] or '' }&amp;token=${object.access_token}&amp;action=${'action_id' in ctx and ctx['action_id'] or ''}&amp;id=${object.event_id.id}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:rgb(9,48,87); text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: rgb(9,48,87); border: 1px solid rgb(9,48,87); border-radius:3px">Rechazar</a>
+                    <a href="/calendar/meeting/view?db=${'dbname' in ctx and ctx['dbname'] or ''}&amp;token=${object.access_token}&amp;action=${'action_id' in ctx and ctx['action_id'] or ''}&amp;id=${object.event_id.id}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:rgb(9,48,87); text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: rgb(9,48,87); border: 1px solid rgb(9,48,87); border-radius:3px">Ver</a>
+                </p>
+    </center>
+            </td>
+        </tr></tbody>
+    </table>
+    <table cellspacing="0" cellpadding="0" style="width:600px;background:inherit;color:inherit">
+        <tbody><tr>
+            <td valign="top" style="width:600px; padding:10px 10px 10px 15px;">
+                <div>
+                    <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0;margin:15px auto;padding:0">
+                </div>
+            </td>
+        </tr></tbody>
+    </table>
+
+<div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+    <table cellspacing="0" cellpadding="0" style="width:600px;background:inherit;color:inherit">
+        <tbody><tr>
+            <td style="padding:10px 10px 10px 15px;font-size: 14px;">
+    <p style="font-size: 20px;color:red">Fecha actualizada</p><br>
+                <p style="font-size: 20px; text-align: center;"><strong>${object.event_id.name}</strong></p><br>
+                <p>
+                    <strong>Estimado/a ${object.common_name}</strong>,<br><br>
+                    La fecha de la reunión se ha actualizado. La reunión:<strong>  ${object.event_id.name} </strong> esta programada para <strong>${object.event_id.get_display_time_tz(tz=object.partner_id.tz)}</strong>.
+                </p><br>
+    <p>
+    Es importante que confirme si podra o no prodra asistir a dicho evento con la fecha actualizada, para ello puede dar click en el boton correspondiente, ubicados en la parte superior de este correo.
+    </p><br>
+    <p>
+    Saludos cordiales
+    </p>
+                <table style="margin-top: 20px;"><tbody><tr>
+                    <td>
+                        <div style="border-top-left-radius:3px;border-top-right-radius:3px;font-size:12px;border-collapse:separate;text-align:center;font-weight:bold;color:#ffffff;min-height: 18px;background:rgb(9,48,87);padding-top: 4px;">
+                            ${object.event_id.get_interval('dayname', tz=object.partner_id.tz if not object.event_id.allday else None)}
+                        </div>
+                        <div style="padding-top: 21px;padding-bottom: 21px;font-size:48px;min-height:auto;font-weight:bold;text-align:center;color: #5F5F5F;background-color: #F8F8F8;width: 130px;border:1px solid rgb(9,48,87);">
+                            ${object.event_id.get_interval('day', tz=object.partner_id.tz if not object.event_id.allday else None)}
+                        </div>
+                        <div style="font-size:12px;text-align:center;font-weight:bold;color:#ffffff;background-color:rgb(9,48,87)">${object.event_id.get_interval('month', tz=object.partner_id.tz if not object.event_id.allday else None)}</div>
+                        <div style="border-collapse:separate;color: #5F5F5F;text-align:center;width: 130px;font-size:12px;border-bottom-right-radius:3px;font-weight:bold;border:1px solid rgb(9,48,87);border-bottom-left-radius:3px;">${not object.event_id.allday and object.event_id.get_interval('time', tz=object.partner_id.tz) or ''}</div>
+                    </td>
+                    <td width="20px;"></td>
+                    <td>
+                        <p>Detalles del evento</p>
+                        <ul>
+                        % if object.event_id.location:
+                            <li>Localización: ${object.event_id.location}
+                            (<a href="http://maps.google.com/maps?oi=map&amp;q=${object.event_id.location}">Ver mapa</a>)
+                            </li>
+                        % endif
+                        % if object.event_id.description :
+                            <li>Descripción: ${object.event_id.description}</li>
+                        % endif
+                        % if not object.event_id.allday and object.event_id.duration
+                            <li>Duración: ${('%dH%02d' % (object.event_id.duration,(object.event_id.duration*60)%60))}</li>
+                        % endif
+                        <li>Asistentes
+                        <ul>
+                        % for attendee in object.event_id.attendee_ids:
+                            <li>
+                                <div style="display:inline-block; border-radius: 50%; width:10px; height:10px;background:${colors[attendee.state] or 'white'};"></div>
+                                % if attendee.common_name != object.common_name:
+                                <span style="margin-left:5px">${attendee.common_name}</span>
+                                % else:
+                                <span style="margin-left:5px">Usted</span>
+                                % endif
+                            </li>
+                        % endfor
+                        </ul></li>
+                        </ul>
+                    </td>
+                </tr></tbody></table>
+            </td>
+        </tr></tbody>
+    </table>
+</div>
+
+
+
+
+
+</td></tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td bgcolor="#ffffff" align="center" valign="top">
+<table width="560" class="full-width" border="0" cellspacing="0" cellpadding="0" align="center">
+<tbody><tr>
+<td height="20"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="20"></td>
+</tr>
+<tr>
+<td valign="top">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td height="15"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="15"></td>
+</tr>
+<tr>
+<td align="center" style="font-family: 'Open Sans',Arial, Helvetica, sans-serif; color:#3e3e40; font-size:10px; /*text-align:center;*/ line-height:20px; mso-line-height-rule: exactly; padding:5px; font-weight:normal;">
+<div style="text-align: center;">
+  Ave Fray Felipe De Jesus Moraga Sur, Santa Ana
+</div>
+<table border="0" cellpadding="0" cellspacing="0" style="padding: 10px; width: 100%;">
+<tbody>
+<tr>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td height="20"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="20"></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<!--End Footer-->                                                         
+<tr>
+<td height="5"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="5"></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+
+
+
+
+
+
+<br>
+
+</div>
+
+
+
+]]></field>
+        </record>
+
+        <record id="calendar_template_meeting_reminder" model="mail.template">
+            <field name="name">Calendar: Reminder</field>
+            <field name="email_from">${object.event_id.user_id.email or ''}</field>
+            <field name="subject">${object.event_id.name} - Reminder</field>
+            <field name="model_id" ref="calendar.model_calendar_attendee"/>
+            <field name="email_to" >${('' if object.partner_id and object.partner_id.email and object.partner_id.email==object.email else object.email|safe)}</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.email==object.email and object.partner_id.id or False }</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+<div summary="o_mail_template" style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+% set colors = {'needsAction': 'grey', 'accepted': 'green', 'tentative': '#FFFF00',  'declined': 'red'}
+    <table cellspacing="0" cellpadding="0" style="width:600px;border-collapse:collapse;background:inherit;color:inherit">
+        <tbody><tr>
+            <td valign="center" width="200" style="padding:10px 10px 10px 5px;font-size: 12px">
+                <img src="/logo.png" style="padding: 0px; margin: 0px; height: auto; width: 80px;" alt="${user.company_id.name}">
+            </td>
+            <td valign="center" align="right" width="340" style="padding:10px 10px 10px 5px; font-size: 12px;">
+                <p>
+                    <a href="/calendar/meeting/accept?db=${'dbname' in ctx and ctx['dbname'] or ''}&token=${object.access_token}&action=${'action_id' in ctx and ctx['action_id'] or ''}&id=${object.event_id.id}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#875A7B; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius:3px">Accept</a>
+                    <a href="/calendar/meeting/decline?db=${'dbname' in ctx and ctx['dbname'] or '' }&token=${object.access_token}&action=${'action_id' in ctx and ctx['action_id'] or ''}&id=${object.event_id.id}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#875A7B; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius:3px">Decline</a>
+                    <a href="/calendar/meeting/view?db=${'dbname' in ctx and ctx['dbname'] or ''}&token=${object.access_token}&action=${'action_id' in ctx and ctx['action_id'] or ''}&id=${object.event_id.id}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#875A7B; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius:3px">View</a>
+                </p>
+            </td>
+        </tr></tbody>
+    </table>
+    <table cellspacing="0" cellpadding="0" style="width:600px;border-collapse:collapse;background:inherit;color:inherit">
+        <tbody><tr>
+            <td valign="top" style="width:600px; padding:10px 10px 10px 5px;">
+                <div>
+                    <hr width="100%" style="background-color:rgb(204,204,204);border:medium none;clear:both;display:block;font-size:0px;min-height:1px;line-height:0;margin:15px auto;padding:0">
+                </div>
+            </td>
+        </tr></tbody>
+    </table>
+</div>
+<div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
+    <table cellspacing="0" cellpadding="0" style="width:600px;border-collapse:collapse;background:inherit;color:inherit">
+        <tbody><tr>
+            <td style="padding:10px 10px 10px 5px;font-size: 14px;">
+                <p style="font-size: 20px; text-align: center;">Reminder for <strong>${object.event_id.name}</strong></p>
+                <p>
+                    <strong>Dear ${object.common_name}</strong>,<br />
+                    This is a reminder for the below event :
+                </p>
+                <table style="margin-top: 20px;"><tr>
+                    <td>
+                        <div style="border-top-left-radius:3px;border-top-right-radius:3px;font-size:12px;border-collapse:separate;text-align:center;font-weight:bold;color:#ffffff;width:130px;min-height: 18px;background:#875A7B;padding-top: 4px;">
+                            ${object.event_id.get_interval('dayname', tz=object.partner_id.tz if not object.event_id.allday else None)}
+                        </div>
+                        <div style="font-size:48px;min-height:auto;font-weight:bold;text-align:center;color: #5F5F5F;background-color: #F8F8F8;width: 130px;border:1px solid #875A7B;">
+                            ${object.event_id.get_interval('day', tz=object.partner_id.tz if not object.event_id.allday else None)}
+                        </div>
+                        <div style='font-size:12px;text-align:center;font-weight:bold;color:#ffffff;background-color:#875A7B'>${object.event_id.get_interval('month', tz=object.partner_id.tz if not object.event_id.allday else None)}</div>
+                        <div style="border-collapse:separate;color: #5F5F5F;text-align:center;width: 130px;font-size:12px;border-bottom-right-radius:3px;font-weight:bold;border:1px solid #875A7B;border-bottom-left-radius:3px;">${not object.event_id.allday and object.event_id.get_interval('time', tz=object.partner_id.tz) or ''}</div>
+                    </td>
+                    <td width="20px;"/>
+                    <td>
+                        <p>Details of the event</p>
+                        <ul>
+                        % if object.event_id.location:
+                            <li>Location: ${object.event_id.location}
+                            (<a href="http://maps.google.com/maps?oi=map&q=${object.event_id.location}">View Map</a>)
+                            </li>
+                        % endif
+                        % if object.event_id.description :
+                            <li>Description: ${object.event_id.description}</li>
+                        % endif
+                        % if not object.event_id.allday and object.event_id.duration
+                            <li>Duration: ${('%dH%02d' % (object.event_id.duration,(object.event_id.duration*60)%60))}</li>
+                        % endif
+                        <li>Attendees
+                        <ul>
+                        % for attendee in object.event_id.attendee_ids:
+                            <li>
+                                <div style="display:inline-block; border-radius: 50%; width:10px; height:10px;background:${colors[attendee.state] or 'white'};"></div>
+                                % if attendee.common_name != object.common_name:
+                                <span style="margin-left:5px">${attendee.common_name}</span>
+                                % else:
+                                <span style="margin-left:5px">You</span>
+                                % endif
+                            </li>
+                        % endfor
+                        </ul></li>
+                        </ul>
+                    </td>
+                </tr></table>
+            </td>
+        </tr></tbody>
+    </table>
+</div>]]></field>
+        </record>
+
+
+        <record id="calendar_template_meeting_confirm" model="mail.template">
+            <field name="name">Calendar: Confimar</field>
+            <field name="email_from">${object.event_id.user_id.email or ''}</field>
+            <field name="subject">${object.event_id.name} - Reminder</field>
+            <field name="model_id" ref="calendar.model_calendar_attendee"/>
+            <field name="email_to" >${('' if object.partner_id and object.partner_id.email and object.partner_id.email==object.email else object.email|safe)}</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.email==object.email and object.partner_id.id or False }</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+
+
+
+
+
+
+<div style="background-color: rgb(9, 48, 87);">
+<!--[if gte mso 9]>
+<xml>
+<o:OfficeDocumentSettings>
+<o:AllowPNG></o:AllowPNG>
+<o:PixelsPerInch>96</o:PixelsPerInch>
+</o:OfficeDocumentSettings>
+</xml>
+<![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<title>   </title>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<style type="text/css">
+.ReadMsgBody{
+width:100%;
+background-color:#d9d9d9;
+}
+.ExternalClass{
+width:100%;
+background-color:#d9d9d9;
+}
+.ExternalClass,.ExternalClass p,.ExternalClass span,.ExternalClass font,.ExternalClass td,.ExternalClass div{
+line-height:100%;
+}
+#outlook a{
+padding:0;
+}
+html{
+width:100%;
+}
+body{
+-webkit-text-size-adjust:none;
+-ms-text-size-adjust:none;
+}
+html,body{
+background-color:#d9d9d9;
+margin:0;
+padding:0;
+}
+table{
+border-spacing:0;
+}
+table td{
+border-collapse:collapse;
+}
+br,strong br,b br,em br,i br{
+line-height:100%;
+}
+h1,h2,h3,h4,h5,h6{
+line-height:100% !important;
+-webkit-font-smoothing:antialiased;
+}
+img{
+height:auto !important;
+line-height:100%;
+outline:none;
+text-decoration:none;
+display:block !important;
+}
+span a{
+text-decoration:none !important;
+}
+a{
+text-decoration:none !important;
+}
+table p{
+margin:0;
+}
+.yshortcuts,.yshortcuts a,.yshortcuts a:link,.yshortcuts a:visited,.yshortcuts a:hover,.yshortcuts a span{
+text-decoration:none !important;
+border-bottom:none !important;
+}
+table{
+mso-table-lspace:0pt;
+mso-table-rspace:0pt;
+}
+img{
+-ms-interpolation-mode:bicubic;
+}
+body{
+-webkit-text-size-adjust:100%;
+}
+body{
+-ms-text-size-adjust:100%;
+}
+.default-edit-image{
+height:20px;
+}
+.nav-ul{
+margin-left:-23px !important;
+margin-top:0px !important;
+margin-bottom:0px !important;
+}
+img{
+height:auto !important;
+}
+ul {
+list-style: none;
+}
+ul li:before {
+content: "\25BA \0020";
+color: #EAAA00;
+}
+@media only screen and (max-width: 640px){
+body{
+width:auto!important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=container]{
+width:100%!important;
+padding-left:20px!important;
+padding-right:20px!important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=image-100-percent] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=full-width]{
+width:100% !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=center-width]{
+margin: 0 auto !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=indent-left]{
+margin: 0px 0px 0px 25px !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=remove]{
+display:none !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=remove]{
+display:none !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=fix-box]{
+padding-left:20px !important;
+padding-right:20px !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=fix-box]{
+padding-left:20px !important;
+padding-right:20px !important;
+}
+}   @media only screen and (max-width: 479px){
+body{
+font-size:18px !important;
+line-height:22px !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=container]{
+width:100%!important;
+padding-left:10px!important;
+padding-right:10px!important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=container2]{
+width:100%!important;
+float:none !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=full-width] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=image-100-percent] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=full-width]{
+width:100% !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 479px){
+div[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=fix-box]{
+padding-left:0px !important;
+padding-right:0px !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=fix-box]{
+padding-left:0px !important;
+padding-right:0px !important;
+}
+}   @media only screen and (max-width: 320px){
+img[class=image-100-percent]{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+} 
+.button5:hover {
+    border-color: rgb(146, 190, 45) !important;
+    background-color: rgb(146, 190, 45) !important;
+    border: 7px solid rgb(146, 190, 45) !important;
+    color: white !important;
+}
+</style>
+
+
+<div style="display:none;font-size:1px;color:#f5f6fa;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
+</div><table bgcolor="#093057" width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+<!--PREVIEW TEXT -->
+
+<!--END OF PREVIEW TEXT -->
+<!--start Main Logo Section-->
+<tbody><tr>
+<td bgcolor="#093057" align="center" valign="top">
+<table bgcolor="#FFFFFF" width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="container2" style="background-color: #ffffff; /*border: 1px solid #dedede;*/">
+<tbody><tr>
+<td bgcolor="#093057" height="1"><a href="http://link.edx.org/click/13644163.2557504/aHR0cDovL3d3dy5lZHgub3JnP3V0bV9zb3VyY2U9c2FpbHRocnUmdXRtX21lZGl1bT1lbWFpbCZ1dG1fY2FtcGFpZ249bmV3c2xldHRlcl9ndF9tYXN0ZXJzXzIwMTgwNjI4/59cb0f73cbcf48024f8b57fbB319375b3" data-original-title="" title=""><img src="http://link.edx.org/img/59cb0f73cbcf48024f8b57fb84fwj.1itds/db87d568.gif" alt="" border="0"></a></td>
+</tr>
+<tr>
+<td style="font-size: 16px; line-height: 18px; font-family:Arial,Tahoma, Helvetica, sans-serif; color:#666666; font-weight:normal; text-align:center;">
+<table bgcolor="#FFFFFF" width="100%" align="center" border="0" cellspacing="0" cellpadding="0" class="container2" style="background-color: #ffffff;">
+<tbody>
+<tr>
+  <td align="center" style="padding-top: 10px;">
+    <img src="https://www.ues.edu.sv/storage/app/media/minerva2.png" width="100">
+    <div style="font-family:'Open Sans', Arial, Helvetica, sans-serif;color:#414141;font-size: 20px;text-align:center;font-weight:400;padding-top: 15px;padding-bottom: 15px;">
+Universidad de El Salvador <br><br> Facultad Multidisciplinaria de Occidente
+    </div>
+  </td>
+</tr>
+<!-- End Main Logo Section-->
+<tr>
+<td bgcolor="#ffffff" align="center" valign="top">
+<table width="560" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width" bgcolor="#ffffff" style="background-color:#ffffff;">
+<tbody><tr>
+<td height="10"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="10"></td>
+</tr>
+<tr>
+<td valign="top" align="center" class="image-100-percent"><a href="https://www.ues.edu.sv"><img editable="" src="https://static1.squarespace.com/static/58b7028b2994cad995a168a7/t/5ae3973b03ce646146d37f6c/1490386889361/SEN-Meet-HD-Meetings.png" width="550" style="border-radius: 5px;display:block !important; max-width:550px;"></a></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td bgcolor="#ffffff" align="center" valign="top">
+<table width="560" class="full-width" border="0" cellspacing="0" cellpadding="0" align="center">
+<tbody><tr>
+<td height="20"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="20"></td>
+</tr>
+<tr>
+<td valign="top">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td height="15"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="15"></td>
+</tr>
+<tr>
+<td align="left" style="font-family: 'Open Sans',Arial, Helvetica, sans-serif; color:#3e3e40; font-size:16px; /*text-align:center;*/ line-height:20px; mso-line-height-rule: exactly; padding:5px; font-weight:normal;">
+<div style="text-align: justify;">
+Informarle que <strong>${object.common_name} </strong> ha confirmado que <strong style="color: green;">si asistirá a la reunión</strong> titulada: 
+<br><br>
+<center><strong>“${object.event_id.name}"</strong></center>
+<center><strong>Fecha:&nbsp;</strong><strong style="background-color: transparent; font-style: initial; font-variant-ligatures: initial; font-variant-caps: initial;">${object.event_id.display_time}</strong></center>
+<br><br>              
+Saludos cordiales.
+<br><br>
+Atentamente, Plataforma de trabajos de grado online.  
+</div>
+<table border="0" cellpadding="0" cellspacing="0" style="padding: 10px; width: 100%;">
+<tbody>
+<tr>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td height="20"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="20"></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<!--End Footer-->                                                         
+<tr>
+<td height="5"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="5"></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+
+
+
+<br>
+
+</div>
+
+
+
+            ]]></field>
+        </record>
+
+        <record id="calendar_template_meeting_refuse" model="mail.template">
+            <field name="name">Calendar: Rechazar</field>
+            <field name="email_from">${object.event_id.user_id.email or ''}</field>
+            <field name="subject">${object.event_id.name} - Reminder</field>
+            <field name="model_id" ref="calendar.model_calendar_attendee"/>
+            <field name="email_to" >${('' if object.partner_id and object.partner_id.email and object.partner_id.email==object.email else object.email|safe)}</field>
+            <field name="partner_to">${object.partner_id and object.partner_id.email and object.partner_id.email==object.email and object.partner_id.id or False }</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html"><![CDATA[
+
+
+
+
+
+<div style="background-color: rgb(9, 48, 87);">
+<!--[if gte mso 9]>
+<xml>
+<o:OfficeDocumentSettings>
+<o:AllowPNG></o:AllowPNG>
+<o:PixelsPerInch>96</o:PixelsPerInch>
+</o:OfficeDocumentSettings>
+</xml>
+<![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<title>   </title>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<style type="text/css">
+.ReadMsgBody{
+width:100%;
+background-color:#d9d9d9;
+}
+.ExternalClass{
+width:100%;
+background-color:#d9d9d9;
+}
+.ExternalClass,.ExternalClass p,.ExternalClass span,.ExternalClass font,.ExternalClass td,.ExternalClass div{
+line-height:100%;
+}
+#outlook a{
+padding:0;
+}
+html{
+width:100%;
+}
+body{
+-webkit-text-size-adjust:none;
+-ms-text-size-adjust:none;
+}
+html,body{
+background-color:#d9d9d9;
+margin:0;
+padding:0;
+}
+table{
+border-spacing:0;
+}
+table td{
+border-collapse:collapse;
+}
+br,strong br,b br,em br,i br{
+line-height:100%;
+}
+h1,h2,h3,h4,h5,h6{
+line-height:100% !important;
+-webkit-font-smoothing:antialiased;
+}
+img{
+height:auto !important;
+line-height:100%;
+outline:none;
+text-decoration:none;
+display:block !important;
+}
+span a{
+text-decoration:none !important;
+}
+a{
+text-decoration:none !important;
+}
+table p{
+margin:0;
+}
+.yshortcuts,.yshortcuts a,.yshortcuts a:link,.yshortcuts a:visited,.yshortcuts a:hover,.yshortcuts a span{
+text-decoration:none !important;
+border-bottom:none !important;
+}
+table{
+mso-table-lspace:0pt;
+mso-table-rspace:0pt;
+}
+img{
+-ms-interpolation-mode:bicubic;
+}
+body{
+-webkit-text-size-adjust:100%;
+}
+body{
+-ms-text-size-adjust:100%;
+}
+.default-edit-image{
+height:20px;
+}
+.nav-ul{
+margin-left:-23px !important;
+margin-top:0px !important;
+margin-bottom:0px !important;
+}
+img{
+height:auto !important;
+}
+ul {
+list-style: none;
+}
+ul li:before {
+content: "\25BA \0020";
+color: #EAAA00;
+}
+@media only screen and (max-width: 640px){
+body{
+width:auto!important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=container]{
+width:100%!important;
+padding-left:20px!important;
+padding-right:20px!important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=image-100-percent] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=full-width]{
+width:100% !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=center-width]{
+margin: 0 auto !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=indent-left]{
+margin: 0px 0px 0px 25px !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=remove]{
+display:none !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=remove]{
+display:none !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=fix-box]{
+padding-left:20px !important;
+padding-right:20px !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=fix-box]{
+padding-left:20px !important;
+padding-right:20px !important;
+}
+}   @media only screen and (max-width: 479px){
+body{
+font-size:18px !important;
+line-height:22px !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=container]{
+width:100%!important;
+padding-left:10px!important;
+padding-right:10px!important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=container2]{
+width:100%!important;
+float:none !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=full-width] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=image-100-percent] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=full-width]{
+width:100% !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 479px){
+div[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=fix-box]{
+padding-left:0px !important;
+padding-right:0px !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=fix-box]{
+padding-left:0px !important;
+padding-right:0px !important;
+}
+}   @media only screen and (max-width: 320px){
+img[class=image-100-percent]{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+} 
+.button5:hover {
+    border-color: rgb(146, 190, 45) !important;
+    background-color: rgb(146, 190, 45) !important;
+    border: 7px solid rgb(146, 190, 45) !important;
+    color: white !important;
+}
+</style>
+
+
+<div style="display:none;font-size:1px;color:#f5f6fa;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
+</div><table bgcolor="#093057" width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+<!--PREVIEW TEXT -->
+
+<!--END OF PREVIEW TEXT -->
+<!--start Main Logo Section-->
+<tbody><tr>
+<td bgcolor="#093057" align="center" valign="top">
+<table bgcolor="#FFFFFF" width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="container2" style="background-color: #ffffff; /*border: 1px solid #dedede;*/">
+<tbody><tr>
+<td bgcolor="#093057" height="1"><a href="http://link.edx.org/click/13644163.2557504/aHR0cDovL3d3dy5lZHgub3JnP3V0bV9zb3VyY2U9c2FpbHRocnUmdXRtX21lZGl1bT1lbWFpbCZ1dG1fY2FtcGFpZ249bmV3c2xldHRlcl9ndF9tYXN0ZXJzXzIwMTgwNjI4/59cb0f73cbcf48024f8b57fbB319375b3" data-original-title="" title=""><img src="http://link.edx.org/img/59cb0f73cbcf48024f8b57fb84fwj.1itds/db87d568.gif" alt="" border="0"></a></td>
+</tr>
+<tr>
+<td style="font-size: 16px; line-height: 18px; font-family:Arial,Tahoma, Helvetica, sans-serif; color:#666666; font-weight:normal; text-align:center;">
+<table bgcolor="#FFFFFF" width="100%" align="center" border="0" cellspacing="0" cellpadding="0" class="container2" style="background-color: #ffffff;">
+<tbody>
+<tr>
+  <td align="center" style="padding-top: 10px;">
+    <img src="https://www.ues.edu.sv/storage/app/media/minerva2.png" width="100">
+    <div style="font-family:'Open Sans', Arial, Helvetica, sans-serif;color:#414141;font-size: 20px;text-align:center;font-weight:400;padding-top: 15px;padding-bottom: 15px;">
+Universidad de El Salvador <br><br> Facultad Multidisciplinaria de Occidente
+    </div>
+  </td>
+</tr>
+<!-- End Main Logo Section-->
+<tr>
+<td bgcolor="#ffffff" align="center" valign="top">
+<table width="560" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width" bgcolor="#ffffff" style="background-color:#ffffff;">
+<tbody><tr>
+<td height="10"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="10"></td>
+</tr>
+<tr>
+<td valign="top" align="center" class="image-100-percent"><a href="https://www.ues.edu.sv"><img editable="" src="https://static1.squarespace.com/static/58b7028b2994cad995a168a7/t/5ae3973b03ce646146d37f6c/1490386889361/SEN-Meet-HD-Meetings.png" width="550" style="border-radius: 5px;display:block !important; max-width:550px;"></a></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td bgcolor="#ffffff" align="center" valign="top">
+<table width="560" class="full-width" border="0" cellspacing="0" cellpadding="0" align="center">
+<tbody><tr>
+<td height="20"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="20"></td>
+</tr>
+<tr>
+<td valign="top">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+<tbody>
+<tr>
+<td height="15"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="15"></td>
+</tr>
+<tr>
+<td align="left" style="font-family: 'Open Sans',Arial, Helvetica, sans-serif; color:#3e3e40; font-size:16px; /*text-align:center;*/ line-height:20px; mso-line-height-rule: exactly; padding:5px; font-weight:normal;">
+<div style="text-align: justify;">
+<center>
+<img editable="" src="http://www.iconsplace.com/icons/preview/orange/error-256.png" width="70" style="border-radius: 5px;display:block !important; max-width:550px;">
+</center>
+Informarle que <strong>${object.common_name} </strong> ha notificado que <strong style="color: red;">no podra asistir a la reunión</strong> titulada: 
+<br><br>
+<center><strong>“${object.event_id.name}"</strong></center>
+<center><strong>Fecha:&nbsp;</strong><strong style="background-color: transparent; font-style: initial; font-variant-ligatures: initial; font-variant-caps: initial;">${object.event_id.display_time}</strong></center>
+<br><br>              
+Saludos cordiales.
+<br><br>
+Atentamente, Plataforma de trabajos de grado online.  
+</div>
+<table border="0" cellpadding="0" cellspacing="0" style="padding: 10px; width: 100%;">
+<tbody>
+<tr>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td height="20"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="20"></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<!--End Footer-->                                                         
+<tr>
+<td height="5"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="5"></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+
+<br>
+
+</div>
+
+
+            ]]></field>
+        </record>
+
+    </data>
+</odoo>
