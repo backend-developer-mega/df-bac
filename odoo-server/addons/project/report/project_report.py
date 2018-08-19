@@ -18,6 +18,7 @@ class ReportProjectTaskUser(models.Model):
     date_deadline = fields.Date(string='Deadline', readonly=True)
     date_last_stage_update = fields.Datetime(string='Last Stage Update', readonly=True)
     project_id = fields.Many2one('project.project', string='Project', readonly=True)
+    career_id = fields.Many2one('hr.job', "Carrera")
     closing_days = fields.Float(string='# Days to Close',
         digits=(16,2), readonly=True, group_operator="avg",
         help="Number of Days to close the task")
@@ -52,6 +53,7 @@ class ReportProjectTaskUser(models.Model):
                     abs((extract('epoch' from (t.write_date-t.date_start)))/(3600*24))  as no_of_days,
                     t.user_id,
                     t.project_id,
+                    t.career_id,
                     t.priority,
                     t.name as name,
                     t.company_id,
@@ -76,6 +78,7 @@ class ReportProjectTaskUser(models.Model):
                     date_last_stage_update,
                     t.user_id,
                     t.project_id,
+                    t.career_id,
                     t.priority,
                     name,
                     t.company_id,

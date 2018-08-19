@@ -338,17 +338,16 @@
         <div id="wrap">
             <div class="oe_structure">
                 <div class="container">
-                    <h1>Thank you! este es de las res_partner</h1>
+                    <h1>Solicitud enviada exitosamente</h1>
                     <p>
-                        Your job application has been successfully registered,
-                        we will get back to you soon.
+                        Ya se ha realizado el envio de la solicitud de usuario a la plataforma de trabajos de grado, en este momento se te ha enviado un mensaje de correo electronico informandote sobre la realización de este solicitud.
                     </p>
                 </div>
                 <section class="oe_dark">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12 text-center mt16 mb16">
-                                <a href="/" class="btn btn-primary btn-lg">Continue To Our Website</a>
+                                <a href="/" class="btn btn-primary btn-lg">Continuar en el sitio</a>
                             </div>
                         </div>
                     </div>

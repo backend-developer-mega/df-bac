@@ -148,6 +148,38 @@ class Project(models.Model):
     _order = "sequence, name, id"
     _period_number = 5
 
+    @api.multi
+    def project_filter_kanban(self):
+        partner_id_actu = self.env['res.users'].search([('id', '=', self.env.uid)],limit=1).partner_id
+        department_actu = self.env['res.partner'].search([('id', '=', partner_id_actu.id)],limit=1).department_id.id
+        domain = []
+        #_logger.info('-----self.env.uid---------->  %s ', self.env.uid)
+        if self.env.uid != 15:
+            domain = [('department.id','=',department_actu)]
+        return {
+            'name': _('Departamento'),
+            'domain': domain,
+            'res_model': 'project.project',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'kanban,form',
+            'help': _('''<p class="oe_view_nocontent_create">
+                        Temas de grados inscritos por departamento.
+                    </p>'''),
+            'limit': 80,
+            'context': '{}'
+        }
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False, submenu=False):
+        res = super(Project, self).fields_view_get(view_id=view_id, view_type=view_type, toolbar=toolbar, submenu=submenu)
+        doc = etree.XML(res['arch'])
+        if view_type == 'kanban':
+            for node_form in doc.xpath("//kanban"):
+                node_form.set("create", 'false')
+        res['arch'] = etree.tostring(doc)
+        return res
+
     def get_alias_model_name(self, vals):
         return vals.get('alias_model', 'project.task')
 
@@ -390,6 +422,7 @@ class Task(models.Model):
     _mail_post_access = 'read'
     _order = "priority desc, sequence, date_start, name, id"
 
+
     @api.model
     def default_get(self, field_list):
         """ Set 'date_assign' if user_id is set. """
@@ -499,6 +532,7 @@ class Task(models.Model):
     student_ids = fields.Many2many('res.partner', 'project_members', 'project_members_id_project_task', 'project_members_id_res_partner', required=True, string="Integrantes")
     email_cc = fields.Char(string='Correos integrantes')
     stage_end_related = fields.Boolean(related='stage_id.end_stage', readonly=True, string='Es la etapa final')
+    career_id = fields.Many2one('hr.job', "Carrera", default=lambda self: self.applicant_id.job_id.id)
 
     @api.multi
     def action_makeMeeting(self):

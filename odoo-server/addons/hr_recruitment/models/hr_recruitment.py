@@ -130,6 +130,34 @@ class Applicant(models.Model):
                 return ids[0]
         return False
 
+    def _default_stage_domain_ids(self):
+        if self._context.get('default_job_id'):
+            ids_stage_personalized = self.env['hr.recruitment.stage'].search([
+                ('job_id', '=', self._context['default_job_id'])
+            ], order='sequence asc').ids
+            if ids_stage_personalized:
+                return ids
+            ids = self.env['hr.recruitment.stage'].search([
+                ('job_id', '=', False)
+            ], order='sequence asc').ids
+            if ids:
+                return ids
+        return False
+
+    def _default_stage_domain(self):
+        if self._context.get('default_job_id'):
+            ids_stage_personalized = self.env['hr.recruitment.stage'].search([
+                ('job_id', '=', self._context['default_job_id'])
+            ], order='sequence asc').ids
+            if ids_stage_personalized:
+                return "[('job_id', '=', job_id)]"
+            ids = self.env['hr.recruitment.stage'].search([
+                ('job_id', '=', False)
+            ], order='sequence asc').ids
+            if ids:
+                return "[('job_id', '=', False)]"
+        return False
+
     def _default_company_id(self):
         company_id = False
         if self._context.get('default_department_id'):
@@ -150,7 +178,8 @@ class Applicant(models.Model):
     create_date = fields.Datetime("Creation Date", readonly=True, index=True)
     write_date = fields.Datetime("Update Date", readonly=True)
     stage_id = fields.Many2one('hr.recruitment.stage', 'Stage', track_visibility='onchange',
-                               domain="['|', ('job_id', '=', False), ('job_id', '=', job_id)]",
+                               #domain="['|', ('job_id', '=', False), ('job_id', '=', job_id)]",
+                               domain=_default_stage_domain,
                                copy=False, index=True,
                                group_expand='_read_group_stage_ids',
                                default=_default_stage_id)
@@ -219,10 +248,23 @@ class Applicant(models.Model):
         # retrieve job_id from the context and write the domain: ids + contextual columns (job or default)
         job_id = self._context.get('default_job_id')
         search_domain = [('job_id', '=', False)]
-        if job_id:
-            search_domain = ['|', ('job_id', '=', job_id)] + search_domain
-        if stages:
-            search_domain = ['|', ('id', 'in', stages.ids)] + search_domain
+        ids_stage_personalized = self.env['hr.recruitment.stage'].search([
+                ('job_id', '=', self._context['default_job_id'])
+                ], order='sequence asc').ids
+        if ids_stage_personalized:
+            search_domain = [('job_id', '=', job_id)]
+            stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
+            return stages.browse(stage_ids)
+        ids = self.env['hr.recruitment.stage'].search([
+                ('job_id', '=', False)
+                ], order='sequence asc').ids
+        if ids:
+            search_domain = [('job_id', '=', False)]
+
+        # if job_id:
+        #     search_domain = ['|', ('job_id', '=', job_id)] + search_domain
+        # if stages:
+        #     search_domain = ['|', ('id', 'in', stages.ids)] + search_domain
 
         stage_ids = stages._search(search_domain, order=order, access_rights_uid=SUPERUSER_ID)
         return stages.browse(stage_ids)
