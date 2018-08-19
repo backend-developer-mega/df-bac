@@ -12,5 +12,84 @@
                 </header></xpath>
             </field>
        </record>
+
+       <record id="task_type_edit_inherited" model="ir.ui.view">
+            <field name="name">task_type_edit.form</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_edit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='percentage']" position="after">
+                    <field name="end_stage" />  
+                </xpath>
+            </field>
+       </record>
+
+       <record id="view_task_form2_inherited" model="ir.ui.view">
+            <field name="name">form_view_topic_grade.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='tag_ids']" position="after">
+                    <field name="stage_end_related" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='date_deadline']" position="replace">
+                    <field name="date_deadline" string="Fecha finalización"/>
+                </xpath>
+                <xpath expr="//field[@name='date_deadline']" position="before">
+                    <field name="create_date" string="Fecha inicio" readonly="1" />
+                </xpath>
+                <xpath expr="//sheet/div/button[1]" position="after">
+                    <button attrs="{'invisible':[('stage_end_related', '=', False)]}" name="action_view_report_server" class="oe_stat_button" icon="fa-mortar-board" type="object"
+                         help="Programar reuniones de asesorias">
+                        <div class="o_form_field o_stat_info">
+                            <span class="o_stat_text">Acta de cierre</span>
+                         </div>
+                    </button>
+                </xpath>
+            </field>
+       </record>
+
+        <record id="view_project_grade_report" model="ir.ui.view">
+            <field name="name">project.report.grade.form</field>
+            <field name="model">project.report.grade</field>
+            <field name="arch" type="xml">
+                <form string="Acta de cierre" create="0" delete="0">
+                    <header>
+                        <button name="%(project_report_pdf.project_report_open_wizard)d" type="action" string="Reportes" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="name_end" />
+                            <field name="project_task_id" invisible="1" />
+                        </group>
+                        <separator string="Acta de defensa de trabajo de grado"/>
+                        <group>
+                            <group string="Generalidades">
+                                <field name="date_defending" />
+                                <field name="date_defending_end" />
+                            </group>
+                            <group string="Miembros del Tribunal Calificador">
+                                <field name="name_president" />
+                                <field name="name_secretary" />
+                                <field name="name_vocal" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_project_grade_report_tree" model="ir.ui.view">
+            <field name="name">project.report.grade.tree</field>
+            <field name="model">project.report.grade</field>
+            <field name="arch" type="xml">
+                <tree string="Acta de cierre" create="0" delete="0">
+                    <field name="name" />
+                    <field name="project_task_id" />
+                </tree>
+            </field>
+        </record>
+
     </data>
 </odoo>

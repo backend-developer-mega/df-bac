@@ -136,7 +136,9 @@
                                 </group>
 
                             </group>
-                            <label for="description" string="Comentarios después de la reunión"/>
+                            <label for="observation" string="Observaciones"/>
+                            <field name="observation"/>
+                            <label for="description" string="Trabajo para la proxima reunión"/>
                             <field name="description"/>
                         </page>
                         <page string="Options" invisible="1" >

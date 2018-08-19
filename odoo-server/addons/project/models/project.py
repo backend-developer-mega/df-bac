@@ -7,6 +7,7 @@ from odoo import api, fields, models, tools, SUPERUSER_ID, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.safe_eval import safe_eval
 
+
 class ProjectTaskTypeCriterion(models.Model):
     _name = 'project.criterion'
     _description = 'Criterio'
@@ -99,9 +100,6 @@ class ProjectEvaluation(models.Model):
 
 
 
-        
-
-
 class ProjectTaskType(models.Model):
     _name = 'project.task.type'
     _description = 'Task Stage'
@@ -140,7 +138,7 @@ class ProjectTaskType(models.Model):
         help='This stage is folded in the kanban view when there are no records in that stage to display.')
     percentage = fields.Float(string='% Porcentaje', digits=(16, 2))
     criterions_ids = fields.One2many('project.criterion', 'project_stage_id', string="Criterios de la evaluación")
-
+    end_stage = fields.Boolean(string='Etapa final')
 
 class Project(models.Model):
     _name = "project.project"
@@ -500,6 +498,7 @@ class Task(models.Model):
     legend_normal = fields.Char(related='stage_id.legend_normal', string='Kanban Ongoing Explanation', readonly=True)
     student_ids = fields.Many2many('res.partner', 'project_members', 'project_members_id_project_task', 'project_members_id_res_partner', required=True, string="Integrantes")
     email_cc = fields.Char(string='Correos integrantes')
+    stage_end_related = fields.Boolean(related='stage_id.end_stage', readonly=True, string='Es la etapa final')
 
     @api.multi
     def action_makeMeeting(self):
@@ -537,6 +536,24 @@ class Task(models.Model):
                     </p>'''),
             'limit': 80,
             'context': '{"readonly_by_pass": True}'
+        }
+
+    @api.multi
+    def action_view_report_server(self):
+        domain = [('project_task_id','=',self.id)]
+        return {
+            'name': _('Acta de cierre'),
+            'domain': domain, 
+            'res_model': 'project.report.grade',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': 'tree,form',
+            'help': _('''<p class="oe_view_nocontent_create">
+                        Ah ocurrido un error.</p><p>
+                        Cada trabajo de grado debe tener sus reportes.
+                    </p>'''),
+            'limit': 80,
+            'context': ''
         }
 
 

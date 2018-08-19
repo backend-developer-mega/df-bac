@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-     <template id="project_report_template">
+     <template id="project_report_template2">
           <!--<t t-foreach="docs" t-as="doc">-->
          <t t-call="report.html_container">
 
@@ -74,5 +74,280 @@
               </t>
             </t>
          <!--</t>-->
+     </template>
+
+     <template id="project_report_template">
+        <t t-call="report.html_container">
+            <t t-set="note" t-value="get_note"/>
+            <t t-set="doc4" t-value="get_list_model_task"/>
+            <t t-set="doc5" t-value="get_list_model_issue"/>
+            <t t-set="doc6" t-value="get_list_model_binnacle"/>
+            <t t-call="report.external_layout">
+                <div class="page">
+<p t-if="doc4 == 2">
+<p style="text-align: center;"><strong>UNIVERSIDAD DE EL SALVADOR</strong></p>
+<p style="text-align: center;">FACULTAD MULTIDISCIPLINARIA DE OCCIDENTE</p>
+<p style="text-align: center;text-transform: uppercase;">DEPARTAMENTO DE <span t-field="doc.project_task_id.applicant_id.department_id.name"/></p>
+<h3 style="text-align: center;"><strong>ACTA DE APROBACION DE TRABAJO DE GRADUACIÓN</strong></h3>
+<p>El presente documento consta de dos partes:</p>
+<p>1.- El Acta de Defensa del Trabajo de Grado ratificada por el Tribunal Evaluador.</p>
+<p>2.- El cuadro de calificaciones de todo el Proceso por parte del Docente Director del Proceso.</p>
+<p>Todo lo anterior con el visto bueno del Jefe del Departamento y el sello correspondiente. A continuacion el detalle de cada una de las partes.</p>
+<p> <strong>a)</strong> <strong>ACTA DE DEFENSA DE TRABAJO DE GRADO</strong></p>
+<p>En el Campus de la Facultad Multidisciplinaria de Occidente, <strong><span t-field="doc.name"/>,</strong> con base a lo que se establece en la Etapa III del Articulos 203 del Reglamento de la Gestion Academico-Administrativa de la Universidad de El Salvador, en relacion a la exposicion y defensa oral del informe Final de la investigacion, se establece el Tribunal Calificador integrado por los Ingenieros <strong><span t-field="doc.name_president"/>, <span t-field="doc.name_secretary"/>, <span t-field="doc.name_vocal"/> </strong>nombrados para evaluar el Trabajo de Grado titulado <strong><em>"</em></strong><strong><span t-field="doc.project_task_id.name"/></strong><strong>"</strong>realizado en el periodo  del <strong><span t-field="doc.project_task_id.create_date"/> al <span t-field="doc.project_task_id.date_deadline"/></strong> por los(as) bachilleres: 
+<br></br><t t-foreach="doc.project_task_id.student_ids" t-as="student"> <span t-field="student.student_card"/>  <span t-field="student.name"/> <br></br></t> Como un requisito para optar al grado academico de <strong> Ingeniero/ra </strong></p>
+<p><strong>Antes de iniciar el acto:</strong> Los miembros del Tribunal Calificador se organizaron y como resultado, el Tribunal quedo integrado de la siguiente manera:</p>
+<p><strong><span t-field="doc.name_president"/></strong> <strong>(Presidente)</strong></p>
+<p><strong><span t-field="doc.name_secretary"/></strong> <strong>(Secretario)</strong></p>
+<p><strong><span t-field="doc.name_vocal"/></strong> <strong>(Vocal)</strong></p>
+<p>Procedieron los bachilleres a hacer la exposicion de contenido del trabajo de grado  y las conclusiones obtenidas del mismo, haciendo especial mencion en sus aportaciones principales.</p>
+<p align="justify">Terminada la exposicion  del trabajo de grado, los miembros del Tribunal Evaluador, pasaron a exponer su opinion sobre la misma, formulando cuantas cuestiones, ampliaciones y objeciones consideraron oportunas, las cuales fueron contestadas por los bachilleres. Dichas observaciones fueron registradas por el Docente Director, quien valorara la incorporacion de las mismas en el Documento Final.</p>
+<p align="justify">Tras la intervencion de los miembros de la mesa y las oportunas contestaciones de los bachilleres, se abrio  un turno de intervenciones para los presentes en el acto publico, a fin de formular  preguntas  pertinentes a la tematica tratada. </p>
+<p align="justify">Terminada esta fase de intervencion y luego de recopilar las calificaciones y observaciones de esta Defensa Oral de cada uno de los miembros del Tribunal Calificador por parte del Docente Director; este, procede a Promediar los resultados de la Evaluacion de esta actividad, la cual se consigna en la presente Acta en el siguiente cuadro:</p>    
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th style="width: 200px; text-align: center; border-color: black;" >Nombre</th>
+      <th style="width: 100px; text-align: center; border-color: black;" >Carne</th>
+      <th style="width: 100px; text-align: center; border-color: black;" >Calificacion (en numero)</th>
+      <th style="width: 200px; text-align: center; border-color: black;" >Calificacion (en letras)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <t t-foreach="get_note" t-as="b">
+        <t t-foreach="b" t-as="l">
+            <tr>  
+              <td><span t-att-style="style" t-esc="l['name']"/></td>
+              <td><center><span t-att-style="style" t-esc="l['card']"/></center></td>
+              <td><center><span t-att-style="style" t-esc="l['average']"/></center></td>
+              <td><center><span t-att-style="style" t-esc="l['average_letter']"/></center></td>
+            </tr>
+        </t>
+    </t>
+  </tbody>
+</table>
+
+
+<p> </p>
+<p align="justify">Por tanto este Tribunal Calificador por este medio da Fe de que se ha realizado la Exposicion y Defensa del Informe Final de Investigacion, habiendo cumplido con las exigencias planteadas en e<strong>l </strong>Reglamento de la Gestion Academico-Administrativa de la  Universidad de El Salvador.</p>
+<p align="justify">No habiendo mas que constar, se cierra el acto de la Exposicion y Defensa del Informe Final de Investigacion del Trabajo de Grado <span t-field="doc.name_end"/>.</p>
+<br> </br>
+<p>FIRMAS</p>
+<br> </br>
+<br> </br>
+<br> </br>
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>  
+      <td><center><strong>Ing. <span t-field="doc.name_president"/></strong></center></td>
+      <td><center><strong>Ing. <span t-field="doc.name_secretary"/></strong></center></td>
+      <td><center><strong>Ing. <span t-field="doc.name_vocal"/></strong></center></td>
+    </tr>
+    <tr>  
+      <td><center>Presidente</center></td>
+      <td><center>Secretario</center></td>
+      <td><center>Vocal</center></td>
+    </tr>
+  </tbody>
+</table>
+
+
+<p><strong>b) CUADRO DE CALIFICACIONES DEL DOCENTE DIRECTOR</strong></p>
+<p align="justify">El infrascrito Docente Director de este Proceso de Grado                                              <strong>, </strong> por este medio adjunta los resultados obtenidos en el Proceso de Graduacion para un grupo de Egresados de  <strong>la carrera <span t-field="doc.project_task_id.applicant_id.job_id.name"/></strong>  que administra el Departamento de <span t-field="doc.project_task_id.applicant_id.department_id.name"/>.</p>
+<p>El tema desarrollado por los/el estudiante(s) fue : <strong>"<span t-field="doc.project_task_id.name"/>"
+</strong><strong>".</strong></p>
+<p><strong> </strong></p>
+<p>El trabajo se efectuo desde el <strong><span t-field="doc.project_task_id.create_date"/> hasta <span t-field="doc.project_task_id.date_deadline"/></strong></p>
+<p> </p>
+<p>Los resultados obtenidos a lo largo del Proceso de Grado, fueron los siguientes:</p>
+<table class="table table-condensed">
+<tbody>
+<tr>
+<td width="96"> </td>
+<td width="79">
+<p> </p>
+</td>
+<td colspan="2" width="172">
+<p><center><strong>ETAPA I</strong></center></p>
+</td>
+<td colspan="2" width="193">
+<p><center><strong>ETAPA II</strong></center></p>
+</td>
+<td colspan="1" width="149">
+<p><center><strong>ETAPA III</strong></center></p>
+</td>
+<td width="67">
+<p> </p>
+</td>
+</tr>
+<tr>
+<td width="200">
+<p>Nombres </p>
+</td>
+<td width="79">
+<p>Carne</p>
+</td>
+<td width="61">
+<p style="text-align: center;font-size:10px;">Proceso Formativo I (10%)</p>
+</td>
+<td width="57">
+<p style="text-align: center;font-size:10px;">Proyecto (20%)</p>
+</td>
+<!--
+<td width="53">
+<p style="text-align: center;font-size:10px;">Nota de Etapa I (30%)</p>
+</td>
+-->
+<td width="70">
+<p style="text-align: center;font-size:10px;">Proceso Formativo II (10%)</p>
+</td>
+<td width="71">
+<p style="text-align: center;font-size:10px;">Documento Final (40%)</p>
+</td>
+<!--
+<td width="52">
+<p style="text-align: center;font-size:10px;">Nota de Etapa II (50%)</p>
+</td>
+-->
+<td width="74">
+<p style="text-align: center;font-size:10px;">Presentacion Oral Final (20%)</p>
+</td>
+<!--
+<td width="74">
+<p style="text-align: center;font-size:10px;" >Nota de la Presentacion oral final (20%)</p>
+</td>
+-->
+<td width="67">
+<p style="text-align: center;font-size:20px;"><center><strong>Nota Final</strong></center></p>
+</td>
+</tr>
+    <t t-foreach="get_note_resumen" t-as="b">
+        <t t-foreach="b" t-as="l">
+<tr>  
+<td width="96" style="font-size:10px;"><p><strong><span t-att-style="style" t-esc="l['name']"/></strong></p></td>
+<td width="79"><p><span t-att-style="style" t-esc="l['card']"/></p></td>
+
+<t t-foreach="l['notes']" t-as="n">
+    <td width="61"><center><span t-att-style="style" t-esc="n['average']"/></center></td>
+</t>
+<!--
+<td width="61"><p><center><span t-att-style="style" t-esc="l['average']"/></center></p></td>
+<td width="57"><p><center><span t-att-style="style" t-esc="l['average']"/></center></p></td>
+<td width="53"><p><center><span t-att-style="style" t-esc="l['average']"/></center></p></td>
+<td width="70"><p><center><span t-att-style="style" t-esc="l['average']"/></center></p></td>
+<td width="71"><p><center><span t-att-style="style" t-esc="l['average']"/></center></p></td>
+
+<td width="52"><p><center><span t-att-style="style" t-esc="l['card']"/></center></p></td>
+<td width="74"><p><center><span t-att-style="style" t-esc="l['card']"/></center></p></td>
+<td width="74"><p><center><span t-att-style="style" t-esc="l['card']"/></center></p></td>
+-->
+<td width="67"><center><strong><span t-att-style="style" t-esc="l['global_not']"/></strong></center></td>
+
+</tr>
+        </t>
+    </t> 
+</tbody>
+</table>
+<p> </p>
+<p>Dado en la Facultad Multidisciplinaria de Occidente <span t-field="doc.name_end"/>.</p>
+<center>
+<br> </br>
+<br> </br>
+<p> </p>
+<p> ______________________________________</p>
+<p> Ing. <span t-field="doc.project_task_id.user_id"/></p>
+<p>                        Docente Director</p>
+<p> </p>
+<p> </p>
+<br> </br>
+<br> </br>
+<p>_________________________________        Sello</p>
+<p><span t-field="doc.project_task_id.applicant_id.department_head"/></p>
+<p>Jefe del Departamento de <span t-field="doc.project_task_id.applicant_id.department_id.name"/></p>
+</center>
+</p>
+                <p style="page-break-after:always;"></p>
+<p t-if="doc5 == 2">
+
+<p style="text-align: center;"><strong>UNIVERSIDAD DE EL SALVADOR</strong></p>
+<p style="text-align: center;">FACULTAD MULTIDISCIPLINARIA DE OCCIDENTE</p>
+<p style="text-align: center;text-transform: uppercase;">DEPARTAMENTO DE <span t-field="doc.project_task_id.applicant_id.department_id.name"/></p>
+<h3 style="text-align: center;"><strong>NOTAS DEL PROCESO DE GRADO</strong></h3>
+<br></br>
+
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th style="width: 200px; text-align: center; border-color: black;" >Nombre</th>
+      <th style="width: 100px; text-align: center; border-color: black;" >Carne</th>
+      <th style="width: 100px; text-align: center; border-color: black;" >Evaluación</th>
+      <th style="width: 200px; text-align: center; border-color: black;" >Criterio</th>
+      <th style="width: 200px; text-align: center; border-color: black;" >Porcentaje</th>
+      <th style="width: 200px; text-align: center; border-color: black;" >Nota</th>
+    </tr>
+  </thead>
+  <tbody>
+    <t t-foreach="get_note_list" t-as="b">
+        <t t-foreach="b" t-as="l">
+            <tr>  
+              <td><span t-att-style="style" t-esc="l['name']"/></td>
+              <td><center><span t-att-style="style" t-esc="l['card']"/></center></td>
+              <td><center><span t-att-style="style" t-esc="l['name_evaluation']"/></center></td>
+              <td><center><span t-att-style="style" t-esc="l['name_criterion']"/></center></td>
+              <td><center><span t-att-style="style" t-esc="l['percentage_criterion']"/>%</center></td>
+              <td><center><strong><span t-att-style="style" t-esc="l['note']"/></strong></center></td>
+            </tr>
+        </t>
+    </t>
+  </tbody>
+</table>
+
+</p>
+                <p style="page-break-after:always;"></p>
+<p t-if="doc6 == 2">
+<p style="text-align: center;"><strong>UNIVERSIDAD DE EL SALVADOR</strong></p>
+<p style="text-align: center;">FACULTAD MULTIDISCIPLINARIA DE OCCIDENTE</p>
+<p style="text-align: center;text-transform: uppercase;">DEPARTAMENTO DE <span t-field="doc.project_task_id.applicant_id.department_id.name"/></p>
+<h3 style="text-align: center;"><strong>CONTROL ADMINISTRATIVO DE TRABAJO DE GRADO</strong></h3>
+<h4 style="text-align: center;text-transform: uppercase;">"<span t-field="doc.project_task_id.name"/>"</h4>
+<br></br>
+
+<table class="table table-condensed">
+  <thead>
+    <tr>
+      <th style="width: 100px; text-align: center; border-color: black;" >Identificador</th>
+      <th style="width: 100px; text-align: center; border-color: black;" >Fecha</th>
+      <th style="width: 100px; text-align: center; border-color: black;" >Asunto</th>
+      <th style="width: 300px; text-align: center; border-color: black;" >Observaciones</th>
+      <th style="width: 300px; text-align: center; border-color: black;" >Act. Proxima Reunión</th>
+    </tr>
+  </thead>
+  <tbody>
+    <t t-foreach="get_binnacle_list" t-as="b">
+        <t t-foreach="b" t-as="l">
+            <tr>  
+              <td>BICTA-<span t-att-style="style" t-esc="l['id']"/></td>
+              <td><center><span t-att-style="style" t-esc="l['date']"/></center></td>
+              <td><center><span t-att-style="style" t-esc="l['name']"/></center></td>
+              <td><center><span t-att-style="style" t-esc="l['observation']"/></center></td>
+              <td><center><span t-att-style="style" t-esc="l['description']"/></center></td>
+            </tr>
+        </t>
+    </t>
+  </tbody>
+</table>
+
+</p>
+                </div>
+            </t>
+            
+        </t>
      </template>
 </odoo>

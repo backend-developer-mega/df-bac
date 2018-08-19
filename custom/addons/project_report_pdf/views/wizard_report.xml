@@ -6,23 +6,22 @@
             <field name="model">wizard.project.report</field>
             <field name="arch" type="xml">
                 <form string="Select period">
-
                         <group>
                             <group>
-                                <field name="task_select"/>
-                                <field name="issue_select"/>
+                                <field name="task_select" string="Acta de final" />
+                                <field name="issue_select" string="Notas del proceso de grado"/>
                             </group>
                             <group >
+                                <field name="binnacle_select" string="Bitacoras del proceso de grado"/>
+                                <!--
                                 <field name="partner_select" widget="many2many_tags"/>
                                 <field name="stage_select" widget="many2many_tags"/>
+                                -->
                             </group>
                         </group>
 
                     <footer>
-                        <button name="print_project_report_pdf" type="object" string="Print PDF" class="oe_highlight"/>
-                        or
-                        <button name="print_project_report_xls" type="object" string="Print XLS" class="oe_highlight"/>
-                        or
+                        <button name="print_project_report_pdf" type="object" string="Generar PDF" class="oe_highlight"/>
                         <button special="cancel" string="Cancel"/>
                     </footer>
                 </form>
