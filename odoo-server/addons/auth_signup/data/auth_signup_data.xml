@@ -24,31 +24,340 @@
             <field name="email_to">${object.email|safe}</field>
             <field name="subject">Password reset</field>
             <field name="body_html"><![CDATA[
-<div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
-    <table cellspacing="0" cellpadding="0" style="width:600px;border-collapse:collapse;background:inherit;color:inherit">
-        <tbody><tr>
-            <td valign="center" width="200" style="padding:10px 10px 10px 5px;font-size: 12px">
-                <img src="/logo.png" style="padding: 0px; margin: 0px; height: auto; width: 80px;" alt="${user.company_id.name}">
-            </td>
-        </tr></tbody>
-    </table>
-</div>
-<div style="padding:0px;width:600px;margin:auto;background: #FFFFFF repeat top /100%;color:#777777">
-    <p>Dear ${object.name},</p>
-    <p>A password reset was requested for the Odoo account linked to this email.</p>
-    <p>You may change your password by following this link which will remain valid during 24 hours:</p>
-    <div style="text-align: center; margin-top: 16px;">
-        <a href="${object.signup_url}" style="padding: 5px 10px; font-size: 12px; line-height: 18px; color: #FFFFFF; border-color:#875A7B; text-decoration: none; display: inline-block; margin-bottom: 0px; font-weight: 400; text-align: center; vertical-align: middle; cursor: pointer; white-space: nowrap; background-image: none; background-color: #875A7B; border: 1px solid #875A7B; border-radius:3px">Change password</a>
+
+
+
+<div style="background-color: rgb(9, 48, 87);">
+<!--[if gte mso 9]>
+<xml>
+<o:OfficeDocumentSettings>
+<o:AllowPNG></o:AllowPNG>
+<o:PixelsPerInch>96</o:PixelsPerInch>
+</o:OfficeDocumentSettings>
+</xml>
+<![endif]-->
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<title>   </title>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+<style type="text/css">
+.ReadMsgBody{
+width:100%;
+background-color:#d9d9d9;
+}
+.ExternalClass{
+width:100%;
+background-color:#d9d9d9;
+}
+.ExternalClass,.ExternalClass p,.ExternalClass span,.ExternalClass font,.ExternalClass td,.ExternalClass div{
+line-height:100%;
+}
+#outlook a{
+padding:0;
+}
+html{
+width:100%;
+}
+body{
+-webkit-text-size-adjust:none;
+-ms-text-size-adjust:none;
+}
+html,body{
+background-color:#d9d9d9;
+margin:0;
+padding:0;
+}
+table{
+border-spacing:0;
+}
+table td{
+border-collapse:collapse;
+}
+br,strong br,b br,em br,i br{
+line-height:100%;
+}
+h1,h2,h3,h4,h5,h6{
+line-height:100% !important;
+-webkit-font-smoothing:antialiased;
+}
+img{
+height:auto !important;
+line-height:100%;
+outline:none;
+text-decoration:none;
+display:block !important;
+}
+span a{
+text-decoration:none !important;
+}
+a{
+text-decoration:none !important;
+}
+table p{
+margin:0;
+}
+.yshortcuts,.yshortcuts a,.yshortcuts a:link,.yshortcuts a:visited,.yshortcuts a:hover,.yshortcuts a span{
+text-decoration:none !important;
+border-bottom:none !important;
+}
+table{
+mso-table-lspace:0pt;
+mso-table-rspace:0pt;
+}
+img{
+-ms-interpolation-mode:bicubic;
+}
+body{
+-webkit-text-size-adjust:100%;
+}
+body{
+-ms-text-size-adjust:100%;
+}
+.default-edit-image{
+height:20px;
+}
+.nav-ul{
+margin-left:-23px !important;
+margin-top:0px !important;
+margin-bottom:0px !important;
+}
+img{
+height:auto !important;
+}
+ul {
+list-style: none;
+}
+ul li:before {
+content: "\25BA \0020";
+color: #EAAA00;
+}
+@media only screen and (max-width: 640px){
+body{
+width:auto!important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=container]{
+width:100%!important;
+padding-left:20px!important;
+padding-right:20px!important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=image-100-percent] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=full-width]{
+width:100% !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=center-width]{
+margin: 0 auto !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=indent-left]{
+margin: 0px 0px 0px 25px !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=remove]{
+display:none !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=remove]{
+display:none !important;
+}
+}   @media only screen and (max-width: 640px){
+table[class=fix-box]{
+padding-left:20px !important;
+padding-right:20px !important;
+}
+}   @media only screen and (max-width: 640px){
+td[class=fix-box]{
+padding-left:20px !important;
+padding-right:20px !important;
+}
+}   @media only screen and (max-width: 479px){
+body{
+font-size:18px !important;
+line-height:22px !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=container]{
+width:100%!important;
+padding-left:10px!important;
+padding-right:10px!important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=container2]{
+width:100%!important;
+float:none !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=full-width] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=image-100-percent] img{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=full-width]{
+width:100% !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 479px){
+div[class=text-center]{
+text-align:center !important;
+}
+}   @media only screen and (max-width: 479px){
+table[class=fix-box]{
+padding-left:0px !important;
+padding-right:0px !important;
+}
+}   @media only screen and (max-width: 479px){
+td[class=fix-box]{
+padding-left:0px !important;
+padding-right:0px !important;
+}
+}   @media only screen and (max-width: 320px){
+img[class=image-100-percent]{
+width:100% !important;
+height:auto !important;
+max-width:100% !important;
+min-width:124px !important;
+}
+} 
+.button5:hover {
+    border-color: rgb(146, 190, 45) !important;
+    background-color: rgb(146, 190, 45) !important;
+    border: 7px solid rgb(146, 190, 45) !important;
+    color: white !important;
+}
+</style>
+
+
+<div style="display:none;font-size:1px;color:#f5f6fa;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
+</div><table bgcolor="#093057" width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+<!--PREVIEW TEXT -->
+
+<!--END OF PREVIEW TEXT -->
+<!--start Main Logo Section-->
+<tbody><tr>
+<td bgcolor="#093057" align="center" valign="top">
+<table bgcolor="#FFFFFF" width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="container2" style="background-color: #ffffff; /*border: 1px solid #dedede;*/">
+<tbody><tr>
+<td bgcolor="#093057" height="1"><a href="http://link.edx.org/click/13644163.2557504/aHR0cDovL3d3dy5lZHgub3JnP3V0bV9zb3VyY2U9c2FpbHRocnUmdXRtX21lZGl1bT1lbWFpbCZ1dG1fY2FtcGFpZ249bmV3c2xldHRlcl9ndF9tYXN0ZXJzXzIwMTgwNjI4/59cb0f73cbcf48024f8b57fbB319375b3" data-original-title="" title=""><img src="http://link.edx.org/img/59cb0f73cbcf48024f8b57fb84fwj.1itds/db87d568.gif" alt="" border="0"></a></td>
+</tr>
+<tr>
+<td style="font-size: 16px; line-height: 18px; font-family:Arial,Tahoma, Helvetica, sans-serif; color:#666666; font-weight:normal; text-align:center;">
+<table bgcolor="#FFFFFF" width="100%" align="center" border="0" cellspacing="0" cellpadding="0" class="container2" style="background-color: #ffffff;">
+<tbody>
+<tr>
+  <td align="center" style="padding-top: 10px;">
+    <img src="https://www.ues.edu.sv/storage/app/media/minerva2.png" width="100">
+    <div style="font-family:'Open Sans', Arial, Helvetica, sans-serif;color:#414141;font-size: 20px;text-align:center;font-weight:400;padding-top: 15px;padding-bottom: 15px;">
+Universidad de El Salvador <br><br> Facultad Multidisciplinaria de Occidente
     </div>
-    <p>If you do not expect this, you can safely ignore this email.</p>
-    <p>Best regards,</p>
+  </td>
+</tr>
+<!-- End Main Logo Section-->
+<tr>
+<td bgcolor="#ffffff" align="center" valign="top">
+<table width="560" align="center" border="0" cellspacing="0" cellpadding="0" class="full-width" bgcolor="#ffffff" style="background-color:#ffffff;">
+<tbody><tr>
+<td height="10"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="10"></td>
+</tr>
+<tr>
+<td valign="top" class="image-100-percent"><a href="https://www.ues.edu.sv"><img editable="" src="https://www.zensar.com/sites/default/files/services/section/Cybersecurity.jpg" width="560" style="border-radius: 5px;display:block !important; max-width:560px;"></a></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<tr>
+<td bgcolor="#ffffff" align="center" valign="top">
+<table width="560" class="full-width" border="0" cellspacing="0" cellpadding="0" align="center">
+<tbody><tr>
+<td height="20"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="20"></td>
+</tr>
+<tr>
+<td valign="top">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+<tbody><tr>
+<td class="center" align="left" style="font-family:'Open Sans', Arial, Helvetica, sans-serif;color:#414141;font-size:20px;text-align:left;line-height:35px;font-weight:400;">
+Estimado/a ${object.name or 'solicitante'}
+</td>
+</tr>
+<tr>
+<td height="15"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="15"></td>
+</tr>
+<tr>
+<td align="left" style="font-family: 'Open Sans',Arial, Helvetica, sans-serif; color:#3e3e40; font-size:16px; /*text-align:center;*/ line-height:20px; mso-line-height-rule: exactly; padding:5px; font-weight:normal;">
+<div style="text-align: justify;">
+Una petición de reinicio de contraseña a sido pedida para la cuenta de la plataforma de trabajos de grado asociada a esta cuenta de email.
+Puede cambiar la contraseña siguiendo el siguiente enlace que sera valido los siguientes 5 días:
+<br><br>
+<div style="text-align: center; margin-top: 16px;">
+         <a class="button5" href="${object.signup_url}" style="padding: 5px 10px;font-weight: bold !important;font-size: 12px;line-height: 18px;color: #FFFFFF;border-color: #093057;text-decoration: none;display: inline-block;margin-bottom: 0px;font-weight: 400;text-align: center;vertical-align: middle;cursor: pointer;white-space: nowrap;background-image: none;background-color: #093057;border: 7px solid #093057;border-radius:3px;">Cambiar contraseña</a>
+<br><br>     
+Recuerda que el enlace anterior tiene un vigencia maxima de 5 dias apartir de esta fecha.
+<br><br>             
+Saludos cordiales.
+<br><br>
+Atentamente, Plataforma de trabajos de grado online.  
 </div>
-<div style="padding:0px;width:600px;margin:auto; margin-top: 10px; background: #fff repeat top /100%;color:#777777">
-    ${user.signature | safe}
-    <p style="font-size: 11px; margin-top: 10px;">
-        <strong>Sent by ${user.company_id.name} using <a href="www.odoo.com" style="text-decoration:none; color: #875A7B;">Odoo</a></strong>
-    </p>
-</div>]]></field>
+<table border="0" cellpadding="0" cellspacing="0" style="padding: 10px; width: 100%;">
+<tbody>
+<tr>
+<td align="center" style="text-align: center; font-family: 'Open Sans',Arial, Helvetica, sans-serif; color:#414141; font-size:10px; font-weight:400; mso-line-height-rule: exactly;  5px;"><font face="'Open Sans',Arial, Helvetica, sans-serif;">Ave Fray Felipe De Jesus Moraga Sur, Santa Ana</font></td>
+</tr>
+</tbody></table>
+</div></td>
+</tr>
+<tr>
+<td height="20"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="20"></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+<!--End Footer-->                                                         
+<tr>
+<td height="5"><img src="https://media.sailthru.com/595/1k2/3/t/5abd21738740c.gif" height="5"></td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+</td>
+</tr>
+</tbody></table>
+
+
+
+<br>
+
+</div>
+
+
+
+]]></field>
             <field name="user_signature" eval="False"/>
         </record>
 

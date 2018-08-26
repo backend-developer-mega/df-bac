@@ -2065,7 +2065,7 @@ class MailThread(models.AbstractModel):
 
         for record in self:
             record.message_post_with_view(
-                'mail.message_user_assigned',
+                'hr_recruitment_validations.message_user_assigned2',
                 composition_mode='mass_mail',
                 partner_ids=[(4, pid) for pid in partner_ids],
                 auto_delete=True,

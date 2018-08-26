@@ -11,7 +11,7 @@ Contact UES
 ====================
 
         """,
-    'depends': ['base', 'website_form', 'hr_recruitment'],
+    'depends': ['base', 'website_form', 'hr_recruitment','auth_signup'],
     'data': [
         'data/config_data.xml',
         'views/website_res_partner_templates.xml',

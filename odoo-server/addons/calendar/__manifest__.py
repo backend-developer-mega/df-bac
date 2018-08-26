@@ -21,7 +21,7 @@ If you need to manage your meetings, you should install the CRM module.
     'category': 'Extra Tools',
     'website': 'https://www.odoo.com/page/crm',
     'demo': [
-        'data/calendar_demo.xml'
+        #'data/calendar_demo.xml'
     ],
     'data': [
         'security/ir.model.access.csv',

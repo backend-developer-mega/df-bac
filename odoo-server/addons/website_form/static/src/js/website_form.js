@@ -51,7 +51,8 @@ odoo.define('website_form.animation', function (require) {
 
         send: function(e) {
             e.preventDefault();  // Prevent the default submit behavior
-            this.$target.find('.o_website_form_send').off().addClass('disabled');  // Prevent users from crazy clicking
+            this.$target.find('.o_website_form_send').off().addClass('disabled');
+            this.$target.find('.o_website_form_send').off().addClass('loader');  // Prevent users from crazy clicking
 
             var self = this;
 

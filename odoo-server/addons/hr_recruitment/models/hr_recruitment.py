@@ -247,8 +247,10 @@ class Applicant(models.Model):
     def _read_group_stage_ids(self, stages, domain, order):
         # retrieve job_id from the context and write the domain: ids + contextual columns (job or default)
         job_id = self._context.get('default_job_id')
+        ids_stage_personalized = self.env['hr.recruitment.stage']
         search_domain = [('job_id', '=', False)]
-        ids_stage_personalized = self.env['hr.recruitment.stage'].search([
+        if self._context.get('default_job_id'):
+            ids_stage_personalized = self.env['hr.recruitment.stage'].search([
                 ('job_id', '=', self._context['default_job_id'])
                 ], order='sequence asc').ids
         if ids_stage_personalized:
@@ -465,6 +467,7 @@ class Applicant(models.Model):
         project_topic = False
         department_project = self.env['project.project'].search([('department', '=', self.department_id.id)], limit=1).id
         teacher_director = self.env['res.users'].search([('partner_id', '=', self.teacher_director.id)], limit=1).id
+        self.stage_id = self.env['hr.recruitment.stage'].search([('id', '=', 5)], limit=1).id
         for applicant in self:
             _logger.info('---############## create_employee_from_applicant ----> %s', applicant.student_ids.ids)
             emails = ''
@@ -474,13 +477,17 @@ class Applicant(models.Model):
                 emails = template_res_partner.search([('id', '=',ids_partner)], limit=1).email + ',' +emails
             if emails:
                 email_cc = emails[:len(emails) - 1]
+            _logger.info('---############## teacher_director ----> %s', teacher_director)
             project_topic  = self.env['project.task'].create({'name': applicant.description,
                 'applicant_id': applicant.id,
                 'project_id': department_project,
                 'user_id': teacher_director,
                 'student_ids': [(6, 0, applicant.student_ids.ids)],
-                'email_cc': email_cc
+                'email_cc': email_cc,
+                'career_id': self.job_id.id
                 })
+            project_report = self.env['project.report.grade'].create({'project_task_id': project_topic.id, 
+                'name':applicant.name, 'name_end':applicant.name})
             project_topic.message_subscribe(applicant.student_ids.ids)
             for line in applicant.student_ids.ids:
                 project_evaluation = self.env['project.evaluation'].create({

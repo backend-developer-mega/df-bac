@@ -40,6 +40,7 @@
                     <header>
                         <button name="create_user" string="Aprobar solicitud" type="object" class="oe_highlight" attrs="{'invisible':['|', ('customer','=',False),('supplier','=',False)]}" />
                         <button name="refuse_user" string="Rechazar solicitud" type="object" class="oe_highlight" attrs="{'invisible':['|', ('customer','=',False),('supplier','=',False)]}"  />
+                        <button string="Enviar instrucciones de restablecimiento de la contraseña" type="object" name="change_password_action" help="Cambiar la contraseña del usuario." attrs="{'invisible':[('customer','=',True),('supplier','=',True)]}"/>
                     </header>
                 </xpath>
             </field>
@@ -187,7 +188,7 @@
                                 <label class="control-label" for="email">Correo electrónico</label>
                             </div>
                             <div class="col-md-7 col-sm-8">
-                                <input type="text" class="form-control o_website_form_input" placeholder="nombre@gmail.com" id="email" name="email" required=""/>
+                                <input type="text" class="form-control o_website_form_input" placeholder="Ej. nombre@gmail.com" id="email" name="email" required=""/>
                             </div>
                         </div>
                         <div class="form-group form-field o_website_form_required_custom">
@@ -195,7 +196,7 @@
                                 <label class="control-label" for="year_entry">Año ingreso</label>
                             </div>
                             <div class="col-md-3 col-sm-8">
-                                <input type="text" class="form-control o_website_form_input" placeholder="2011" id="year_entry" name="year_entry" required=""/>
+                                <input type="text" class="form-control o_website_form_input" placeholder="Ej. 2011" id="year_entry" name="year_entry" required=""/>
                             </div>
                         </div>
                         <div class="form-group form-field o_website_form_required_custom">
@@ -203,7 +204,7 @@
                                 <label class="control-label" for="year_egress">Año egreso</label>
                             </div>
                             <div class="col-md-3 col-sm-8">
-                                <input type="text" class="form-control o_website_form_input" placeholder="2015"  id="year_egress" name="year_egress" required=""/>
+                                <input type="text" class="form-control o_website_form_input" placeholder="Ej. 2015"  id="year_egress" name="year_egress" required=""/>
                             </div>
                         </div>
 
@@ -256,7 +257,7 @@
                                 <label class="control-label" for="mobile">Telefono</label>
                             </div>
                             <div class="col-md-7 col-sm-8">
-                                <input type="text" class="form-control o_website_form_input" id="mobile" placeholder="7431 4545"  name="mobile" required=""/>
+                                <input type="text" class="form-control o_website_form_input" id="mobile" placeholder="Ej. 7431 4545"  name="mobile" required=""/>
                             </div>
                         </div>
                         <div class="form-group form-field o_website_form_required_custom">
@@ -264,7 +265,7 @@
                                 <label class="control-label" for="street">Dirección</label>
                             </div>
                             <div class="col-md-7 col-sm-8">
-                                <input type="text" class="form-control o_website_form_input" placeholder="31 Calle Ote. Entre 10 y 12 Av..." name="street" required=""/>
+                                <input type="text" class="form-control o_website_form_input" placeholder="Ej.  31 Calle Ote. Entre 10 y 12 Av..." name="street" required=""/>
                             </div>
                         </div>
                         <h2 class="text-center">
@@ -322,7 +323,7 @@
                         <input type="hidden" name="supplier" value="True"/>
                         <div class="form-group">
                             <div class="col-md-offset-3 col-sm-offset-4 col-sm-8 col-md-7">
-                                <span class="btn btn-primary btn-lg o_website_form_send">Submit</span>
+                                <span class="btn btn-primary btn-lg o_website_form_send">Enviar</span>
                                 <span id="o_website_form_result"></span>
                             </div>
                         </div>
@@ -338,7 +339,10 @@
         <div id="wrap">
             <div class="oe_structure">
                 <div class="container">
+            <center style="background-color: #f6f6f6;">
+              <img src="https://png.pngtree.com/element_origin_min_pic/16/11/16/4fb875e9012e6f599a9a8ed1dd965aca.jpg" alt="Logo of Universidad de El Salvador" title="Universidad de El Salvador" width="300" />
                     <h1>Solicitud enviada exitosamente</h1>
+            </center>
                     <p>
                         Ya se ha realizado el envio de la solicitud de usuario a la plataforma de trabajos de grado, en este momento se te ha enviado un mensaje de correo electronico informandote sobre la realización de este solicitud.
                     </p>
@@ -356,5 +360,9 @@
         </div>
     </t>
 </template>
-
+<data>
+        <record model="ir.ui.menu" id="mail.mail_channel_menu_root_chat">
+            <field name="name">Mensajes 222</field>
+        </record>
+</data>
 </odoo>

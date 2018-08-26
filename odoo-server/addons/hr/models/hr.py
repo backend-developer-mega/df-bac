@@ -303,7 +303,10 @@ class Department(models.Model):
         # the tracking allows to track+subscribe fields linked to a res.user record
         # An update of the limited behavior should come, but not currently done.
         department = super(Department, self.with_context(mail_create_nosubscribe=True)).create(vals)
-        manager = self.env['hr.employee'].browse(vals.get("manager_id"))
+        manager = self.env['res.partner'].browse(vals.get("manager_partner_id"))
+        _logger.info('------------------------------####### vals.get("manager_partner_id") ----> %s', vals.get("manager_partner_id"))
+        _logger.info('------------------------------####### manager ----> %s', manager)
+        _logger.info('------------------------------####### manager ----> %s', manager.user_id)
         if manager.user_id:
             department.message_subscribe_users(user_ids=manager.user_id.ids)
         return department

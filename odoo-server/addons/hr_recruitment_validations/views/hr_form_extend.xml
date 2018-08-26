@@ -88,7 +88,7 @@
                         <field name="department_id" options='{"no_open": True, "no_create_edit": True}' readonly="1" />
                         <field name="department_head" string="Jefe departamento" options='{"no_open": True, "no_create_edit": True}' readonly="1" />
                         <field name="job_id" string="Carrera" options='{"no_open": True, "no_create_edit": True}' readonly="1" />
-                        <field name="user_id" string="Coordinador de carrera" options='{"no_open": True, "no_create_edit": True}' readonly="1" />
+                        <field name="user_id" string="Coordinador de carrera" options='{"no_open": True, "no_create_edit": True}'  readonly="1" />
                     </group>
                 </group>
                 <notebook>
@@ -184,6 +184,33 @@
          <script type="text/javascript" src="/hr_recruitment_validations/static/src/js/dist/additional-methods.js"></script>
       </xpath>
     </template>
+
+      <template id="message_user_assigned" name="mail template" inherit_id="mail.message_user_assigned">
+            <xpath expr="." position="replace">
+                           <p>Estimado/a <t t-esc="object.user_id.name"/>,</p>
+            <p>Ha sido asignado/a a: <t t-esc="object.name_get()[0][1]"/>.</p>
+            <p>
+                <a t-att-href="'/mail/view?model=%s&amp;res_id=%s' % (object._name, object.id)"
+                        style="background-color: #9E588B; margin-top: 10px; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;">
+                    Ver <t t-esc="object._description.lower()"/>
+                </a>
+            </p>
+            <p style="color:#9E588B;">Plataforma de trabajos de grado.</p>
+            </xpath>
+        </template>
+
+        <template id="message_user_assigned2" name="mail template2">
+                <p>Estimado/a <t t-esc="object.user_id.name"/>,</p>
+                <p>Informale que usted esta enlazado/a a un proceso de grado con la siguiente referencia al tema: <t t-esc="object.name_get()[0][1]"/>.</p>
+                <p>Al dar click en el siguiente boton automaticamente se dirigira al registro del tema de grado mencionado anteriormente, dentro de la plataforma de trabajos online de la Facultad Multidisciplinaria De Occidente: </p>
+                <p>
+                    <a t-att-href="'/mail/view?model=%s&amp;res_id=%s' % (object._name, object.id)"
+                            style="background-color: #9E588B; margin-top: 10px; padding: 10px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 16px;">
+                        Ver tema
+                    </a>
+                </p>
+                <p style="color:#9E588B;">Plataforma de trabajos de grado.</p>
+        </template>
 
     </data>
 </odoo>

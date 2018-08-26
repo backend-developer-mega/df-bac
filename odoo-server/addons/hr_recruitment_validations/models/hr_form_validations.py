@@ -131,6 +131,7 @@ class AddValidationHr(models.Model):
         res = super(AddValidationHr, self).create(vals)
         if partner_ids:
             res.message_subscribe(partner_ids)
+            res.message_subscribe(vals['partner_id'])
             self.specify_available(partner_ids)
         return res
 

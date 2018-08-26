@@ -305,11 +305,9 @@
         <field name="search_view_id" ref="view_calendar_event_search"/>
         <field name="help" type="html">
           <p class="oe_view_nocontent_create">
-            Click to schedule a new meeting.
+            Pulse para planificar una nueva reunión.
           </p><p>
-            The calendar is shared between employees and fully integrated with
-            other applications such as the employee holidays or the business
-            opportunities.
+            El calendario se comparte entre los egresados y los docentes directores completamente integrado para gestionar de forma practica las reuiniones de asesoramiento.
           </p>
         </field>
     </record>

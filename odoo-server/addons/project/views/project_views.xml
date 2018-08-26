@@ -48,7 +48,7 @@
         </record>
 
         <record id="act_project_project_2_project_task_all" model="ir.actions.act_window">
-            <field name="name">Tasks</field>
+            <field name="name">Temas</field>
             <field name="res_model">project.task</field>
             <field name="view_mode">kanban,tree,form,calendar,pivot,graph</field>
             <field name="context">{
@@ -430,7 +430,7 @@ action = model.activate_sample_project()
             <field name="model">project.task</field>
             <field eval="2" name="priority"/>
             <field name="arch" type="xml">
-                <form string="Task" class="o_form_project_tasks">
+                <form string="Task" class="o_form_project_tasks" create="0" delete="0">
                     <header>
                         <field name="stage_id" widget="statusbar" clickable="True"
                             options="{'fold_field': 'fold'}"/>
@@ -572,7 +572,7 @@ action = model.activate_sample_project()
             <field name="name">project.task.kanban</field>
             <field name="model">project.task</field>
             <field name="arch" type="xml">
-                <kanban class="o_kanban_small_column o_kanban_project_tasks" on_create="quick_create">
+                <kanban class="o_kanban_small_column o_kanban_project_tasks" on_create="quick_create" create="0" delete="0">
                     <field name="color"/>
                     <field name="priority"/>
                     <field name="stage_id" options='{"group_by_tooltip": {"description": "Stage Description", "legend_priority": "Use of stars"}}'/>
@@ -646,7 +646,7 @@ action = model.activate_sample_project()
             <field name="model">project.task</field>
             <field eval="2" name="priority"/>
             <field name="arch" type="xml">
-                <tree decoration-bf="message_needaction==True" decoration-danger="date_deadline and (date_deadline&lt;current_date)" string="Tasks">
+                <tree decoration-bf="message_needaction==True" decoration-danger="date_deadline and (date_deadline&lt;current_date)" string="Temas" create="0" delete="0">
                     <field name="message_needaction" invisible="1"/>
                     <field name="sequence" invisible="not context.get('seq_visible', False)"/>
                     <field name="name"/>
@@ -712,14 +712,14 @@ action = model.activate_sample_project()
         </record>
 
         <record id="action_view_task" model="ir.actions.act_window">
-            <field name="name">Tasks</field>
+            <field name="name">Temas</field>
             <field name="res_model">project.task</field>
             <field name="view_mode">kanban,tree,form,calendar,pivot,graph</field>
             <field name="context">{'search_default_my_tasks': 1}</field>
             <field name="search_view_id" ref="view_task_search_form"/>
             <field name="help" type="html">
                 <p>
-                    Odoo's project management allows you to manage the pipeline of your tasks efficiently. You can track progress, discuss on tasks, attach documents, etc.
+                    Vista de los temas de grado.
                 </p>
             </field>
         </record>

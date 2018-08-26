@@ -82,6 +82,12 @@ INSERT INTO res_groups_users_rel SELECT gid, %s as uid FROM res_groups_users_rel
             mail.send()
 
     @api.multi
+    def change_password_action(self):
+        users = self.env['res.users'].search([('login', '=', self.email)],limit=1)
+        _logger.info('-----##########################--> USERS %s', users)
+        users.reset_password(self.email)
+
+    @api.multi
     def applicant_partner_filter(self):
         department_actu = self.env['res.users'].search([('id', '=', self.env.uid)],limit=1).partner_id.department_id.id
         #domain = [('department_id.id','=',1)]

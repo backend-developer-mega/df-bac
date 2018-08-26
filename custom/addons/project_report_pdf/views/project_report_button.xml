@@ -8,8 +8,11 @@
             <field name="arch" type="xml">
                 <xpath expr="//sheet" position='before'>
                     <header>
-                    <button name="%(project_report_pdf.project_report_open_wizard)d" type="action" string="Print" class="oe_highlight"/>
+                    <button name="%(project_report_pdf.project_report_open_wizard)d" type="action" string="Print" class="oe_highlight" invisible="1"/>
                 </header></xpath>
+                <xpath expr="//notebook/page[2]" position='replace'>
+
+                </xpath>
             </field>
        </record>
 
@@ -37,7 +40,7 @@
                 </xpath>
                 <xpath expr="//field[@name='date_deadline']" position="before">
                     <field name="create_date" string="Fecha inicio" readonly="1" />
-                    <field name="career_id" string="Carrera"  />
+                    <field name="career_id" string="Carrera"  readonly="1"/>
                 </xpath>
                 <xpath expr="//sheet/div/button[1]" position="after">
                     <button attrs="{'invisible':[('stage_end_related', '=', False)]}" name="action_view_report_server" class="oe_stat_button" icon="fa-mortar-board" type="object"
@@ -101,6 +104,172 @@
                action = model.project_filter_kanban()
             </field>
         </record>
+
+        <record id="action_project_topic2" model="ir.actions.server">
+            <field name="name">Temas de grado</field>
+            <field name="model_id" ref="project.model_project_task"/>
+            <field name="code">
+                   action = model.project_filter_kanban()
+            </field>
+        </record>
+
+       <record id="view_task_kanban_inherited" model="ir.ui.view">
+            <field name="name">kanban_view_topic_grade.kanban</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="arch" type="xml">
+            <xpath expr="//kanban" position="replace">
+            <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban" on_create="project.open_create_project" string="Departamentos" create="0" delete="0">
+                    <field name="name"/>
+                    <field name="use_tasks"/>
+                    <field name="color"/>
+                    <field name="task_count"/>
+                    <field name="task_needaction_count"/>
+                    <field name="label_tasks"/>
+                    <field name="alias_id"/>
+                    <field name="alias_name"/>
+                    <field name="alias_domain"/>
+                    <field name="doc_count"/>
+                    <field name="is_favorite"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click">
+                                <div class="o_project_kanban_main">
+                                    <div class="o_kanban_card_content o_visible">
+                                        <div class="o_kanban_primary_left">
+                                            <div class="o_primary">
+                                                <span><t t-esc="record.name.value"/></span>
+                                            </div>
+                                            <div t-if="record.alias_name.value and record.alias_domain.value">
+                                                <span><i class="fa fa-envelope"></i> 
+                                                <!-- <t t-esc="record.user_id.name.value"/>--></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_card_manage_pane o_invisible">
+                                        <div class="o_kanban_card_manage_section o_kanban_manage_reports">
+                                            <div groups="project.group_project_manager">
+                                                <a type="edit">Settings</a>
+                                            </div>
+                                            <div attrs="{'invisible': [('use_tasks', '=', False)]}">
+                                                <a name="%(project.action_project_task_user_tree_filtered)d" type="action">Temas de grado</a>
+                                            </div>
+                                        </div>
+                                        <div t-if="widget.editable" class="o_project_kanban_colorpicker">
+                                            <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                        </div>
+                                    </div>
+                                    <!--
+                                    <div class="o_project_kanban_manage">
+                                        <a class="o_kanban_manage_toggle_button o_left" href="#">More <i class="fa fa-caret-down"/></a>
+                                        <a type="object" name="toggle_favorite" class="o_right"><i t-attf-class="oe_inline fa o_dashboard_star #{record.is_favorite.raw_value ? 'fa-star' : 'fa-star-o'}" title="Add/remove from favorite"/></a>
+                                    </div>
+                                -->
+                                </div>
+
+                                <div class="o_project_kanban_boxes">
+                                    <div t-if="record.use_tasks.raw_value" class="o_project_kanban_box">
+                                        <a name="%(action_project_topic2)d" type="action">
+                                            <span class="o_value"><t t-esc="record.task_count.value"/></span>
+                                            <span class="o_label"><t t-esc="record.label_tasks.value"/></span>
+                                        </a>
+                                        <a t-if="record.task_needaction_count.raw_value" class="o_needaction" name="%(action_project_topic2)d" type="action" context="{'search_default_message_needaction': 1}">
+                                            <t t-esc="record.task_needaction_count.raw_value"/>
+                                        </a>
+                                    </div>
+                                    <div t-if="record.doc_count.raw_value" class="o_project_kanban_box">
+                                        <a name="attachment_tree_view" type="object">
+                                            <span class="o_value"><t t-esc="record.doc_count.value"/></span>
+                                            <span class="o_label">Documents</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </xpath>
+            </field>
+        </record>
+      
+        <record id="view_task_record_kanban_inherited" model="ir.ui.view">
+            <field name="name">kanban_view_topic_grade_record.kanban</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_kanban"/>
+            <field name="arch" type="xml">
+            <xpath expr="//kanban" position="replace">
+                    <kanban class="o_kanban_small_column o_kanban_project_tasks" on_create="quick_create" create="0" delete="0">
+                    <field name="color"/>
+                    <field name="priority"/>
+                    <field name="stage_id" options='{"group_by_tooltip": {"description": "Stage Description", "legend_priority": "Use of stars"}}'/>
+                    <field name="user_id"/>
+                    <field name="user_email"/>
+                    <field name="description"/>
+                    <field name="sequence"/>
+                    <field name="remaining_hours" groups="project.group_time_work_estimation_tasks"/>
+                    <field name="date_deadline"/>
+                    <field name="message_needaction_counter"/>
+                    <field name="tag_ids"/>
+                    <field name="attachment_ids"/>
+                    <field name="displayed_image_id"/>
+                    <field name="active"/>
+                    <field name="legend_blocked"/>
+                    <field name="legend_normal"/>
+                    <field name="legend_done"/>
+                    <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+
+                            <div class="o_dropdown_kanban dropdown" groups="base.group_user">
+                                <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                    <span class="fa fa-bars fa-lg"/>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <t t-if="widget.editable"><li><a type="set_cover">Set Cover Image</a></li></t>
+                                    <t t-if="widget.editable"><li><a type="edit">Edit Task</a></li></t>
+                                    <t t-if="widget.deletable"><li><a type="delete">Delete</a></li></t>
+                                    <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                </ul>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div>
+                                    <field name="tag_ids"/>
+                                </div>
+                                <div>
+                                    <strong><field name="name"/></strong>
+                                </div>
+                                <div class="text-muted">
+                                    <field name="project_id" invisible="context.get('default_project_id', False)"/>
+                                    <t t-if="record.date_deadline.raw_value and record.date_deadline.raw_value lt (new Date())" t-set="red">oe_kanban_text_red</t>
+                                    <span t-attf-class="#{red || ''}"><i><field name="date_deadline"/></i></span>
+                                </div>
+                                <div class="oe_kanban_bottom_left">
+                                    <field name="priority" widget="priority"/>
+                                    <t t-if="record.message_needaction_counter.raw_value">
+                                        <span class='oe_kanban_mail_new' title='Unread Messages'><i class='fa fa-comments'/><t t-raw="record.message_needaction_counter.raw_value"/></span>
+                                    </t>
+                                </div>
+                                <div class="oe_kanban_bottom_right">
+                                    <img t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" t-att-title="record.user_id.value" width="24" height="24" class="oe_kanban_avatar pull-right"/>
+                                    <div class="pull-left" groups="base.group_user">
+                                        <field name="kanban_state" widget="kanban_state_selection"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div t-if="record.displayed_image_id.value">
+                                <field name="displayed_image_id" widget="attachment_image"/>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                    </templates>
+                </kanban>
+            </xpath>
+            </field>
+        </record>
+
+
+
 
         <menuitem action="action_project_department_topic" id="menu_projects2" name="Tablero" parent="project.menu_main_pm" sequence="1"/>
 

@@ -51,7 +51,7 @@ Main Features
         'views/res_partner_views.xml',
     ],
     'demo': [
-        'data/mail_demo.xml',
+        #'data/mail_demo.xml',
         'data/mail_channel_demo.xml',
     ],
     'installable': True,

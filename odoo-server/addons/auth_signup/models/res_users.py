@@ -129,7 +129,7 @@ class ResUsers(models.Model):
             except ValueError:
                 pass
         if not template:
-            template = self.env.ref('auth_signup.reset_password_email_user')
+            template = self.env.ref('auth_signup.reset_password_email')
         assert template._name == 'mail.template'
 
         for user in self:

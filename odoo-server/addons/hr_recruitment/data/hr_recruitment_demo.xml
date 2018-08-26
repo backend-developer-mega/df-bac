@@ -190,7 +190,7 @@
         <field name="res_model">hr.applicant</field>
         <field name="res_id" ref="hr_recruitment.hr_case_programmer"/>
     </record>
-
+    <!--
     <record id="message_application_demo" model="mail.message">
         <field name="model">hr.applicant</field>
         <field name="res_id" ref="hr_case_advertisement"/>
@@ -198,6 +198,7 @@
         <field name="message_type">comment</field>
         <field name="author_id" ref="base.res_partner_2"/>
     </record>
+    -->
     <record id="msg_case18_aplicant" model="mail.message">
         <field name="subject">Regarding reference</field>
         <field name="model">hr.applicant</field>

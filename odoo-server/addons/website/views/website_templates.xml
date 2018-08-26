@@ -209,8 +209,7 @@
     <xpath expr="//footer" position="inside">
         <div class="container mt16 mb8">
             <div class="pull-right" t-ignore="true" t-if="not editable">
-                Create a <a href="http://www.odoo.com/page/website-builder">free website</a> with
-                <a class="label label-danger" href="http://www.odoo.com/page/website-builder">Odoo</a>
+                Educación a distancia
             </div>
             <div class="pull-left text-muted" itemscope="itemscope" itemtype="http://schema.org/Organization">
                 Copyright &amp;copy; <span t-field="res_company.name" itemprop="name">Company name</span>
@@ -231,6 +230,9 @@
 <template id="login_layout" inherit_id="web.login_layout" name="Website Login Layout">
     <xpath expr="t" position="replace">
         <t t-call="website.layout">
+            <center style="padding-top: 20px;">
+                <img src="http://www.denimgroup.com/wp-content/uploads/2016/12/icon-security-advisory-services.png" alt="Smiley face" height="100" width="100" />   
+            </center>    
             <div class="oe_website_login_container" t-raw="0"/>
         </t>
     </xpath>

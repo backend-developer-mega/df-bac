@@ -6,7 +6,8 @@ from lxml import etree
 from odoo import api, fields, models, tools, SUPERUSER_ID, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.safe_eval import safe_eval
-
+import logging
+_logger = logging.getLogger(__name__)
 
 class ProjectTaskTypeCriterion(models.Model):
     _name = 'project.criterion'
@@ -416,11 +417,64 @@ class Project(models.Model):
 
 class Task(models.Model):
     _name = "project.task"
-    _description = "Task"
+    _description = "Temas"
     _date_name = "date_start"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
     _mail_post_access = 'read'
     _order = "priority desc, sequence, date_start, name, id"
+
+    @api.multi
+    def project_filter_kanban(self):
+        active_record = self._context['active_id']
+        user_id_actu = self.env.uid
+        partner_id_actu = self.env['res.users'].search([('id', '=', self.env.uid)],limit=1).partner_id.id
+        partner_id_actu_permits = self.env['res.partner'].search([('id', '=', partner_id_actu)],limit=1).template_user.name
+        _logger.info('-----partner_id_actu_permits---------->  %s ', partner_id_actu_permits)
+        view_mode = 'kanban,tree,form,graph'
+
+        # sql_query = """SELECT students_lead_id_res 
+        #                 FROM students_lead_tag_rel_res 
+        #                 WHERE students_tag_id_res = %s
+        #             """
+        # params = (partner_id_actu,)
+        # self.env.cr.execute(sql_query, params)
+        # results = [a for (a,) in self.env.cr.fetchall()]
+        # if len(results) == 0:
+        #     view_mode = 'form'
+        # domain = [('id','in',results)]
+
+        domain = []
+        results = []
+
+        if partner_id_actu_permits == 'Media':
+            sql_query = """SELECT id FROM project_task WHERE user_id = %s"""
+            params = (user_id_actu,)
+            self.env.cr.execute(sql_query, params)
+            results = [a for (a,) in self.env.cr.fetchall()]
+            domain = [('id','in',results)]
+        _logger.info('-----results---------->  %s ', len(results))
+
+        if partner_id_actu_permits == 'Baja':
+            sql_query = """SELECT project_members_id_project_task FROM project_members WHERE project_members_id_res_partner = %s"""
+            params = (partner_id_actu,)
+            self.env.cr.execute(sql_query, params)
+            results = [a for (a,) in self.env.cr.fetchall()]
+            domain = [('id','in',results)]            
+        
+        contex = "{'group_by': 'stage_id','search_default_project_id': %s, 'default_project_id': %s}" % (active_record, active_record)
+        return {
+            'name': _('Temas de grado'),
+            'domain': domain,
+            'res_model': 'project.task',
+            'type': 'ir.actions.act_window',
+            'view_id': False,
+            'view_mode': view_mode,
+            'help': _('''<p class="oe_view_nocontent_create">
+                        Seguimiento de temas de grado inscritos exitosamente.
+                    </p>'''),
+            'limit': 80,
+            'context': contex
+        }
 
 
     @api.model
