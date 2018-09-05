@@ -82,6 +82,7 @@
             <t t-set="doc4" t-value="get_list_model_task"/>
             <t t-set="doc5" t-value="get_list_model_issue"/>
             <t t-set="doc6" t-value="get_list_model_binnacle"/>
+            <t t-set="doc7" t-value="get_elemets_letters"/>
             <t t-call="report.external_layout">
                 <div class="page">
 <p t-if="doc4 == 2">
@@ -94,7 +95,7 @@
 <p>2.- El cuadro de calificaciones de todo el Proceso por parte del Docente Director del Proceso.</p>
 <p>Todo lo anterior con el visto bueno del Jefe del Departamento y el sello correspondiente. A continuacion el detalle de cada una de las partes.</p>
 <p> <strong>a)</strong> <strong>ACTA DE DEFENSA DE TRABAJO DE GRADO</strong></p>
-<p>En el Campus de la Facultad Multidisciplinaria de Occidente, <strong><span t-field="doc.name"/>,</strong> con base a lo que se establece en la Etapa III del Articulos 203 del Reglamento de la Gestion Academico-Administrativa de la Universidad de El Salvador, en relacion a la exposicion y defensa oral del informe Final de la investigacion, se establece el Tribunal Calificador integrado por los Ingenieros <strong><span t-field="doc.name_president"/>, <span t-field="doc.name_secretary"/>, <span t-field="doc.name_vocal"/> </strong>nombrados para evaluar el Trabajo de Grado titulado <strong><em>"</em></strong><strong><span t-field="doc.project_task_id.name"/></strong><strong>"</strong>realizado en el periodo  del <strong><span t-field="doc.project_task_id.create_date"/> al <span t-field="doc.project_task_id.date_deadline"/></strong> por los(as) bachilleres: 
+<p  align="justify">En el Campus de la Facultad Multidisciplinaria de Occidente, <strong><span t-field="doc.name"/>,</strong> con base a lo que se establece en la Etapa III del Articulos 203 del Reglamento de la Gestion Academico-Administrativa de la Universidad de El Salvador, en relacion a la exposicion y defensa oral del informe Final de la investigacion, se establece el Tribunal Calificador integrado por los Ingenieros <strong><span t-field="doc.name_president"/>, <span t-field="doc.name_secretary"/>, <span t-field="doc.name_vocal"/> </strong>nombrados para evaluar el Trabajo de Grado titulado <strong><em>"</em></strong><strong><span t-field="doc.project_task_id.name"/></strong><strong>"</strong> realizado en el periodo  del <strong><t t-foreach="doc7" t-as="b"><t t-foreach="b" t-as="l"><span t-att-style="style" t-esc="l['create_project']"/></t></t> al <t t-foreach="doc7" t-as="b"><t t-foreach="b" t-as="l"><span t-att-style="style" t-esc="l['date_deadline']"/></t></t></strong> por los(as) bachilleres: 
 <br></br><t t-foreach="doc.project_task_id.student_ids" t-as="student"> <span t-field="student.student_card"/>  <span t-field="student.name"/> <br></br></t> Como un requisito para optar al grado academico de <strong> Ingeniero/ra </strong></p>
 <p><strong>Antes de iniciar el acto:</strong> Los miembros del Tribunal Calificador se organizaron y como resultado, el Tribunal quedo integrado de la siguiente manera:</p>
 <p><strong><span t-field="doc.name_president"/></strong> <strong>(Presidente)</strong></p>
@@ -161,10 +162,10 @@
 
 <p><strong>b) CUADRO DE CALIFICACIONES DEL DOCENTE DIRECTOR</strong></p>
 <p align="justify">El infrascrito Docente Director de este Proceso de Grado                                              <strong>, </strong> por este medio adjunta los resultados obtenidos en el Proceso de Graduacion para un grupo de Egresados de  <strong>la carrera <span t-field="doc.project_task_id.applicant_id.job_id.name"/></strong>  que administra el Departamento de <span t-field="doc.project_task_id.applicant_id.department_id.name"/>.</p>
-<p>El tema desarrollado por los/el estudiante(s) fue : <strong>"<span t-field="doc.project_task_id.name"/>"
-</strong><strong>".</strong></p>
+<p align="justify">El tema desarrollado por los/el estudiante(s) fue : <strong>"<span t-field="doc.project_task_id.name"/>"
+</strong><strong>.</strong></p>
 <p><strong> </strong></p>
-<p>El trabajo se efectuo desde el <strong><span t-field="doc.project_task_id.create_date"/> hasta <span t-field="doc.project_task_id.date_deadline"/></strong></p>
+<p>El trabajo se efectuo desde el <strong><t t-foreach="doc7" t-as="b"><t t-foreach="b" t-as="l"><span t-att-style="style" t-esc="l['create_project']"/></t></t> hasta <t t-foreach="doc7" t-as="b"><t t-foreach="b" t-as="l"><span t-att-style="style" t-esc="l['date_deadline']"/></t></t></strong></p>
 <p> </p>
 <p>Los resultados obtenidos a lo largo del Proceso de Grado, fueron los siguientes:</p>
 <table class="table table-condensed">
@@ -259,14 +260,10 @@
 <p>Dado en la Facultad Multidisciplinaria de Occidente <span t-field="doc.name_end"/>.</p>
 <center>
 <br> </br>
-<br> </br>
-<p> </p>
 <p> ______________________________________</p>
 <p> Ing. <span t-field="doc.project_task_id.user_id"/></p>
 <p>                        Docente Director</p>
 <p> </p>
-<p> </p>
-<br> </br>
 <br> </br>
 <p>_________________________________        Sello</p>
 <p><span t-field="doc.project_task_id.applicant_id.department_head"/></p>
@@ -319,19 +316,19 @@
 <h4 style="text-align: center;text-transform: uppercase;">"<span t-field="doc.project_task_id.name"/>"</h4>
 <br></br>
 
-<table class="table table-condensed">
-  <thead>
-    <tr>
-      <th style="width: 100px; text-align: center; border-color: black;" >Identificador</th>
-      <th style="width: 100px; text-align: center; border-color: black;" >Fecha</th>
-      <th style="width: 100px; text-align: center; border-color: black;" >Asunto</th>
-      <th style="width: 300px; text-align: center; border-color: black;" >Observaciones</th>
-      <th style="width: 300px; text-align: center; border-color: black;" >Act. Proxima Reunión</th>
-    </tr>
-  </thead>
-  <tbody>
-    <t t-foreach="get_binnacle_list" t-as="b">
-        <t t-foreach="b" t-as="l">
+<t t-foreach="get_binnacle_list" t-as="b">
+    <t t-foreach="b" t-as="l">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th style="width: 100px; text-align: center;" >Identificador</th>
+          <th style="width: 100px; text-align: center;" >Fecha</th>
+          <th style="width: 100px; text-align: center;" >Asunto</th>
+          <th style="width: 300px; text-align: center;" >Observaciones</th>
+          <th style="width: 300px; text-align: center;" >Act. Proxima Reunión</th>
+        </tr>
+      </thead>
+      <tbody>
             <tr>  
               <td>BICTA-<span t-att-style="style" t-esc="l['id']"/></td>
               <td><center><span t-att-style="style" t-esc="l['date']"/></center></td>
@@ -339,10 +336,28 @@
               <td><center><span t-att-style="style" t-esc="l['observation']"/></center></td>
               <td><center><span t-att-style="style" t-esc="l['description']"/></center></td>
             </tr>
-        </t>
+            <tr>
+            <td style="width: 83px; text-align: center;"><strong>No.</strong></td>
+            <td style="width: 51px; text-align: center;" colspan="3"><strong>Nombre</strong></td>
+            <td style="width: 122px; text-align: center;"><strong>Asistencia</strong></td>
+            </tr>
+<t t-set="num" t-value="1"/>
+  <t t-foreach="l['attendee_ids']" t-as="t">
+            <tr>
+            <td style="width: 83px; text-align: center;"><span t-att-style="style" t-esc="num"/></td>
+            <td style="width: 51px;" colspan="3"><span t-att-style="style" t-esc="t['partner_id'].name"/></td>
+            <td style="width: 122px; text-align: center;"><t t-if="t['state'] == 'accepted'">Presente</t>
+            <t t-if="t['state'] != 'accepted'">Ausente</t></td>
+            </tr>
+  <t t-set="num" t-value="num+1"/>
+  </t>
+
+          </tbody>
+        </table>
+        <hr/>
     </t>
-  </tbody>
-</table>
+</t>
+
 
 </p>
                 </div>
@@ -350,4 +365,46 @@
             
         </t>
      </template>
+
+     <template id="project_report_resumen_template">
+        <t t-call="report.html_container">
+            <t t-call="report.external_layout">
+                <div class="page">
+<h2 style="text-align: center;"><strong>UNIVERSIDAD DE EL SALVADOR</strong></h2>
+<h3 style="text-align: center;">FACULTAD MULTIDISCIPLINARIA DE OCCIDENTE</h3>
+
+    <table class="table table-bordered" border="2" style="border-color: black; !important">
+      <thead class="thead-dark">
+        <tr>
+          <th style="width: 10px; text-align: center;" >No.</th>
+          <th style="width: 80px; text-align: center;" >Carnet</th>
+          <th style="width: 100px; text-align: center;" >Nombre</th>
+          <th style="width: 300px; text-align: center;" >Carrera</th>
+          <th style="width: 450px; text-align: center;" >Tema</th>
+          <th style="width: 200px; text-align: center;" >Docente</th>
+        </tr>
+      </thead>
+      <tbody>
+                <t t-set="num" t-value="1"/>
+                <t t-foreach="get_project_list_task" t-as="task">
+                    <t t-foreach="task" t-as="l">
+                        <tr>
+                            <td style="text-align: center;"><span t-att-style="style" t-esc="num"/></td>
+                            <td><span t-att-style="style" t-esc="l['student_card']"/></td>
+                            <td><span t-att-style="style" t-esc="l['student_name']"/></td>
+                            <td><span t-att-style="style" t-esc="l['career']"/></td>
+                            <td><span t-att-style="style" t-esc="l['name_topic']"/></td>
+                            <td><span t-att-style="style" t-esc="l['teacher']"/></td>
+                        </tr>
+                        <t t-set="num" t-value="num+1"/>
+                    </t>
+                </t>
+
+        </tbody>
+    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
 </odoo>

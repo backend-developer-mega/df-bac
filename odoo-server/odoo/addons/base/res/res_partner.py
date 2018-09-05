@@ -244,7 +244,7 @@ class Partner(models.Model, FormatAddress):
 
     #DECLARACIONES FALTANTES
     student_card = fields.Char(string='Carnet')
-    year_egress = fields.Integer(string='Año egreso')
+    year_egress = fields.Char(string='Año egreso')
     year_entry = fields.Integer(string='Año ingreso')
     surnames = fields.Char(string='Apellidos')
 

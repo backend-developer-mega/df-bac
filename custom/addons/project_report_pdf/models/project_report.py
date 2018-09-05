@@ -31,6 +31,17 @@ class ProjectReportButton(models.TransientModel):
     partner_select = fields.Many2many('res.users', string='Assigned to')
     stage_select = fields.Many2many('project.task.type', string="Stage")
 
+    department_select = fields.Many2one('hr.department', string='Departamento')
+    signed_up_start = fields.Datetime('Fecha inicio')
+    signed_up_end = fields.Datetime('Fecha fin')
+    career_select = fields.Many2one('hr.job', string='Carrera')
+
+
+    @api.multi
+    def print_project_report_resumen_pdf(self):
+        record = self.env['project.task']
+        return self.env['report'].get_action(record, "project_report_pdf.project_report_resumen_template")
+
     @api.multi
     def print_project_report_pdf(self):
 

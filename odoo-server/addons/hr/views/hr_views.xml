@@ -388,7 +388,8 @@
             <field name="model">hr.job</field>
             <field name="arch" type="xml">
                 <search string="Carrera">
-                    <!-- <field name="name" string="Job"/>
+                    <!-- <field name="name" string="Carrera"/>
+                    <field name="name" filter_domain="[('name','ilike',self)]" string="Carrera" />
                     <filter domain="[('state','=','open')]" string="En inscripción"/>
                     <filter domain="[('state','=','recruit')]" string="In Recruitment" name="in_recruitment"/>
                     <field name="department_id"/>

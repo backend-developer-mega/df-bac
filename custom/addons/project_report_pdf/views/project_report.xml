@@ -10,6 +10,14 @@
             name="project_report_pdf.project_report_template"
         />
         <report
+            id="report_project_resumen_pdf"
+            string="ListadoInscritos"
+            model="project.task"
+            report_type="qweb-pdf"
+            file="project_report_pdf.project_report_resumen_template"
+            name="project_report_pdf.project_report_resumen_template"
+        />
+        <report
             id="project_xlsx"
             model="project.project"
             string=" "
@@ -18,5 +26,26 @@
             file="project_report_pdf.project_report_xls.xlsx"
             attachment_use="False"
         />
+
+            <!-- Paper Format -->
+    <record id="project_topic_paperformat_qweb" model="report.paperformat">
+       <field name="name">Project Topic Grade</field>
+       <field name="default" eval="True" />
+       <field name="format">A4</field>
+       <field name="page_height">0</field>
+       <field name="page_width">0</field>
+       <field name="orientation">Landscape</field>
+       <field name="margin_top">20</field>
+       <field name="margin_bottom">15</field>
+       <field name="margin_left">10</field>
+       <field name="margin_right">10</field>
+       <field name="header_line" eval="False" />
+       <field name="header_spacing">45</field>
+       <field name="dpi">90</field>
+       <field name="report_ids" eval="[
+                                       (4, ref('project_report_pdf.report_project_resumen_pdf'))
+                                       ]"/>
+    </record>
+
     </data>
 </odoo>

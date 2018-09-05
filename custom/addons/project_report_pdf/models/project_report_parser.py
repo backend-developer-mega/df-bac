@@ -22,11 +22,49 @@
 
 from odoo.http import request
 from odoo import models, api
+import datetime, locale
 import logging
 _logger = logging.getLogger(__name__)
 
 class ProjectReportParser(models.AbstractModel):
     _name = 'report.project_report_pdf.project_report_template'
+
+    def set_letters(self, date_change):
+        conte_date = str(date_change)
+        locale.setlocale(locale.LC_ALL, 'es_SV.utf8')
+        hour_letter = self.numero_to_letras(int(datetime.datetime.strptime(conte_date, '%Y-%m-%d %H:%M:%S').strftime('%I')))
+        minutes_letter = self.numero_to_letras(int(datetime.datetime.strptime(conte_date, '%Y-%m-%d %H:%M:%S').strftime('%M')))
+        day_letter = self.numero_to_letras(int(datetime.datetime.strptime(conte_date, '%Y-%m-%d %H:%M:%S').strftime('%d')))
+        month_letter = datetime.datetime.strptime(conte_date, '%Y-%m-%d %H:%M:%S').strftime('%B')
+        year_letter = self.numero_to_letras(int(datetime.datetime.strptime(conte_date, '%Y-%m-%d %H:%M:%S').strftime('%Y')))
+        name_data = datetime.datetime.strptime(conte_date, '%Y-%m-%d %H:%M:%S').strftime('El dia es: %A, mes: %B, anio: %Y,  hora: %I, minutos: %M,    -->') + str(hour_letter) + ' minutos ' + str(minutes_letter)
+        name_data = "a las " + str(hour_letter) + " con " + str(minutes_letter) + " minutos del " + str(day_letter) + " de " + str(month_letter) + " del año " + str(year_letter)
+        name_data = str(day_letter) + " de " + str(month_letter) + " del año " + str(year_letter)
+
+        return name_data
+
+    def set_letters_formt(self, date_change):
+        conte_date = str(date_change)
+        locale.setlocale(locale.LC_ALL, 'es_SV.utf8')
+        day_letter = self.numero_to_letras(int(datetime.datetime.strptime(conte_date, '%Y-%m-%d').strftime('%d')))
+        month_letter = datetime.datetime.strptime(conte_date, '%Y-%m-%d').strftime('%B')
+        year_letter = self.numero_to_letras(int(datetime.datetime.strptime(conte_date, '%Y-%m-%d').strftime('%Y')))
+        name_data = str(day_letter) + " de " + str(month_letter) + " del año " + str(year_letter)
+
+        return name_data
+
+    def get_elemets_letters(self, name):
+        report_obj = request.env['project.report.grade']
+        current_topic = report_obj.search([('id', '=', name)], limit=1).project_task_id
+        vals_elements = []
+        vals = {
+            'create_project': self.set_letters(current_topic.create_date),
+            'date_deadline':  self.set_letters_formt(current_topic.date_deadline)
+        }
+        vals_elements.append(vals)
+
+        return vals_elements
+
 
     def get_binnacle_model(self, name):
         report_obj = request.env['project.report.grade']
@@ -49,6 +87,7 @@ class ProjectReportParser(models.AbstractModel):
                 'duration': i.duration,
                 'observation': i.observation,
                 'description': i.description,
+                'attendee_ids': i.attendee_ids,
             }
             vals_binnacle.append(vals)
         return vals_binnacle
@@ -278,6 +317,7 @@ class ProjectReportParser(models.AbstractModel):
         get_list_model_task = self.get_list_model_task(docids),
         get_list_model_binnacle = self.get_list_model_binnacle(docids),
         get_list_model_issue = self.get_list_model_issue(docids),
+        get_elemets_letters_data = self.get_elemets_letters(docids),
         docargs = {
             'doc': model,
             'get_note': get_note_model,
@@ -289,7 +329,143 @@ class ProjectReportParser(models.AbstractModel):
             'get_list_model_task': get_list_model_task[0],
             'get_list_model_issue': get_list_model_issue[0],
             'get_list_model_binnacle': get_list_model_binnacle[0],
+            'get_elemets_letters': get_elemets_letters_data,
         }
 
         return self.env['report'].render('project_report_pdf.project_report_template', docargs)
 
+
+
+    def numero_to_letras(self, numero):
+        indicador = [("",""),("MIL","MIL"),("MILLON","MILLONES"),("MIL","MIL"),("BILLON","BILLONES")]
+        entero = int(numero)
+        decimal = int(round((numero - entero)*100))
+        #print 'decimal : ',decimal 
+        contador = 0
+        numero_letras = ""
+        while entero >0:
+            a = entero % 1000
+            if contador == 0:
+                en_letras = self.convierte_cifra(a,1).strip()
+            else :
+                en_letras = self.convierte_cifra(a,0).strip()
+            if a==0:
+                numero_letras = en_letras+" "+numero_letras
+            elif a==1:
+                if contador in (1,3):
+                    numero_letras = indicador[contador][0]+" "+numero_letras
+                else:
+                    numero_letras = en_letras+" "+indicador[contador][0]+" "+numero_letras
+            else:
+                numero_letras = en_letras+" "+indicador[contador][1]+" "+numero_letras
+            numero_letras = numero_letras.strip()
+            contador = contador + 1
+            entero = int(entero / 1000)
+        numero_letras = numero_letras.lower()
+        #return 'numero: ',numero
+        return numero_letras
+
+    def convierte_cifra(self,numero,sw):
+        lista_centana = ["",("CIEN","CIENTO"),"DOSCIENTOS","TRESCIENTOS","CUATROCIENTOS","QUINIENTOS","SEISCIENTOS","SETECIENTOS","OCHOCIENTOS","NOVECIENTOS"]
+        lista_decena = ["",("DIEZ","ONCE","DOCE","TRECE","CATORCE","QUINCE","DIECISEIS","DIECISIETE","DIECIOCHO","DIECINUEVE"),
+                        ("VEINTE","VEINTI"),("TREINTA","TREINTA Y "),("CUARENTA" , "CUARENTA Y "),
+                        ("CINCUENTA" , "CINCUENTA Y "),("SESENTA" , "SESENTA Y "),
+                        ("SETENTA" , "SETENTA Y "),("OCHENTA" , "OCHENTA Y "),
+                        ("NOVENTA" , "NOVENTA Y ")
+                    ]
+        lista_unidad = ["",("UN" , "UNO"),"DOS","TRES","CUATRO","CINCO","SEIS","SIETE","OCHO","NUEVE"]
+        centena = int (numero / 100)
+        decena = int((numero -(centena * 100))/10)
+        unidad = int(numero - (centena * 100 + decena * 10))
+        #print "centena: ",centena, "decena: ",decena,'unidad: ',unidad
+     
+        texto_centena = ""
+        texto_decena = ""
+        texto_unidad = ""
+     
+        #Validad las centenas
+        texto_centena = lista_centana[centena]
+        if centena == 1:
+            if (decena + unidad)!=0:
+                texto_centena = texto_centena[1]
+            else :
+                texto_centena = texto_centena[0]
+     
+        #Valida las decenas
+        texto_decena = lista_decena[decena]
+        if decena == 1 :
+             texto_decena = texto_decena[unidad]
+        elif decena > 1 :
+            if unidad != 0 :
+                texto_decena = texto_decena[1]
+            else:
+                texto_decena = texto_decena[0]
+        #Validar las unidades
+        #print "texto_unidad: ",texto_unidad
+        if decena != 1:
+            texto_unidad = lista_unidad[unidad]
+            if unidad == 1:
+                texto_unidad = texto_unidad[sw]
+     
+        return "%s %s %s" %(texto_centena,texto_decena,texto_unidad)
+
+class ProjectReportParserResumen(models.AbstractModel):
+    _name = 'report.project_report_pdf.project_report_resumen_template'
+
+    def get_project_list_model(self, name):
+        wizard_record = request.env['wizard.project.report'].search([])[-1]
+        topic_obj = request.env['project.task'].search([('create_date', '>=', wizard_record.signed_up_start),('create_date', '<=', wizard_record.signed_up_end)])
+        vals_topic_task = []
+        for i in topic_obj:
+            for a in i.student_ids:
+                vals = {
+                    'id': i.id,
+                    'name_topic': i.name,
+                    'career': i.career_id.name,
+                    'teacher': i.user_id.name,
+                    'student_name': a.name,
+                    'student_card': a.student_card,
+                }
+                vals_topic_task.append(vals)
+        return vals_topic_task
+
+    def get_project_topic_list(self, name):
+        report_obj = request.env['project.report.grade']
+        binnacle_obj = request.env['calendar.event']
+        topic_obj = request.env['project.task']
+        note_resument_obj = request.env['project.evaluation.resumen']
+        current_topic = report_obj.search([('id', '=', name)], limit=1).project_task_id
+        current_resumen_student = note_resument_obj.search([('project_task_id', '=', current_topic.id)])
+        sql_query = """SELECT DISTINCT calendar_event_id FROM calendar_event_res_partner_rel WHERE res_partner_id IN (SELECT DISTINCT student_id FROM project_evaluation_resumen WHERE project_task_id = %s)"""
+        params = (current_topic.id,)
+        self.env.cr.execute(sql_query, params)
+        results = [a for (a,) in self.env.cr.fetchall()]
+        current_event_binnacle = binnacle_obj.search([('id','in',results)])
+        vals_binnacle = []
+        for i in current_event_binnacle:
+            vals = {
+                'id': i.id,
+                'name': i.name,
+                'date': i.display_start,
+                'duration': i.duration,
+                'observation': i.observation,
+                'description': i.description,
+                'attendee_ids': i.attendee_ids,
+            }
+            vals_binnacle.append(vals)
+        return vals_binnacle
+
+
+    @api.model
+    def render_html(self, docids, data=None):
+        self.model = self.env.context.get('active_model')
+        model = self.env['project.task'].search([('id', '=', 75)])
+        get_project_list_model = self.get_project_list_model(docids),
+        docargs = {
+            'doc': model,
+            'get_project_list_task': get_project_list_model,
+        }
+
+        return self.env['report'].render('project_report_pdf.project_report_resumen_template', docargs)
+
+        

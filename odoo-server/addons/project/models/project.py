@@ -344,6 +344,8 @@ class Project(models.Model):
     date = fields.Date(string='Expiration Date', index=True, track_visibility='onchange')
     department = fields.Many2one('hr.department', string='Ref departamento')
 
+    resumen_average = fields.One2many('project.evaluation.resumen', 'project_task_id', domain=lambda self: [('student_id.id', '=', self.env['res.users'].search([('id', '=', self.env.uid)],limit=1).partner_id.id)])
+
     _sql_constraints = [
         ('project_date_greater', 'check(date >= date_start)', 'Error! project start-date must be lower than project end-date.')
     ]
@@ -587,6 +589,8 @@ class Task(models.Model):
     email_cc = fields.Char(string='Correos integrantes')
     stage_end_related = fields.Boolean(related='stage_id.end_stage', readonly=True, string='Es la etapa final')
     career_id = fields.Many2one('hr.job', "Carrera", default=lambda self: self.applicant_id.job_id.id)
+
+    resumen_average = fields.One2many('project.evaluation.resumen', 'project_task_id', domain=lambda self: [('student_id.id', '=', self.env['res.users'].search([('id', '=', self.env.uid)],limit=1).partner_id.id)])
 
     @api.multi
     def action_makeMeeting(self):

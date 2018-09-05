@@ -87,8 +87,8 @@ class Attendee(models.Model):
     STATE_SELECTION = [
         ('needsAction', 'Needs Action'),
         ('tentative', 'Uncertain'),
-        ('declined', 'Declined'),
-        ('accepted', 'Accepted'),
+        ('declined', 'Ausente'),
+        ('accepted', 'Presente'),
     ]
 
     state = fields.Selection(STATE_SELECTION, string='Status', readonly=True, default='needsAction',

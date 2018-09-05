@@ -92,7 +92,7 @@
         sequence="1"/>
 
     <menuitem
-        id="menu_topic_grade_online_reports_1" kjhhj kjgjh
+        id="menu_topic_grade_online_reports_1"
         name="Trabajos de grado"
         parent="menu_topic_grade_online_report"
         action="topic_grade_online_evaluations_act"

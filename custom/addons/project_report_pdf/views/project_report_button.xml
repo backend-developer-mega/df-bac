@@ -50,6 +50,24 @@
                          </div>
                     </button>
                 </xpath>
+                <xpath expr="//page[3]" position="after">
+                    <page string="Notas">
+                        <field name="resumen_average" nolabel="1" string="Resumen">
+                                    <tree editable="bottom" create="0" delete="0" >
+                                        <field name="evaluation_id" invisible="1" />
+                                        <field name="stage_id" readonly="1" options="{'no_open': True}"/>
+                                        <field name="student_id" invisible="1" />
+                                        <field name="project_task_id" invisible="1" /> 
+                                        <field name="average" readonly="1" options="{'no_open': True}"/>
+                                        <field name="percentage" readonly="1" options="{'no_open': True}"/>
+                                        <field name="average_with_per" readonly="1" options="{'no_open': True}"/>
+                                    </tree>
+                                    <form>
+                                        <separator string="Ningún enlace asociado al item"/>
+                                    </form>
+                        </field>
+                    </page>
+                </xpath>
             </field>
        </record>
 
@@ -225,9 +243,7 @@
                                     <span class="fa fa-bars fa-lg"/>
                                 </a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                    <t t-if="widget.editable"><li><a type="set_cover">Set Cover Image</a></li></t>
-                                    <t t-if="widget.editable"><li><a type="edit">Edit Task</a></li></t>
-                                    <t t-if="widget.deletable"><li><a type="delete">Delete</a></li></t>
+                                    <t t-if="widget.editable"><li>Distintivo de colores:</li></t>
                                     <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
                                 </ul>
                             </div>

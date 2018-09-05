@@ -35,5 +35,55 @@
             view_mode="form"
             view_id="report_wizard_view_form"
             target="new"/>
+
+<!-- RESUMEN DE LOS TEMAS DE GRADO INSCRITOS -->
+        <record id="report_wizard_view_form_resumen" model="ir.ui.view">
+            <field name="name">report_wizard_view_form.form_resumen</field>
+            <field name="model">wizard.project.report</field>
+            <field name="arch" type="xml">
+                <form string="Seleccionar departamento">
+                        <group>
+                            <group>
+                                <field name="signed_up_start" />
+                            </group>
+                            <group >
+                                
+                                <field name="signed_up_end" />
+                                <!--
+                                <field name="partner_select" widget="many2many_tags"/>
+                                <field name="stage_select" widget="many2many_tags"/>
+                                -->
+                            </group>
+                        </group>
+
+                    <footer>
+                        <button name="print_project_report_resumen_pdf" type="object" string="Generar reporte" class="oe_highlight"/>
+                        <button special="cancel" string="Cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window
+            id="project_report_resumen_open_wizard"
+            name="Resumen de inscritos"
+            res_model="wizard.project.report"
+            view_mode="form"
+            view_id="report_wizard_view_form_resumen"
+            target="new"/>
+
+        <menuitem id="menu_project_report_resumen"
+            name="Inscritos"
+            action="project_report_resumen_open_wizard"
+            parent="project.menu_project_report"
+            sequence="12"/>
+
+
+
+
+
+
+
+
     </data>
 </odoo>
